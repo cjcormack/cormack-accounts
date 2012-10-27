@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2012 by Chris Cormack
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+<module version="2.0">
+  <meta>
+    <identity>
+      <uri>urn:uk:me:cormack:netkernel:accounts:db</uri>
+      <version>0.1.0</version>
+    </identity>
+    <info>
+      <name>Cormack Accounts / Data</name>
+      <description>A personal accounting system in NetKernel</description>
+    </info>
+  </meta>
+
+  <system>
+    <dynamic/>
+  </system>
+
+  <rootspace name="Cormack Accounts / Data Layer Space" uri="urn:uk:me:cormack:netkernel:accounts:db" public="true">
+    <fileset>
+      <regex>res:/(etc/ConfigRDBMS\.xml)</regex>
+      <rewrite>res:/uk/me/cormack/netkernel/accounts/db/$1</rewrite>
+    </fileset>
+
+    <mapper>
+      <config>res:/uk/me/cormack/netkernel/accounts/db/mapperConfig.xml</config>
+      <space name="Mapper Inner Space">
+        <fileset>
+          <regex>res:/uk/me/cormack/netkernel/accounts/db/.*</regex>
+        </fileset>
+
+        <import>
+          <uri>urn:org:netkernel:mod:db</uri>
+          <private/>
+        </import>
+      </space>
+    </mapper>
+
+    <fileset>
+      <regex>res:/uk/me/cormack/netkernel/accounts/db/.*</regex>
+      <private/>
+    </fileset>
+  </rootspace>
+</module>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2012 by Chris Cormack
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+<module version="2.0">
+  <meta>
+    <identity>
+      <uri>urn:uk:me:cormack:netkernel:accounts:web</uri>
+      <version>0.1.0</version>
+    </identity>
+    <info>
+      <name>Cormack Accounts / Web</name>
+      <description>A personal accounting system in NetKernel</description>
+    </info>
+  </meta>
+
+  <system>
+    <dynamic/>
+  </system>
+  <rootspace name="Cormack Accounts / Web" uri="urn:uk:me:cormack:netkernel:accounts:web" public="true">
+    <fileset>
+      <regex>res:/(etc/system/SimpleDynamicImportHook\.xml)</regex>
+      <rewrite>res:/uk/me/cormack/netkernel/accounts/web/$1</rewrite>
+    </fileset>
+
+    <import>
+      <uri>urn:uk:me:cormack:netkernel:accounts:web:static</uri>
+    </import>
+
+    <overlay>
+      <prototype>jetty.HTTPSession</prototype>
+      <config>
+        <prototype>HTTPSession</prototype>
+        <maxSessions>100</maxSessions>
+        <minDuration>7200000</minDuration> <!-- two hours -->
+        <maxDuration>86400000</maxDuration> <!-- one day -->
+        <cookiePath>/nk4um/</cookiePath>
+        <cookieName>CORMACK-ACCOUNTS_NETKERNEL_SESSION_COOKIE</cookieName>
+        <autoReconnect>true</autoReconnect>
+      </config>
+      <space>
+        <import>
+          <uri>urn:uk:me:cormack:netkernel:accounts:web:inner</uri>
+        </import>
+      </space>
+    </overlay>
+
+    <import>
+      <uri>urn:org:netkernel:tpt:http</uri>
+      <private/>
+    </import>
+  </rootspace>
+
+  <rootspace uri="urn:uk:me:cormack:netkernel:accounts:web:static">
+    <mapper>
+      <config>res:/uk/me/cormack/netkernel/accounts/web/style/mapperConfig.xml</config>
+      <space>
+        <fileset>
+          <regex>res:/uk/me/cormack/netkernel/accounts/web/style/.*</regex>
+        </fileset>
+      </space>
+    </mapper>
+    <fileset>
+      <regex>res:/uk/me/cormack/netkernel/accounts/web/style/.*</regex>
+      <private/>
+    </fileset>
+  </rootspace>
+
+  <rootspace name="nk4um Web Space / Inner" uri="urn:uk:me:cormack:netkernel:accounts:web:inner">
+    <mapper>
+      <config>res:/uk/me/cormack/netkernel/accounts/web/mapperConfig.xml</config>
+      <space>
+        <fileset>
+          <regex>res:/uk/me/cormack/netkernel/accounts/web/.*</regex>
+        </fileset>
+      </space>
+    </mapper>
+
+    <import>
+      <uri>urn:uk:me:cormack:netkernel:accounts:db</uri>
+      <private/>
+    </import>
+  </rootspace>
+</module>
