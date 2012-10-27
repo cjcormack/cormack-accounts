@@ -20,21 +20,6 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
-
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-</controlpanel>
+<config>
+  <zone>cormack-accounts</zone>
+</config>

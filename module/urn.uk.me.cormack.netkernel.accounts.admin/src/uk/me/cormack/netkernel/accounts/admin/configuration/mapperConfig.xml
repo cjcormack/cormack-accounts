@@ -20,21 +20,34 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
-
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-</controlpanel>
+<config>
+  <endpoint>
+    <id>cormackAccounts:admin:configuration:details</id>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:admin:configuration:details</identifier>
+      </active>
+    </grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.admin.configuration.DetailsAccessor</argument>
+    </request>
+  </endpoint>
+  <endpoint>
+    <id>cormackAccounts:admin:configuration:edit</id>
+    <grammar>res:/cormackAccounts/configuration/edit</grammar>
+    <header name="WrappedControlPanel"><literal type="string">nk4um Configuration</literal></header>
+    <request>
+      <identifier>active:xrl2</identifier>
+      <argument name="template">res:/uk/me/cormack/netkernel/accounts/admin/configuration/edit.xml</argument>
+    </request>
+  </endpoint>
+  <endpoint>
+    <id>cormackAccounts:admin:configuration:doEdit</id>
+    <grammar>res:/cormackAccounts/configuration/doEdit</grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.admin.configuration.DoEditAccessor</argument>
+    </request>
+  </endpoint>
+</config>

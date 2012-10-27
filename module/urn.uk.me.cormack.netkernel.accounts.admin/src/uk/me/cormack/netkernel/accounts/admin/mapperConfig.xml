@@ -21,5 +21,13 @@
   ~ THE SOFTWARE.
   -->
 <config>
+  <import>res:/uk/me/cormack/netkernel/accounts/admin/configuration/mapperConfig.xml</import>
 
+  <endpoint>
+    <id>cormackAccounts:admin:buttonBar</id>
+    <grammar>cormackAccounts:admin:buttonBar</grammar>
+    <request>
+      <identifier>res:/uk/me/cormack/netkernel/accounts/admin/buttonBar.xml</identifier>
+    </request>
+  </endpoint>
 </config>

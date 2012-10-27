@@ -20,10 +20,4 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config>
-  <rdbms>
-    <jdbcDriver>org.postgresql.Driver</jdbcDriver>
-    <jdbcConnection>jdbc:postgresql:accounts</jdbcConnection>
-    <jdbcUser>accounts</jdbcUser>
-  </rdbms>
-</config>
+<param/>

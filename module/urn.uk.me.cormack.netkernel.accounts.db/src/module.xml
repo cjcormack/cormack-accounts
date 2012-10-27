@@ -37,10 +37,27 @@
   </system>
 
   <rootspace name="Cormack Accounts / Data Layer Space" uri="urn:uk:me:cormack:netkernel:accounts:db" public="true">
+    <accessor>
+      <grammar>res:/etc/ConfigRDBMS.xml</grammar>
+      <class>uk.me.cormack.netkernel.accounts.db.RdbmsConfigAccessor</class>
+    </accessor>
+
     <fileset>
-      <regex>res:/(etc/ConfigRDBMS\.xml)</regex>
-      <rewrite>res:/uk/me/cormack/netkernel/accounts/db/$1</rewrite>
+      <regex>res:/cormack-accounts/config.xml</regex>
+      <rewrite>res:/uk/me/cormack/netkernel/accounts/db/defaultConfig.xml</rewrite>
     </fileset>
+
+    <fileset>
+      <regex>res:/etc/pdsConfig.xml</regex>
+      <rewrite>res:/uk/me/cormack/netkernel/accounts/db/etc/pdsConfig.xml</rewrite>
+    </fileset>
+
+    <import>
+      <uri>urn:org:netkernel:mod:pds</uri>
+    </import>
+    <import>
+      <uri>urn:org:netkernel:mod:pds:rdbms:local</uri>
+    </import>
 
     <mapper>
       <config>res:/uk/me/cormack/netkernel/accounts/db/mapperConfig.xml</config>
@@ -56,9 +73,23 @@
       </space>
     </mapper>
 
+    <import>
+      <uri>urn:org:netkernel:ext:layer1</uri>
+      <private/>
+    </import>
+    <import>
+      <uri>urn:org:netkernelroc:mod:layer2</uri>
+      <private/>
+    </import>
+
     <fileset>
       <regex>res:/uk/me/cormack/netkernel/accounts/db/.*</regex>
       <private/>
     </fileset>
+
+    <endpoint> <!--  this stops failed resolutions within pds from messing up the scope and hence cachability of results -->
+      <prototype>Limiter</prototype>
+      <grammar>res:/etc/<regex type="anything"/></grammar>
+    </endpoint>
   </rootspace>
 </module>

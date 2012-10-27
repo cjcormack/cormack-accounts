@@ -20,21 +20,11 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
-
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-</controlpanel>
+<div xmlns:xrl="http://netkernel.org/xrl">
+  <div>
+    <span style="padding-right: 5px; padding-left: 5px;"> 
+      <a class="btn2" onclick="parent.location='[[meta:cormackAccounts:admin:configuration:edit]]'" xrl:resolve="onclick"><i> </i><span><i> </i><span> </span>Configuration</span></a>
+    </span>
+  </div>
+  <div style="clear: both"/>
+</div>
