@@ -20,18 +20,21 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.admin.database;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernelroc.mod.layer2.AccessorUtil;
 import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
 
-public class DoEditAccessor extends Layer2AccessorImpl
-{
+public class StatusAccessor extends Layer2AccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.sink("fpds:/cormack-accounts/config.xml", aContext.source("httpRequest:/params"));
-    aContext.source("cormackAccounts:db:liquibase:update");
-    aContext.sink("httpResponse:/redirect", "edit");
+    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/database/");
+    
+    if (aContext.source("cormackAccounts:db:liquibase:updateAvailable", Boolean.class)) {
+      util.issueSourceRequestAsResponse("update.xml");
+    } else {
+      util.issueSourceRequestAsResponse("noUpdate.xml");
+    }
   }
 }

@@ -20,18 +20,37 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.db;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
+import org.netkernel.layer0.representation.IHDSNode;
+import org.netkernel.layer0.representation.impl.HDSBuilder;
 import org.netkernelroc.mod.layer2.AccessorUtil;
 import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
 
-public class DoEditAccessor extends Layer2AccessorImpl
-{
+public class LiquibaseConfigAccessor extends Layer2AccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.sink("fpds:/cormack-accounts/config.xml", aContext.source("httpRequest:/params"));
-    aContext.source("cormackAccounts:db:liquibase:update");
-    aContext.sink("httpResponse:/redirect", "edit");
+    IHDSNode pdsState;
+    
+    try {
+      pdsState= aContext.source("fpds:/cormack-accounts/config.xml", IHDSNode.class);
+    } catch (Exception e) {
+      throw new Exception("Accounts not initialized", e);
+    }
+      
+    HDSBuilder b = new HDSBuilder();
+
+    if (pdsState.getFirstValue("//jdbcDriver") != null ||
+        pdsState.getFirstValue("//jdbcConnection") != null) {
+      b.pushNode("config");
+      b.pushNode("liquibase");
+      b.addNode("changeLogTableName", "accounts_databasechangelog");
+      b.addNode("changeLogLockTableName", "accounts_databasechangeloglock");
+    } else {
+      throw new Exception("nk4um not initialized");
+    }
+    
+    aContext.createResponseFrom(b.getRoot());
   }
 }

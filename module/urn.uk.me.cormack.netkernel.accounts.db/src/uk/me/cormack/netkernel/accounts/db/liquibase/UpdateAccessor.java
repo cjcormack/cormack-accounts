@@ -20,18 +20,29 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.db.liquibase;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
-import org.netkernelroc.mod.layer2.AccessorUtil;
-import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
+import org.netkernel.layer0.representation.IHDSNode;
+import org.netkernel.layer0.representation.impl.HDSBuilder;
+import org.netkernelroc.mod.layer2.ArgByValue;
+import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
+import org.netkernelroc.mod.layer2.DatabaseUtil;
 
-public class DoEditAccessor extends Layer2AccessorImpl
-{
+public class UpdateAccessor extends DatabaseAccessorImpl {
   @Override
-  public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.sink("fpds:/cormack-accounts/config.xml", aContext.source("httpRequest:/params"));
-    aContext.source("cormackAccounts:db:liquibase:update");
-    aContext.sink("httpResponse:/redirect", "edit");
+  public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
+    IHDSNode pdsState;
+
+    try {
+      pdsState= aContext.source("fpds:/cormack-accounts/config.xml", IHDSNode.class);
+    } catch (Exception e) {
+      throw new Exception("Accounts not initialized", e);
+    }
+
+    util.issueSourceRequestAsResponse("active:liquibase-update",
+                                      new ArgByValue("changelog", "res:/uk/me/cormack/netkernel/accounts/db/liquibase/master.xml"));
+    
+    util.cutGoldenThread("cormackAccounts:all");
   }
 }

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright (C) 2012 by Chris Cormack
   ~
@@ -20,36 +19,9 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
-
-  <widget>
-    <request>
-      <identifier>cormackAccounts:admin:database:status:inline</identifier>
-    </request>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-  </widget>
-
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-  <icon>
-    <title>Database Status</title>
-    <subtitle>Status of Accounts DataBase</subtitle>
-    <path>/cormackAccounts/database/status</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>1</order>
-  </icon>
-</controlpanel>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+  <include file="cormackAccounts-base.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

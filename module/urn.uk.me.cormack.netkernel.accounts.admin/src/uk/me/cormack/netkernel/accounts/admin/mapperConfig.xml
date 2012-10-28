@@ -22,6 +22,7 @@
   -->
 <config>
   <import>res:/uk/me/cormack/netkernel/accounts/admin/configuration/mapperConfig.xml</import>
+  <import>res:/uk/me/cormack/netkernel/accounts/admin/database/mapperConfig.xml</import>
 
   <endpoint>
     <id>cormackAccounts:admin:buttonBar</id>

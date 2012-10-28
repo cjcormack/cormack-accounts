@@ -42,6 +42,11 @@
       <class>uk.me.cormack.netkernel.accounts.db.RdbmsConfigAccessor</class>
     </accessor>
 
+    <accessor>
+      <grammar>res:/etc/LiquibaseConfig.xml</grammar>
+      <class>uk.me.cormack.netkernel.accounts.db.LiquibaseConfigAccessor</class>
+    </accessor>
+
     <fileset>
       <regex>res:/cormack-accounts/config.xml</regex>
       <rewrite>res:/uk/me/cormack/netkernel/accounts/db/defaultConfig.xml</rewrite>
@@ -67,11 +72,20 @@
         </fileset>
 
         <import>
+          <uri>urn:org:netkernel:ext:layer1</uri>
+          <private/>
+        </import>
+        <import>
           <uri>urn:org:netkernel:mod:db</uri>
           <private/>
         </import>
       </space>
     </mapper>
+
+    <import>
+      <uri>urn:org:netkernelroc:mod:liquibase</uri>
+      <private/>
+    </import>
 
     <import>
       <uri>urn:org:netkernel:ext:layer1</uri>

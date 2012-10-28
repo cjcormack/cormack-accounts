@@ -20,36 +20,38 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
-
-  <widget>
+<config>
+  <endpoint>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:db:liquibase:updateAvailable</identifier>
+      </active>
+    </grammar>
     <request>
-      <identifier>cormackAccounts:admin:database:status:inline</identifier>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.liquibase.AvailableUpdateAccessor</argument>
     </request>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-  </widget>
-
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-  <icon>
-    <title>Database Status</title>
-    <subtitle>Status of Accounts DataBase</subtitle>
-    <path>/cormackAccounts/database/status</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>1</order>
-  </icon>
-</controlpanel>
+  </endpoint>
+  <endpoint>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:db:liquibase:update</identifier>
+      </active>
+    </grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.liquibase.UpdateAccessor</argument>
+    </request>
+  </endpoint>
+  <endpoint>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:db:liquibase:changeUserModel</identifier>
+      </active>
+    </grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.liquibase.ChangeUserModelAccessor</argument>
+    </request>
+  </endpoint>
+</config>

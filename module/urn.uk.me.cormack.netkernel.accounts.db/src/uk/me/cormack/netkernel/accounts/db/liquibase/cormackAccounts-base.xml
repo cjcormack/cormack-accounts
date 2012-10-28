@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2012 by Chris Cormack
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd"
+                   logicalFilePath="cormackAccounts/base.xml">
+  <changeSet id="base" author="chrisc">
+    <createTable tableName="accounts_user">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="email" type="varchar(255)">
+        <constraints unique="true" nullable="false"/>
+      </column>
+      <column name="password" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="accounts_account">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="name" type="varchar">
+        <constraints unique="true" nullable="false"/>
+      </column>
+      <column name="balance" type="decimal(20, 10)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="accounts_direct_debit">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="account_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="description" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+      <column name="amount" type="decimal(20, 10)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="accounts_transaction_audit_operation">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="operation" type="varchar">
+        <constraints nullable="false" unique="true"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="accounts_transaction_type">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="value" type="varchar">
+        <constraints nullable="false" unique="true"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="accounts_transaction">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="transaction_date" type="date">
+        <constraints nullable="false"/>
+      </column>
+      <column name="account_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="transaction_type_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="description" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+      <column name="direct_debit_id" type="bigint">
+        <constraints nullable="true"/>
+      </column>
+      <column name="amount" type="decimal(20, 10)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="balance" type="decimal(20, 10)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="accounts_transaction_audit">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="operation_time" type="timestamptz">
+        <constraints nullable="false"/>
+      </column>
+      <column name="transaction_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="operation_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="description" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <addForeignKeyConstraint constraintName="direct_debit_account_id"
+                             baseTableName="accounts_direct_debit"
+                             baseColumnNames="account_id"
+                             referencedTableName="accounts_account"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="transaction_account_id"
+                             baseTableName="accounts_transaction"
+                             baseColumnNames="account_id"
+                             referencedTableName="accounts_account"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="transaction_transaction_type_id"
+                             baseTableName="accounts_transaction"
+                             baseColumnNames="transaction_type_id"
+                             referencedTableName="accounts_transaction_type"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="transaction_direct_debit_id"
+                             baseTableName="accounts_transaction"
+                             baseColumnNames="direct_debit_id"
+                             referencedTableName="accounts_direct_debit"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="transaction_audit_transaction_id"
+                             baseTableName="accounts_transaction_audit"
+                             baseColumnNames="transaction_id"
+                             referencedTableName="accounts_transaction"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="transaction_audit_operation_id"
+                             baseTableName="accounts_transaction_audit"
+                             baseColumnNames="operation_id"
+                             referencedTableName="accounts_transaction_audit_operation"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="transaction_audit_user_id"
+                             baseTableName="accounts_transaction_audit"
+                             baseColumnNames="user_id"
+                             referencedTableName="accounts_user"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+  </changeSet>
+</databaseChangeLog>

@@ -20,18 +20,29 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.admin.database;
 
+import org.netkernel.layer0.nkf.INKFRequest;
 import org.netkernel.layer0.nkf.INKFRequestContext;
+import org.netkernel.layer0.nkf.INKFRequestReadOnly;
 import org.netkernelroc.mod.layer2.AccessorUtil;
 import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
 
-public class DoEditAccessor extends Layer2AccessorImpl
-{
+public class CheckDatabaseStatusAccessor extends Layer2AccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.sink("fpds:/cormack-accounts/config.xml", aContext.source("httpRequest:/params"));
-    aContext.source("cormackAccounts:db:liquibase:update");
-    aContext.sink("httpResponse:/redirect", "edit");
+    INKFRequestReadOnly request= aContext.source("arg:request", INKFRequestReadOnly.class);
+    
+    if (request.getResolvedElementId().startsWith("cormackAccounts:admin:database") ||
+        request.getResolvedElementId().startsWith("cormackAccounts:admin:configuration") ||
+        request.getResolvedElementId().equals("cormackAccounts:admin:buttonBar")) {
+      INKFRequest innerRequest = request.getIssuableClone();
+      aContext.createResponseFrom(innerRequest);
+    } else if (aContext.source("cormackAccounts:db:liquibase:updateAvailable", Boolean.class)) {
+      aContext.sink("httpResponse:/redirect", "/cormackAccounts/database/status");
+    } else {
+      INKFRequest innerRequest = request.getIssuableClone();
+      aContext.createResponseFrom(innerRequest);
+    }
   }
 }
