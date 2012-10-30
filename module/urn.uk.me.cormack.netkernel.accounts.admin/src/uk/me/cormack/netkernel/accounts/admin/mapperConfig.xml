@@ -23,12 +23,21 @@
 <config>
   <import>res:/uk/me/cormack/netkernel/accounts/admin/configuration/mapperConfig.xml</import>
   <import>res:/uk/me/cormack/netkernel/accounts/admin/database/mapperConfig.xml</import>
+  <import>res:/uk/me/cormack/netkernel/accounts/admin/user/mapperConfig.xml</import>
 
   <endpoint>
     <id>cormackAccounts:admin:buttonBar</id>
     <grammar>cormackAccounts:admin:buttonBar</grammar>
     <request>
       <identifier>res:/uk/me/cormack/netkernel/accounts/admin/buttonBar.xml</identifier>
+    </request>
+  </endpoint>
+  <endpoint>
+    <id>cormackAccounts:admin:message</id>
+    <grammar>cormackAccounts:admin:message</grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.admin.message.MessageAccessor</argument>
     </request>
   </endpoint>
 </config>

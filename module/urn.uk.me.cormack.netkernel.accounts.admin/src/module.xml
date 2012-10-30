@@ -41,45 +41,64 @@
       <rewrite>res:/uk/me/cormack/netkernel/accounts/admin/$1</rewrite>
     </fileset>
 
-    <mapper>
-      <config>res:/uk/me/cormack/netkernel/accounts/admin/mapperConfig.xml</config>
+    <overlay>
+      <prototype>jetty.HTTPSession</prototype>
+      <config>
+        <prototype>HTTPSession</prototype>
+        <maxSessions>25</maxSessions>
+        <minDuration>7200000</minDuration> <!-- two hours -->
+        <maxDuration>86400000</maxDuration> <!-- one day -->
+        <cookiePath>/cormackAccounts/</cookiePath>
+        <cookieName>CORMACK-ACCOUNTS-ADMIN_NETKERNEL_SESSION_COOKIE</cookieName>
+        <autoReconnect>true</autoReconnect>
+      </config>
       <space>
+        <mapper>
+          <config>res:/uk/me/cormack/netkernel/accounts/admin/mapperConfig.xml</config>
+          <space>
+            <fileset>
+              <regex>res:/uk/me/cormack/netkernel/accounts/admin/.*</regex>
+            </fileset>
+
+            <import>
+              <uri>urn:org:netkernel:ext:layer1</uri>
+              <private/>
+            </import>
+
+            <import>
+              <uri>urn:org:netkernel:lang:xrl</uri>
+              <private/>
+            </import>
+            <import>
+              <uri>urn:org:netkernel:xml:saxon</uri>
+              <private/>
+            </import>
+          </space>
+        </mapper>
+
         <fileset>
           <regex>res:/uk/me/cormack/netkernel/accounts/admin/.*</regex>
+          <private/>
         </fileset>
+
+        <import>
+          <uri>urn:uk:me:cormack:netkernel:accounts:db</uri>
+          <private/>
+        </import>
 
         <import>
           <uri>urn:org:netkernel:ext:layer1</uri>
           <private/>
         </import>
-
         <import>
-          <uri>urn:org:netkernel:lang:xrl</uri>
-          <private/>
-        </import>
-        <import>
-          <uri>urn:org:netkernel:xml:saxon</uri>
+          <uri>urn:org:netkernelroc:mod:layer2</uri>
           <private/>
         </import>
       </space>
-    </mapper>
-
-    <fileset>
-      <regex>res:/uk/me/cormack/netkernel/accounts/admin/.*</regex>
-      <private/>
-    </fileset>
+    </overlay>
 
     <import>
-      <uri>urn:uk:me:cormack:netkernel:accounts:db</uri>
-      <private/>
-    </import>
-
-    <import>
-      <uri>urn:org:netkernel:ext:layer1</uri>
-      <private/>
-    </import>
-    <import>
-      <uri>urn:org:netkernelroc:mod:layer2</uri>
+      <uri>urn:org:netkernel:tpt:http</uri>
       <private/>
     </import>
   </rootspace>

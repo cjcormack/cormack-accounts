@@ -20,25 +20,23 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.db.user;
 
-import org.netkernel.layer0.nkf.INKFRequestContext;
-import org.netkernelroc.mod.layer2.AccessorUtil;
-import org.netkernelroc.mod.layer2.Arg;
+import org.netkernel.layer0.nkf.NKFException;
 import org.netkernelroc.mod.layer2.ArgByValue;
-import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
+import org.netkernelroc.mod.layer2.DatabaseUtil;
 
-import java.util.UUID;
+public class PasswordUtil {
+  private PasswordUtil() {}
 
-public class DetailsAccessor extends Layer2AccessorImpl
-{
-  @Override
-  public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/configuration/");
-    
-    util.issueSourceRequestAsResponse("active:xslt2",
-                                      new Arg("operator", "editStyle.xsl"),
-                                      new Arg("operand", "fpds:/cormack-accounts/config.xml"),
-                                      new ArgByValue("default-site-salt", UUID.randomUUID().toString()));
+  public static String generateSaltedPassword(DatabaseUtil util, String password, String uid, String siteSalt) throws NKFException {
+    String userSalt= util.issueSourceRequest("active:sha512",
+                                             String.class,
+                                             new ArgByValue("operand", uid + siteSalt));
+    String saltedPasswordHash= util.issueSourceRequest("active:sha512",
+                                                       String.class,
+                                                       new ArgByValue("operand", userSalt + password));
+
+    return saltedPasswordHash;
   }
 }

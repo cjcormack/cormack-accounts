@@ -20,25 +20,33 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.admin.message;
 
+import net.sf.saxon.s9api.XdmNode;
 import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernelroc.mod.layer2.AccessorUtil;
 import org.netkernelroc.mod.layer2.Arg;
 import org.netkernelroc.mod.layer2.ArgByValue;
 import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
 
-import java.util.UUID;
-
-public class DetailsAccessor extends Layer2AccessorImpl
-{
+public class MessageAccessor extends Layer2AccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/configuration/");
-    
-    util.issueSourceRequestAsResponse("active:xslt2",
-                                      new Arg("operator", "editStyle.xsl"),
-                                      new Arg("operand", "fpds:/cormack-accounts/config.xml"),
-                                      new ArgByValue("default-site-salt", UUID.randomUUID().toString()));
+    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/message/");
+
+    if (aContext.exists("session:/message/title") &&
+        aContext.exists("session:/message/content")) {
+      util.issueSourceRequestAsResponse("active:xslt2",
+                                        new Arg("operator", "message.xsl"),
+                                        new Arg("operand", "message.xml"),
+                                        new ArgByValue("title", aContext.source("session:/message/title", String.class)),
+                                        new ArgByValue("content", aContext.source("session:/message/content", XdmNode.class)));
+
+      aContext.delete("session:/message/class");
+      aContext.delete("session:/message/title");
+      aContext.delete("session:/message/content");
+    } else {
+      util.issueSourceRequestAsResponse("emptyMessage.xml");
+    }
   }
 }

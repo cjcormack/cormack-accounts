@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2012 by Chris Cormack
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+<div xmlns:xrl="http://netkernel.org/xrl">
+  <link href="/tools/ae/pub/demo_table_jui.css" rel="stylesheet" type="text/css"/>
+  <link href="/tools/ae/pub/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css"/>
+  <link href="/tools/ae/pub/explore.css" rel="stylesheet" type="text/css"/>
+  <script src="/nkse/style/js/jquery-1.4.2.min.js" type="text/javascript">_</script>
+  <script src="/tools/ae/pub/jquery.dataTables.min.js" type="text/javascript">_</script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      table=$("#userTable");
+      a = {
+             'bJQueryUI': true,
+             'sPaginationType': 'full_numbers',
+             'aLengthMenu': [[10, 25, 50, -1],
+                             [10, 25, 50, "All"]],
+             'iDisplayLength': 25,
+             "bProcessing": true
+           };
+          
+      table.dataTable( a );
+    } );
+  </script>
+  <style type="text/css">
+    #userTable {
+      width: 100%;
+      margin: 0;
+      border-collapse: collapse;
+    }
+    #userTable td,
+    #userTable th {
+      padding: 2px;
+    }
+  </style>
+  
+  <xrl:include>
+    <xrl:identifier>cormackAccounts:admin:buttonBar</xrl:identifier>
+  </xrl:include>
+  <br/>
+
+  <xrl:include>
+    <xrl:identifier>cormackAccounts:admin:user:buttonBar</xrl:identifier>
+  </xrl:include>
+  <br/>
+  
+  <table id="userTable" class="data-table">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <xrl:include>
+      <xrl:identifier>cormackAccounts:admin:user:list:content</xrl:identifier>
+    </xrl:include>
+  </table>
+</div>

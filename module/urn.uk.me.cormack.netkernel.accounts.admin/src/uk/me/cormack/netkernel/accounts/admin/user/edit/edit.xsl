@@ -20,44 +20,23 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xrl="http://netkernel.org/xrl"
+                xmlns:acounts="http://cormack.me.uk/netkernel/accounts"
+                exclude-result-prefixes="xs"
+                version="2.0">
+  <xsl:param name="userId" as="xs:string"/>
 
-  <widget>
-    <request>
-      <identifier>cormackAccounts:admin:database:status:inline</identifier>
-    </request>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-  </widget>
+  <xsl:template match="@* | node()" mode="#default">
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()" mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
 
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-  <icon>
-    <title>Database Status</title>
-    <subtitle>Status of Accounts DataBase</subtitle>
-    <path>/cormackAccounts/database/status</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>1</order>
-  </icon>
-  <icon>
-    <title>Users</title>
-    <subtitle>Administration of Account Users</subtitle>
-    <path>/cormackAccounts/users/</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>2</order>
-  </icon>
-</controlpanel>
+  <xsl:template match="@*[contains(., '${accounts:userId}')]">
+    <xsl:attribute name="{name()}">
+      <xsl:value-of select="replace(., '\$\{accounts:userId\}', $userId)"/>
+    </xsl:attribute>
+  </xsl:template>
+</xsl:stylesheet>

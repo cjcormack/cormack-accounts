@@ -49,6 +49,14 @@
             <th>JDBC Password:</th>
             <td><input name="jdbcPassword" type="text" value="{//jdbcPassword}"/></td>
           </tr>
+
+          <tr class="vis-title">
+            <td class="vis-title" colspan="2">Options</td>
+          </tr>
+          <tr>
+            <th>Site Password Salt:</th>
+            <td><input name="site_password_salt" type="text" value="{if (//site_password_salt) then //site_password_salt else $default-site-salt}"/></td>
+          </tr>
         </table>
         
         <input type="submit" value="Update Configuration"/>

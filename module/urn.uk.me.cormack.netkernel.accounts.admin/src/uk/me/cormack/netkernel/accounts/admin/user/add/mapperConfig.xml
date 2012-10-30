@@ -20,44 +20,22 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
-
-  <widget>
+<config>
+  <endpoint>
+    <id>cormackAccounts:admin:user:add</id>
+    <grammar>res:/cormackAccounts/user/add</grammar>
+    <header name="WrappedControlPanel"><literal type="string">Add User</literal></header>
     <request>
-      <identifier>cormackAccounts:admin:database:status:inline</identifier>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.admin.user.add.AddFormAccessor</argument>
     </request>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-  </widget>
-
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-  <icon>
-    <title>Database Status</title>
-    <subtitle>Status of Accounts DataBase</subtitle>
-    <path>/cormackAccounts/database/status</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>1</order>
-  </icon>
-  <icon>
-    <title>Users</title>
-    <subtitle>Administration of Account Users</subtitle>
-    <path>/cormackAccounts/users/</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>2</order>
-  </icon>
-</controlpanel>
+  </endpoint>
+  <endpoint>
+    <id>cormackAccounts:admin:user:doAdd</id>
+    <grammar>res:/cormackAccounts/user/doAdd</grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.admin.user.add.DoAddAccessor</argument>
+    </request>
+  </endpoint>
+</config>

@@ -20,44 +20,16 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
+<config>
+  <import>res:/uk/me/cormack/netkernel/accounts/admin/user/add/mapperConfig.xml</import>
+  <import>res:/uk/me/cormack/netkernel/accounts/admin/user/edit/mapperConfig.xml</import>
+  <import>res:/uk/me/cormack/netkernel/accounts/admin/user/list/mapperConfig.xml</import>
 
-  <widget>
+  <endpoint>
+    <id>cormackAccounts:admin:user:buttonBar</id>
+    <grammar>cormackAccounts:admin:user:buttonBar</grammar>
     <request>
-      <identifier>cormackAccounts:admin:database:status:inline</identifier>
+      <identifier>res:/uk/me/cormack/netkernel/accounts/admin/user/buttonBar.xml</identifier>
     </request>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-  </widget>
-
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-  <icon>
-    <title>Database Status</title>
-    <subtitle>Status of Accounts DataBase</subtitle>
-    <path>/cormackAccounts/database/status</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>1</order>
-  </icon>
-  <icon>
-    <title>Users</title>
-    <subtitle>Administration of Account Users</subtitle>
-    <path>/cormackAccounts/users/</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>2</order>
-  </icon>
-</controlpanel>
+  </endpoint>
+</config>

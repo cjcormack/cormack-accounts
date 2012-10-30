@@ -20,44 +20,38 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
+<div xmlns:xrl="http://netkernel.org/xrl">
+  <xrl:include>
+    <xrl:identifier>cormackAccounts:admin:buttonBar</xrl:identifier>
+  </xrl:include>
+  <br/>
 
-  <widget>
-    <request>
-      <identifier>cormackAccounts:admin:database:status:inline</identifier>
-    </request>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-  </widget>
+  <xrl:include>
+    <xrl:identifier>cormackAccounts:admin:user:buttonBar</xrl:identifier>
+  </xrl:include>
+  <br/>
 
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-  <icon>
-    <title>Database Status</title>
-    <subtitle>Status of Accounts DataBase</subtitle>
-    <path>/cormackAccounts/database/status</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>1</order>
-  </icon>
-  <icon>
-    <title>Users</title>
-    <subtitle>Administration of Account Users</subtitle>
-    <path>/cormackAccounts/users/</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>2</order>
-  </icon>
-</controlpanel>
+  <xrl:include>
+    <xrl:identifier>cormackAccounts:admin:message</xrl:identifier>
+  </xrl:include>
+  
+  <div style="clear: both;">
+    <form method="POST" action="meta:cormackAccounts:admin:user:doAdd" xrl:resolve="action">
+      <table>
+        <tr>
+          <th>Email Address:</th>
+          <td><input name="email" type="text"/></td>
+        </tr>
+        <tr>
+          <th>Password:</th>
+          <td><input name="password" type="password"/></td>
+        </tr>
+        <tr>
+          <th>Confirm Password:</th>
+          <td><input name="confirm" type="password"/></td>
+        </tr>
+      </table>
+      <input type="submit" value="Add User"/>
+    </form>
+  </div>
+</div>

@@ -20,25 +20,20 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.db;
 
-import org.netkernel.layer0.nkf.INKFRequestContext;
-import org.netkernelroc.mod.layer2.AccessorUtil;
-import org.netkernelroc.mod.layer2.Arg;
-import org.netkernelroc.mod.layer2.ArgByValue;
-import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
+import org.netkernel.layer0.representation.IHDSNode;
+import org.netkernelroc.mod.layer2.DatabaseUtil;
 
-import java.util.UUID;
+public class ConfigUtil {
+  private ConfigUtil() {}
 
-public class DetailsAccessor extends Layer2AccessorImpl
-{
-  @Override
-  public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/configuration/");
-    
-    util.issueSourceRequestAsResponse("active:xslt2",
-                                      new Arg("operator", "editStyle.xsl"),
-                                      new Arg("operand", "fpds:/cormack-accounts/config.xml"),
-                                      new ArgByValue("default-site-salt", UUID.randomUUID().toString()));
+  public static String getSiteSalt(DatabaseUtil util) throws Exception {
+    try {
+      IHDSNode pdsState= util.getContext().source("fpds:/cormack-accounts/config.xml", IHDSNode.class);
+      return (String) pdsState.getFirstValue("//siteSalt");
+    } catch (Exception e) {
+      throw new Exception("Accounts not initialized", e);
+    }
   }
 }

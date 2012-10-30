@@ -20,25 +20,24 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.admin.user.list;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
-import org.netkernelroc.mod.layer2.AccessorUtil;
-import org.netkernelroc.mod.layer2.Arg;
-import org.netkernelroc.mod.layer2.ArgByValue;
-import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
+import org.netkernel.layer0.representation.IHDSNode;
+import org.netkernelroc.mod.layer2.*;
+import org.w3c.dom.Document;
 
-import java.util.UUID;
-
-public class DetailsAccessor extends Layer2AccessorImpl
-{
+public class UserListAccessor extends Layer2AccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/configuration/");
+    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/user/list/");
+    
+    IHDSNode userList= util.issueSourceRequest("cormackAccounts:db:user:list",
+                                               IHDSNode.class);
     
     util.issueSourceRequestAsResponse("active:xslt2",
-                                      new Arg("operator", "editStyle.xsl"),
-                                      new Arg("operand", "fpds:/cormack-accounts/config.xml"),
-                                      new ArgByValue("default-site-salt", UUID.randomUUID().toString()));
+                                      Document.class,
+                                      new Arg("operator", "userList.xsl"),
+                                      new ArgByValue("operand", userList));
   }
 }

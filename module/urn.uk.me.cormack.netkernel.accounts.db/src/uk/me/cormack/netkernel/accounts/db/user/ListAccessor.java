@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 by Chris Cormack
+ * Copyright (C) 2010-2011 by Chris Cormack
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,25 +20,26 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.db.user;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
-import org.netkernelroc.mod.layer2.AccessorUtil;
-import org.netkernelroc.mod.layer2.Arg;
+import org.netkernel.layer0.nkf.INKFResponse;
+import org.netkernel.layer0.representation.IHDSNode;
 import org.netkernelroc.mod.layer2.ArgByValue;
-import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
+import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
+import org.netkernelroc.mod.layer2.DatabaseUtil;
 
-import java.util.UUID;
-
-public class DetailsAccessor extends Layer2AccessorImpl
-{
+public class ListAccessor extends DatabaseAccessorImpl {
   @Override
-  public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/configuration/");
+  public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
+    String sql= "SELECT   id,\n" +
+                "         email\n" +
+                "FROM     accounts_user;";
+    INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
+                                                         IHDSNode.class,
+                                                         new ArgByValue("operand", sql));
     
-    util.issueSourceRequestAsResponse("active:xslt2",
-                                      new Arg("operator", "editStyle.xsl"),
-                                      new Arg("operand", "fpds:/cormack-accounts/config.xml"),
-                                      new ArgByValue("default-site-salt", UUID.randomUUID().toString()));
+    resp.setHeader("no-cache", null);
+    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:users");
   }
 }

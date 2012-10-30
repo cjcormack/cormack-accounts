@@ -20,25 +20,42 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.admin.configuration;
+package uk.me.cormack.netkernel.accounts.admin.user.add;
 
+import net.sf.saxon.s9api.XdmNode;
 import org.netkernel.layer0.nkf.INKFRequestContext;
+import org.netkernel.layer0.representation.IHDSNode;
+import org.netkernel.layer0.representation.impl.HDSBuilder;
 import org.netkernelroc.mod.layer2.AccessorUtil;
 import org.netkernelroc.mod.layer2.Arg;
 import org.netkernelroc.mod.layer2.ArgByValue;
 import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
 
-import java.util.UUID;
-
-public class DetailsAccessor extends Layer2AccessorImpl
-{
+public class AddFormAccessor extends Layer2AccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/configuration/");
+    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/admin/user/add/");
     
-    util.issueSourceRequestAsResponse("active:xslt2",
-                                      new Arg("operator", "editStyle.xsl"),
-                                      new Arg("operand", "fpds:/cormack-accounts/config.xml"),
-                                      new ArgByValue("default-site-salt", UUID.randomUUID().toString()));
+    IHDSNode params;
+    
+    if (aContext.exists("session:/formData/name") &&
+        aContext.source("session:/formData/name", String.class).equals("user-add")) {
+      params= aContext.source("session:/formData/params", IHDSNode.class);
+      aContext.delete("session:/formData/name");
+      aContext.delete("session:/formData/params");
+    } else {
+      HDSBuilder builder= new HDSBuilder();
+      builder.pushNode("root");
+      params= builder.getRoot();
+    }
+    
+    XdmNode formNode= util.issueSourceRequest("active:xslt2",
+                                              XdmNode.class,
+                                              new Arg("operator", "../../common/form-template.xsl"),
+                                              new Arg("operand", "add.xml"),
+                                              new ArgByValue("params", params));
+    
+    util.issueSourceRequestAsResponse("active:xrl2", 
+                                      new ArgByValue("template", formNode));
   }
 }

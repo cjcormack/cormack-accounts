@@ -79,6 +79,10 @@
           <uri>urn:org:netkernel:mod:db</uri>
           <private/>
         </import>
+        <import>
+          <uri>urn:org:netkernel:mod:security</uri>
+          <private/>
+        </import>
       </space>
     </mapper>
 

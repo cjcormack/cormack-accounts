@@ -20,44 +20,39 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<controlpanel>
-  <panel>
-    <id>urn:uk:me:cormack:netkernel:accounts:admin</id>
-    <title>Accounts</title>
-    <subtitle>Cormack Accounts</subtitle>
-    <order>250</order>
-    <icon></icon>
-  </panel>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                version="2.0">
+  <xsl:param name="params"/>
+  
+  <xsl:template match="@* | node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
 
-  <widget>
-    <request>
-      <identifier>cormackAccounts:admin:database:status:inline</identifier>
-    </request>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-  </widget>
+  <xsl:template match="input[@type='checkbox'][@name]">
+    <xsl:variable name="name" select="@name"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@* except @checked"/>
+      <xsl:if test="$params//*[local-name()=$name]">
+        <xsl:attribute name="checked" select="'checked'"/>
+      </xsl:if>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="input[not(@type='checkbox')][@name]">
+    <xsl:variable name="name" select="@name"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:attribute name="value" select="$params//*[local-name()=$name]"/>
+    </xsl:copy>
+  </xsl:template>
 
-  <icon>
-    <title>Configuration</title>
-    <subtitle>Accounts Configuration</subtitle>
-    <path>/cormackAccounts/configuration/edit</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>0</order>
-  </icon>
-  <icon>
-    <title>Database Status</title>
-    <subtitle>Status of Accounts DataBase</subtitle>
-    <path>/cormackAccounts/database/status</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>1</order>
-  </icon>
-  <icon>
-    <title>Users</title>
-    <subtitle>Administration of Account Users</subtitle>
-    <path>/cormackAccounts/users/</path>
-    <icon></icon>
-    <panel>urn:uk:me:cormack:netkernel:accounts:admin</panel>
-    <order>2</order>
-  </icon>
-</controlpanel>
+  <xsl:template match="textarea[@name]">
+    <xsl:variable name="name" select="@name"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:value-of select="$params//*[local-name()=$name]"/>
+    </xsl:copy>
+  </xsl:template>
+</xsl:stylesheet>
