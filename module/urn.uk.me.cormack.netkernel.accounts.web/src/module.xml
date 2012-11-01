@@ -86,6 +86,11 @@
 
   <rootspace name="Cormack Accounts / Inner" uri="urn:uk:me:cormack:netkernel:accounts:web:inner">
     <pluggable-overlay>
+      <preProcess>
+        <identifier>active:java</identifier>
+        <argument name="class">uk.me.cormack.netkernel.accounts.web.security.AccessAndMaintenanceModeControlAccessor</argument>
+        <argument name="request">arg:request</argument>
+      </preProcess>
       <space>
         <mapper>
           <config>active:java+class@uk.me.cormack.netkernel.accounts.web.MapperConfigAccessor</config>

@@ -21,18 +21,18 @@
   ~ THE SOFTWARE.
   -->
 <config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/navigation/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/user/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/security/mapperConfig.xml"/>
-
+  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/user/login/mapperConfig.xml" />
   <endpoint>
-    <id>cormackAccounts:web:index</id>
-    <grammar>res:/cormackAccounts/</grammar>
-    <header name="accountsAutoStyle">true</header>
-    <role>User</role>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:web:user:displayName</identifier>
+        <argument name="id"/>
+      </active>
+    </grammar>
     <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/web/index.xml</identifier>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.user.DisplayNameAccessor</argument>
+      <argument name="id">arg:id</argument>
     </request>
   </endpoint>
 </config>

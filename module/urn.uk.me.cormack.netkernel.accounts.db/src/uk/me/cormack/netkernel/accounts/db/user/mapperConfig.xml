@@ -82,6 +82,23 @@
   <endpoint>
     <grammar>
       <active>
+        <identifier>cormackAccounts:db:user:login</identifier>
+        <argument name="email"/>
+        <argument name="password"/>
+      </active>
+    </grammar>
+    <verbs>EXISTS,SOURCE</verbs>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.user.LoginAccessor</argument>
+      <argument name="email">arg:email</argument>
+      <argument name="password">arg:password</argument>
+    </request>
+  </endpoint>
+
+  <endpoint>
+    <grammar>
+      <active>
         <identifier>cormackAccounts:db:user:email</identifier>
         <argument name="email"/>
       </active>

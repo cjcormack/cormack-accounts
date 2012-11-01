@@ -51,20 +51,6 @@ public class UserAccessor extends DatabaseAccessorImpl {
   }
 
   @Override
-  public void onExists(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
-    String sql= "SELECT   id\n" +
-                "FROM     accounts_user\n" +
-                "WHERE    email=?;";
-    INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSBooleanQuery",
-                                                         Boolean.class,
-                                                         new ArgByValue("operand", sql),
-                                                         new ArgByValue("param", aContext.source("arg:email")));
-
-    resp.setHeader("no-cache", null);
-    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:users");
-  }
-
-  @Override
   public void onNew(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     String email= aContext.source("arg:email", String.class);
     String password= aContext.source("arg:password", String.class);

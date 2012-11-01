@@ -20,19 +20,25 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/navigation/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/user/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/security/mapperConfig.xml"/>
-
-  <endpoint>
-    <id>cormackAccounts:web:index</id>
-    <grammar>res:/cormackAccounts/</grammar>
-    <header name="accountsAutoStyle">true</header>
-    <role>User</role>
-    <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/web/index.xml</identifier>
-    </request>
-  </endpoint>
-</config>
+<accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
+               xmlns:xrl="http://netkernel.org/xrl">
+  <accounts:title>Cormack Accounts Access Denied</accounts:title>
+  <accounts:heading>Cormack Accounts Access Denied</accounts:heading>
+  <accounts:head/>
+  <accounts:breadcrumbs>
+    <ul>
+      <li>
+        <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Index</a>
+      </li>
+      <li>
+        <span class="seperator">/</span>
+      </li>
+      <li>
+        Access Denied
+      </li>
+    </ul>
+  </accounts:breadcrumbs>
+  <accounts:content>
+    <h1>Access Denied!</h1>
+  </accounts:content>
+</accounts:page>

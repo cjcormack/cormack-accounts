@@ -20,19 +20,33 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/navigation/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/user/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/security/mapperConfig.xml"/>
+<accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
+               xmlns:xrl="http://netkernel.org/xrl">
+  <accounts:title>Cormack Accounts :: Login</accounts:title>
+  <accounts:heading>Login</accounts:heading>
+  <accounts:head/>
+  <accounts:content>
+    <form class="styled-form compact-form" method="POST"
+          xmlns:xrl="http://netkernel.org/xrl" action="meta:cormackAccounts:web:security:doLogin" xrl:resolve="action">
+      <div class="form-header">
+        <h3>Please Login</h3>
+      </div>
 
-  <endpoint>
-    <id>cormackAccounts:web:index</id>
-    <grammar>res:/cormackAccounts/</grammar>
-    <header name="accountsAutoStyle">true</header>
-    <role>User</role>
-    <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/web/index.xml</identifier>
-    </request>
-  </endpoint>
-</config>
+      <div class="form-body">
+        <div>
+          <label for="email">Email Address:</label>
+          <input type="text" name="email"/>
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" name="password"/>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button type="submit">Login</button>
+        <div style="clear: both"/>
+      </div>
+    </form>
+  </accounts:content>
+</accounts:page>

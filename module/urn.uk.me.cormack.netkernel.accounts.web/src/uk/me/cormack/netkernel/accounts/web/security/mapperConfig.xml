@@ -20,19 +20,21 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/navigation/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/user/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/security/mapperConfig.xml"/>
-
+<config>
   <endpoint>
-    <id>cormackAccounts:web:index</id>
-    <grammar>res:/cormackAccounts/</grammar>
-    <header name="accountsAutoStyle">true</header>
-    <role>User</role>
+    <id>cormackAccounts:web:security:doLogin</id>
+    <grammar>res:/cormackAccounts/security/doLogin</grammar>
     <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/web/index.xml</identifier>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.security.DoLoginAccessor</argument>
+    </request>
+  </endpoint>
+  <endpoint>
+    <id>cormackAccounts:web:security:doLogout</id>
+    <grammar>res:/cormackAccounts/security/doLogout</grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.security.DoLogoutAccessor</argument>
     </request>
   </endpoint>
 </config>
