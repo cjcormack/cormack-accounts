@@ -48,7 +48,7 @@ public class LiquibaseConfigAccessor extends Layer2AccessorImpl {
       b.addNode("changeLogTableName", "accounts_databasechangelog");
       b.addNode("changeLogLockTableName", "accounts_databasechangeloglock");
     } else {
-      throw new Exception("nk4um not initialized");
+      throw new Exception("Accounts not initialized");
     }
     
     aContext.createResponseFrom(b.getRoot());

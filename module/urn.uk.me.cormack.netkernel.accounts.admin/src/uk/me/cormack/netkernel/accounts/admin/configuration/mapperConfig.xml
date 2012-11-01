@@ -36,7 +36,7 @@
   <endpoint>
     <id>cormackAccounts:admin:configuration:edit</id>
     <grammar>res:/cormackAccounts/configuration/edit</grammar>
-    <header name="WrappedControlPanel"><literal type="string">nk4um Configuration</literal></header>
+    <header name="WrappedControlPanel"><literal type="string">Cormack Accounts Configuration</literal></header>
     <request>
       <identifier>active:xrl2</identifier>
       <argument name="template">res:/uk/me/cormack/netkernel/accounts/admin/configuration/edit.xml</argument>
