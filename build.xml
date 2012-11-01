@@ -63,7 +63,9 @@
   </macrodef>
 
   <target name="clean">
-    <delete dir="module" includes="**/build/**/*"/>
+    <delete dir="module/urn.uk.me.cormack.netkernel.accounts.admin/build"/>
+    <delete dir="module/urn.uk.me.cormack.netkernel.accounts.db/build"/>
+    <delete dir="module/urn.uk.me.cormack.netkernel.accounts.web/build"/>
     <delete dir="lib/netkernelroc"/>
     <delete dir="build"/>
     <delete dir="${basedir}">
