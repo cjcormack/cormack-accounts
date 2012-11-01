@@ -20,15 +20,17 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
-
-  <endpoint>
-    <id>cormackAccounts:web:index</id>
-    <grammar>res:/cormackAccounts/</grammar>
-    <header name="accountsAutoStyle">true</header>
-    <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/web/index.xml</identifier>
-    </request>
-  </endpoint>
-</config>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                version="2.0">
+  <xsl:template match="@* | node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="config[ancestor::config][not(ancestor::endpoint)]">
+    <xsl:apply-templates select="node()"/>
+  </xsl:template>
+  
+  <xsl:template match="role"/>
+</xsl:stylesheet>

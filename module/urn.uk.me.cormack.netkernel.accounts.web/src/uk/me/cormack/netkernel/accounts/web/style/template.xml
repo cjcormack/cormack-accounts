@@ -1,0 +1,67 @@
+<!--
+  ~ Copyright (C) 2012 by Chris Cormack
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+<html xmlns:xrl="http://netkernel.org/xrl"
+      xmlns:accounts="http://cormack.me.uk/netkernel/accounts">
+  <head>
+    <title><accounts:title/></title>
+
+    <link href="/cormackAccounts-style/defaultStyle.css" rel="stylesheet" type="text/css"/>
+
+    <accounts:head/>
+  </head>
+  <body>
+    <div id="cormackAccounts">
+      <div id="cormackAccounts-header">
+        <h1>Cormack Accounts</h1>
+        <div id="cormackAccounts-mainMenu">
+          <ul class="cormackAccounts-clearList">
+            <li><a href="">Summary</a></li>
+            <li><a href="">Transactions</a></li>
+            <li><a href="">Direct Debits</a></li>
+          </ul>
+          <xrl:include>
+            <xrl:identifier>cormackAccounts:web:navigation:user</xrl:identifier>
+          </xrl:include>
+          <div class="cormackAccounts-clear"></div>
+        </div>
+      </div>
+      <xrl:include>
+        <xrl:identifier>cormackAccounts:web:message</xrl:identifier>
+      </xrl:include>
+      <div id="cormackAccounts-content">
+        <h2 id="tag-line"><accounts:heading/></h2>
+        <accounts:content/>
+      </div>
+      <div id="cormackAccounts-footer">
+        <div id="cormackAccounts-footer-details">
+          <p><span id="cormackAccounts-footer-appName">Cormack Accounts 0.1.0</span></p>
+          <p>Released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p>
+        </div>
+        <div id="cormackAccounts-footer-copyright">
+          <p>Copyright Christopher Cormack 2012</p>
+          <p>All Rights Reserved</p>
+        </div>
+        <div id="cormackAccounts-footer-nkPower"><a href="http://www.1060research.com/"><img height="22" src="http://www.1060research.com/pub/poweredbynetkernel.png" width="121"/></a></div>
+      </div>
+    </div>
+  </body>
+</html>

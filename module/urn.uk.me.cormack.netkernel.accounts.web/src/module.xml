@@ -52,7 +52,7 @@
         <maxSessions>100</maxSessions>
         <minDuration>7200000</minDuration> <!-- two hours -->
         <maxDuration>86400000</maxDuration> <!-- one day -->
-        <cookiePath>/nk4um/</cookiePath>
+        <cookiePath>/cormackAccounts/</cookiePath>
         <cookieName>CORMACK-ACCOUNTS_NETKERNEL_SESSION_COOKIE</cookieName>
         <autoReconnect>true</autoReconnect>
       </config>
@@ -84,19 +84,76 @@
     </fileset>
   </rootspace>
 
-  <rootspace name="nk4um Web Space / Inner" uri="urn:uk:me:cormack:netkernel:accounts:web:inner">
-    <mapper>
-      <config>res:/uk/me/cormack/netkernel/accounts/web/mapperConfig.xml</config>
+  <rootspace name="Cormack Accounts / Inner" uri="urn:uk:me:cormack:netkernel:accounts:web:inner">
+    <pluggable-overlay>
       <space>
+        <mapper>
+          <config>active:java+class@uk.me.cormack.netkernel.accounts.web.MapperConfigAccessor</config>
+          <space>
+            <fileset>
+              <regex>res:/uk/me/cormack/netkernel/accounts/web/.*</regex>
+            </fileset>
+
+            <import>
+              <uri>urn:uk:me:cormack:netkernel:accounts:db</uri>
+              <private/>
+            </import>
+
+            <import>
+              <uri>urn:org:netkernel:ext:layer1</uri>
+              <private/>
+            </import>
+            <import>
+              <uri>urn:org:netkernelroc:mod:layer2</uri>
+              <private/>
+            </import>
+
+            <import>
+              <uri>urn:org:netkernel:xml:saxon</uri>
+              <private/>
+            </import>
+            <import>
+              <uri>urn:org:netkernel:lang:xrl</uri>
+              <private/>
+            </import>
+          </space>
+        </mapper>
+
         <fileset>
           <regex>res:/uk/me/cormack/netkernel/accounts/web/.*</regex>
         </fileset>
-      </space>
-    </mapper>
 
-    <import>
-      <uri>urn:uk:me:cormack:netkernel:accounts:db</uri>
-      <private/>
-    </import>
+        <import>
+          <uri>urn:uk:me:cormack:netkernel:accounts:db</uri>
+          <private/>
+        </import>
+
+        <import>
+          <uri>urn:org:netkernel:ext:layer1</uri>
+          <private/>
+        </import>
+        <import>
+          <uri>urn:org:netkernelroc:mod:layer2</uri>
+          <private/>
+        </import>
+
+        <import>
+          <uri>urn:org:netkernel:xml:saxon</uri>
+          <private/>
+        </import>
+        <import>
+          <uri>urn:org:netkernel:lang:xrl</uri>
+          <private/>
+        </import>
+      </space>
+      <postProcess>
+        <identifier>active:java</identifier>
+        <argument name="class">uk.me.cormack.netkernel.accounts.web.style.AutoStyleAccessor</argument>
+        <argument name="request">arg:request</argument>
+        <argument name="response">arg:response</argument>
+      </postProcess>
+    </pluggable-overlay>
+
+
   </rootspace>
 </module>

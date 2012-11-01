@@ -1,0 +1,344 @@
+/*
+ * Copyright (C) 2012 by Chris Cormack
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+button,
+body {
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 11px;
+}
+
+.cormackAccounts-clearList {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.cormackAccounts-clear {
+  clear: both;
+}
+
+#cormackAccounts {
+  margin-left: auto;
+  margin-right: auto;
+  width: 800px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+#cormackAccounts-header {
+  border-bottom: 1px solid black;
+  background: #666;
+  -webkit-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+#cormackAccounts-header h1 {
+  text-align: center;
+  font-family: verdana;
+  font-size: 40px;
+  padding:  10px 0;
+  color: white;
+}
+#cormackAccounts-header div,
+#cormackAccounts-header h1 {
+  margin: 0;
+}
+
+#cormackAccounts-mainMenu {
+  background: #999;
+
+}
+#cormackAccounts-mainMenu li {
+  float: left;
+  width: 100px;
+  border-right: 1px solid #666;
+}
+#cormackAccounts-mainMenu li a {
+  display: inline-block;
+  width: 100px;
+  text-decoration: none;
+  text-align: center;
+  color: #ddd;
+  padding: 8px 3px;
+}
+#cormackAccounts-mainMenu li a:hover {
+  text-decoration: underline;
+}
+
+#cormackAccounts-accountControls {
+  float: right;
+  padding: 8px;
+  color: #ddd;
+}
+
+#cormackAccounts-content {
+  padding: 8px;
+  margin: 0;
+}
+
+#cormackAccounts-content h2 {
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Footer styling */
+#cormackAccounts-footer {
+  color: white;
+  border-top: 1px solid black;
+  background: #666;
+  padding: 0.5em;
+}
+
+#cormackAccounts-footer p {
+  margin: 0;
+  padding: 0;
+}
+
+#cormackAccounts-footer a {
+  color: #BBB;
+  text-decoration: none;
+}
+#cormackAccounts-footer a:hover {
+  text-decoration: underline;
+}
+
+#cormackAccounts-footer-details {
+  display: inline-block;
+  width: 33%;
+}
+
+#cormackAccounts-footer-appName {
+  font-weight: bold;
+  font-style: italic;
+}
+
+#cormackAccounts-footer-copyright {
+  display: inline-block;
+  width: 33%;
+  text-align: center;
+}
+
+#cormackAccounts-footer-nkPower {
+  display: inline-block;
+  width: 33%;
+  text-align: right;
+}
+
+#cormackAccounts-footer-nkPower * {
+  border: none;
+}
+
+/* Common Form Configuration */
+form {
+  padding: 0;
+  margin: 0;
+}
+.styled-form {
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  border: 1px solid #AAA;
+}
+
+.styled-form fieldset {
+  padding-left: 0;
+  padding-right: 0;
+  margin-top: 6px;
+  margin-left: 0;
+  margin-right: 0;
+  border: none;
+  border-top: 1px solid #AAA;
+}
+
+.styled-form fieldset legend {
+  margin-left: 1em;
+  font-size: 105%;
+}
+
+.styled-form label, .styled-form .label {
+  width: 150px;
+  margin: 4px;
+  margin-top: 7px;
+  display: inline-block;
+  vertical-align: text-top;
+  text-align: right;
+  font-weight: bold;
+}
+
+.styled-form input,
+.styled-form textarea,
+.styled-form .form-body-content {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 620px;
+  margin: 4px;
+}
+
+.styled-form input[type=radio] {
+  width: auto;
+}
+
+.styled-form input[type=checkbox] {
+  width: auto;
+}
+
+div.form-body {
+  vertical-align: text-top;
+}
+
+form p {
+  margin: 6px 8px;
+}
+
+.form-header {
+  border-bottom: 1px solid #AAA;
+  background: #CCC url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x 50% 50%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px;
+  padding: 1em;
+}
+
+.form-footer {
+  border-top: 1px solid #AAA;
+  background: #CCC url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x 50% 50%;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px;
+  padding: 8px;
+}
+
+.form-footer button {
+  float: right;
+}
+
+.form-header h3 {
+  margin: 0;
+}
+
+/* Compact Form */
+.compact-form {
+  width: 320px;
+}
+
+.compact-form label, .compact-form .label {
+  width: 137px;
+}
+
+.compact-form input,
+.compact-form textarea,
+.compact-form .form-body-content {
+  width: 157px;
+}
+
+/* Message box styling */
+.message {
+  width: 600px;
+  margin: 0 auto;
+  border-width: 1px;
+  border-style: solid;
+  border-top-style: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.message p {
+  margin: 0;
+  padding: 0;
+}
+
+.message .message-title {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  padding: 4px;
+  font-weight: bold;
+}
+
+.message .message-content {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px;
+  padding: 4px;
+}
+
+/* Colouring for info message styling */
+.status-info,
+.status-info .message-title
+{
+  border-color: #7B86FD;
+}
+
+.status-info .message-title {
+  background: #9faffd;
+}
+
+.status-info .message-content {
+  background: #DFE2FF;
+}
+
+/* Colouring for success message styling */
+.status-success,
+.status-success .message-title
+{
+  border-color: #add66b;
+}
+
+.status-success .message-title {
+  background: #D4EBAF;
+}
+
+.status-success .message-content {
+  background: #EDFCD5;
+}
+
+/* Colouring for warning message styling */
+.status-warning,
+.status-warning .message-title {
+  border-color: yellow;
+}
+
+.status-warning .message-title {
+  background: #ffa;
+}
+
+.status-warning .message-content {
+  background: #ffd;
+}
+
+/* Colouring for error message styling */
+.status-error,
+.status-error .message-title {
+  border-color:red;
+}
+
+.status-error .message-title {
+  background: #FE9494;
+}
+
+.status-error .message-content {
+  background: #FEE2E2;
+}

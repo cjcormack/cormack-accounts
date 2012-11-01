@@ -20,15 +20,12 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
-
-  <endpoint>
-    <id>cormackAccounts:web:index</id>
-    <grammar>res:/cormackAccounts/</grammar>
-    <header name="accountsAutoStyle">true</header>
-    <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/web/index.xml</identifier>
-    </request>
-  </endpoint>
-</config>
+<accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
+               xmlns:xrl="http://netkernel.org/xrl">
+  <accounts:title>Cormack Accounts</accounts:title>
+  <accounts:heading>Cormack Accounts</accounts:heading>
+  <accounts:head/>
+  <accounts:content>
+    <p>Welcome to Cormack Accounts</p>
+  </accounts:content>
+</accounts:page>
