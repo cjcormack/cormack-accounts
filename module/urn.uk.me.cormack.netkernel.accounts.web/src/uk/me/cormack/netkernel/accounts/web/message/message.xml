@@ -21,6 +21,9 @@
   ~ THE SOFTWARE.
   -->
 <div xmlns:accounts="http://cormack.me.uk/netkernel/accounts" class="message status-${accounts:class}">
-  <div class="message-title"><accounts:title/></div>
+  <div class="message-title">
+    <accounts:title/>
+    <a href="" id="message-close"><span class="ui-icon ui-icon-circle-close"/></a>
+  </div>
   <div class="message-content"><accounts:content/></div>
 </div>

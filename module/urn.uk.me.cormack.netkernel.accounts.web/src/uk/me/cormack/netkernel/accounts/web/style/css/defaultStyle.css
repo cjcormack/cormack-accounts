@@ -285,6 +285,20 @@ form p {
   padding: 4px;
 }
 
+.message #message-close {
+  display: inline-block;
+  float: right;
+}
+
+.message #message-close span.ui-icon-circle-close {
+  background-image: url(images/ui-icons_454545_256x240.png);
+  display: inline-block;
+}
+
+.message #message-close:hover span.ui-icon-circle-close {
+  background-image: url(images/ui-icons_222222_256x240.png);
+}
+
 /* Colouring for info message styling */
 .status-info,
 .status-info .message-title
