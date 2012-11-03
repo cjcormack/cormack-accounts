@@ -25,6 +25,14 @@ body {
   font-size: 11px;
 }
 
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .cormackAccounts-clearList {
   padding: 0;
   margin: 0;
@@ -66,27 +74,38 @@ body {
   background: #999;
 
 }
-#cormackAccounts-mainMenu li {
-  float: left;
-  width: 100px;
-  border-right: 1px solid #666;
-}
-#cormackAccounts-mainMenu li a {
-  display: inline-block;
-  width: 100px;
-  text-decoration: none;
-  text-align: center;
-  color: #ddd;
-  padding: 8px 3px;
-}
-#cormackAccounts-mainMenu li a:hover {
-  text-decoration: underline;
+
+#cormackAccounts-mainMenu a {
+  color: #4f467a;
+  font-weight: bold;
 }
 
+#cormackAccounts-mainMenu a:hover {
+  color: #2c264a;
+}
+
+#cormackAccounts-breadcrumbs,
+#cormackAccounts-accountControls {
+  padding: 6px;
+  color: #ddd;
+}
+
+/* Breadcrumb bar styling */
+#cormackAccounts-breadcrumbs {
+  display: inline-block;
+  margin-top: 1em;
+  padding: 6px;
+}
+
+#cormackAccounts-breadcrumbs li {
+  display: inline;
+}
+
+#cormackAccounts-breadcrumbs .seperator {
+  font-weight: bold;
+}
 #cormackAccounts-accountControls {
   float: right;
-  padding: 8px;
-  color: #ddd;
 }
 
 #cormackAccounts-content {

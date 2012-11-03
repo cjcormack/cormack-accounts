@@ -45,14 +45,14 @@
       <div id="cormackAccounts-header">
         <h1>Cormack Accounts</h1>
         <div id="cormackAccounts-mainMenu">
-          <ul class="cormackAccounts-clearList">
-            <li><a href="">Summary</a></li>
-            <li><a href="">Transactions</a></li>
-            <li><a href="">Direct Debits</a></li>
-          </ul>
           <xrl:include>
             <xrl:identifier>cormackAccounts:web:navigation:user</xrl:identifier>
           </xrl:include>
+          <div id="cormackAccounts-breadcrumbs">
+            <ul class="cormackAccounts-clearList">
+              <accounts:breadcrumbs/>
+            </ul>
+          </div>
           <div class="cormackAccounts-clear"></div>
         </div>
       </div>

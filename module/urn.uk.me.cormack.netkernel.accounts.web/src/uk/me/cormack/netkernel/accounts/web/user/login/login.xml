@@ -25,6 +25,17 @@
   <accounts:title>Cormack Accounts :: Login</accounts:title>
   <accounts:heading>Login</accounts:heading>
   <accounts:head/>
+  <accounts:breadcrumbs>
+    <li>
+      <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
+    </li>
+    <li>
+      <span class="seperator">/</span>
+    </li>
+    <li>
+      <a href="meta:cormackAccounts:web:user:login" xrl:resolve="href">Login</a>
+    </li>
+  </accounts:breadcrumbs>
   <accounts:content>
     <form class="styled-form compact-form" method="POST"
           xmlns:xrl="http://netkernel.org/xrl" action="meta:cormackAccounts:web:security:doLogin" xrl:resolve="action">

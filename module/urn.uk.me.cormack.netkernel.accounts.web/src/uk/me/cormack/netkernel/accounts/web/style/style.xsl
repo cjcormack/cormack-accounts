@@ -42,6 +42,10 @@
   <xsl:template match="accounts:heading">
     <xsl:value-of select="$content/accounts:page/accounts:heading"/>
   </xsl:template>
+
+  <xsl:template match="accounts:breadcrumbs">
+    <xsl:apply-templates select="$content/accounts:page/accounts:breadcrumbs/*"/>
+  </xsl:template>
   
   <xsl:template match="accounts:content" mode="#default">
     <xsl:apply-templates select="$content/accounts:page/accounts:content/*"/>

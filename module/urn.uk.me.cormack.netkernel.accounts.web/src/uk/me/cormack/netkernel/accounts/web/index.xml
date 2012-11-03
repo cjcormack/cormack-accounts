@@ -25,6 +25,11 @@
   <accounts:title>Cormack Accounts</accounts:title>
   <accounts:heading>Cormack Accounts</accounts:heading>
   <accounts:head/>
+  <accounts:breadcrumbs>
+    <li>
+      <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
+    </li>
+  </accounts:breadcrumbs>
   <accounts:content>
     <p>Welcome to Cormack Accounts</p>
   </accounts:content>
