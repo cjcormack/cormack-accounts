@@ -21,6 +21,7 @@
   ~ THE SOFTWARE.
   -->
 <config>
+  <import>res:/uk/me/cormack/netkernel/accounts/db/account/mapperConfig.xml</import>
   <import>res:/uk/me/cormack/netkernel/accounts/db/liquibase/mapperConfig.xml</import>
   <import>res:/uk/me/cormack/netkernel/accounts/db/user/mapperConfig.xml</import>
 </config>

@@ -20,33 +20,29 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.web.common;
+package uk.me.cormack.netkernel.accounts.db.account;
 
-import org.netkernel.layer0.nkf.INKFRequest;
 import org.netkernel.layer0.nkf.INKFRequestContext;
-import org.netkernelroc.mod.layer2.Arg;
+import org.netkernel.layer0.nkf.INKFResponse;
+import org.netkernel.layer0.representation.IHDSNode;
+import org.netkernelroc.mod.layer2.ArgByValue;
+import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
+import org.netkernelroc.mod.layer2.DatabaseUtil;
 
-public class UrlUtil {
-  private UrlUtil() {}
-
-  private static String dropScheme(String aIdentifier) {
-    String result;
-    int i= aIdentifier.indexOf(':');
-    if (i >= 0) {
-      result= aIdentifier.substring(i + 1);
-    } else {
-      result= aIdentifier;
-    }
-    return result;
-  }
-
-  public static String resolve(INKFRequestContext aContext, String uri, Arg...args) throws Exception {
-    INKFRequest req= aContext.createRequest(uri);
-
-    for (Arg arg : args) {
-      req.addArgument(arg.getArgName(), arg.getArgValue());
-    }
-
-    return dropScheme(req.getIdentifier());
+public class ListAccessor extends DatabaseAccessorImpl {
+  @Override
+  public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
+    String sql= "SELECT   id,\n" +
+                "         name,\n" +
+                "         description,\n" +
+                "         balance\n" +
+                "FROM     accounts_account\n" +
+                "ORDER BY id;";
+    INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
+                                                         IHDSNode.class,
+                                                         new ArgByValue("operand", sql));
+    
+    resp.setHeader("no-cache", null);
+    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:accounts");
   }
 }

@@ -20,20 +20,23 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/account/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/navigation/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/security/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/user/mapperConfig.xml"/>
-
-  <endpoint>
-    <id>cormackAccounts:web:index</id>
-    <grammar>res:/cormackAccounts/</grammar>
-    <header name="accountsAutoStyle">true</header>
-    <role>User</role>
-    <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/web/index.xml</identifier>
-    </request>
-  </endpoint>
-</config>
+<accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
+               xmlns:xrl="http://netkernel.org/xrl">
+  <accounts:title>Account Not Found</accounts:title>
+  <accounts:heading>Account Not Found</accounts:heading>
+  <accounts:head/>
+  <accounts:breadcrumbs>
+    <li>
+      <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
+    </li>
+    <li>
+      <span class="seperator">/</span>
+    </li>
+    <li>
+      <a href="">Account Not Found</a>
+    </li>
+  </accounts:breadcrumbs>
+  <accounts:content>
+    <p>This account no longer exists</p>
+  </accounts:content>
+</accounts:page>

@@ -20,33 +20,27 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.web.common;
+package uk.me.cormack.netkernel.accounts.db.account;
 
-import org.netkernel.layer0.nkf.INKFRequest;
 import org.netkernel.layer0.nkf.INKFRequestContext;
-import org.netkernelroc.mod.layer2.Arg;
+import org.netkernel.layer0.nkf.INKFResponse;
+import org.netkernelroc.mod.layer2.ArgByValue;
+import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
+import org.netkernelroc.mod.layer2.DatabaseUtil;
 
-public class UrlUtil {
-  private UrlUtil() {}
+public class AccountNameAccessor extends DatabaseAccessorImpl {
+  @Override
+  public void onExists(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
+    String name= util.escapeString(aContext.source("arg:name", String.class));
 
-  private static String dropScheme(String aIdentifier) {
-    String result;
-    int i= aIdentifier.indexOf(':');
-    if (i >= 0) {
-      result= aIdentifier.substring(i + 1);
-    } else {
-      result= aIdentifier;
-    }
-    return result;
-  }
+    String sql= "SELECT id\n" +
+                "FROM   accounts_account\n" +
+                "WHERE  lower(name)=lower('" + name + "');";
 
-  public static String resolve(INKFRequestContext aContext, String uri, Arg...args) throws Exception {
-    INKFRequest req= aContext.createRequest(uri);
+    INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlBooleanQuery",
+                                                         new ArgByValue("operand", sql));
 
-    for (Arg arg : args) {
-      req.addArgument(arg.getArgName(), arg.getArgValue());
-    }
-
-    return dropScheme(req.getIdentifier());
+    resp.setHeader("no-cache", null);
+    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:accounts");
   }
 }

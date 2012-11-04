@@ -19,17 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+body,
 button,
-body {
+table {
   font-family: Verdana, Helvetica, sans-serif;
   font-size: 11px;
 }
 
 a {
+  color: #68719d;
   text-decoration: none;
 }
 
 a:hover {
+  color: #252348;
   text-decoration: underline;
 }
 
@@ -53,9 +56,7 @@ a:hover {
 #cormackAccounts-header {
   border-bottom: 1px solid black;
   background: #666;
-  -webkit-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.6);
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.4);
   position: relative;
 }
 #cormackAccounts-header h1 {
@@ -76,8 +77,8 @@ a:hover {
 }
 
 #cormackAccounts-mainMenu a {
-  color: #4f467a;
   font-weight: bold;
+  color: #4f467a;
 }
 
 #cormackAccounts-mainMenu a:hover {
@@ -109,7 +110,7 @@ a:hover {
 }
 
 #cormackAccounts-content {
-  padding: 8px;
+  padding: 2em;
   margin: 0;
 }
 
@@ -134,7 +135,7 @@ a:hover {
 }
 
 #cormackAccounts-footer a {
-  color: #BBB;
+  color: #bbb;
   text-decoration: none;
 }
 #cormackAccounts-footer a:hover {
@@ -176,8 +177,7 @@ form {
   margin-left: auto;
   margin-right: auto;
   border-radius: 8px;
-  -moz-border-radius: 8px;
-  border: 1px solid #AAA;
+  border: 1px solid #aaa;
 }
 
 .styled-form fieldset {
@@ -187,7 +187,7 @@ form {
   margin-left: 0;
   margin-right: 0;
   border: none;
-  border-top: 1px solid #AAA;
+  border-top: 1px solid #aaa;
 }
 
 .styled-form fieldset legend {
@@ -214,6 +214,10 @@ form {
   margin: 4px;
 }
 
+.styled-form .form-body-content {
+  margin-top: 7px;
+}
+
 .styled-form input[type=radio] {
   width: auto;
 }
@@ -224,6 +228,7 @@ form {
 
 div.form-body {
   vertical-align: text-top;
+  padding: 6px;
 }
 
 form p {
@@ -231,8 +236,8 @@ form p {
 }
 
 .form-header {
-  border-bottom: 1px solid #AAA;
-  background: #CCC url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x 50% 50%;
+  border-bottom: 1px solid #aaa;
+  background: #CCC url(http://127.0.0.1:8080/cormackAccounts-style/images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x 50% 50%;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   -moz-border-radius-topleft: 8px;
@@ -241,8 +246,8 @@ form p {
 }
 
 .form-footer {
-  border-top: 1px solid #AAA;
-  background: #CCC url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x 50% 50%;
+  border-top: 1px solid #aaa;
+  background: #CCC url(http://127.0.0.1:8080/cormackAccounts-style/images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x 50% 50%;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
@@ -260,17 +265,17 @@ form p {
 
 /* Compact Form */
 .compact-form {
-  width: 320px;
+  width: 350px;
 }
 
 .compact-form label, .compact-form .label {
-  width: 137px;
+  width: 131px;
 }
 
 .compact-form input,
 .compact-form textarea,
 .compact-form .form-body-content {
-  width: 157px;
+  width: 177px;
 }
 
 /* Message box styling */
@@ -310,19 +315,19 @@ form p {
 }
 
 .message #message-close span.ui-icon-circle-close {
-  background-image: url(images/ui-icons_454545_256x240.png);
+  background-image: url(http://127.0.0.1:8080/cormackAccounts-style/images/ui-icons_454545_256x240.png);
   display: inline-block;
 }
 
 .message #message-close:hover span.ui-icon-circle-close {
-  background-image: url(images/ui-icons_222222_256x240.png);
+  background-image: url(http://127.0.0.1:8080/cormackAccounts-style/images/ui-icons_222222_256x240.png);
 }
 
 /* Colouring for info message styling */
 .status-info,
 .status-info .message-title
 {
-  border-color: #7B86FD;
+  border-color: #7b86fd;
 }
 
 .status-info .message-title {
@@ -330,7 +335,7 @@ form p {
 }
 
 .status-info .message-content {
-  background: #DFE2FF;
+  background: #dfe2ff;
 }
 
 /* Colouring for success message styling */
@@ -341,11 +346,11 @@ form p {
 }
 
 .status-success .message-title {
-  background: #D4EBAF;
+  background: #d4ebaf;
 }
 
 .status-success .message-content {
-  background: #EDFCD5;
+  background: #edfcd5;
 }
 
 /* Colouring for warning message styling */
@@ -369,9 +374,196 @@ form p {
 }
 
 .status-error .message-title {
-  background: #FE9494;
+  background: #fe9494;
 }
 
 .status-error .message-content {
-  background: #FEE2E2;
+  background: #fee2e2;
+}
+
+
+/* Table Styling */
+table.cormackAccounts-styledTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+}
+
+table.cormackAccounts-styledTable tr th:first-child,
+table.cormackAccounts-styledTable tr td:first-child {
+  border-left: 1px solid #aaa;
+}
+
+table.cormackAccounts-styledTable thead tr:first-child th {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-weight: normal;
+  text-align: left;
+  padding: 0;
+}
+
+table.cormackAccounts-styledTable tr th:last-child,
+table.cormackAccounts-styledTable tr td:last-child {
+  border-right: 1px solid #aaa;
+}
+
+table.cormackAccounts-styledTable tfoot tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+table.cormackAccounts-styledTable tfoot tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomright: 8px;
+}
+
+table.cormackAccounts-styledTable tfoot tr:last-child td {
+  border-bottom: 1px solid #aaa;
+}
+
+table.cormackAccounts-styledTable thead tr td,
+table.cormackAccounts-styledTable thead tr th {
+  border-top: 1px solid #aaa;
+  text-align: left;
+  font-weight: bold;
+}
+
+table.cormackAccounts-styledTable thead tr td {
+  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+/* Format cells */
+table.cormackAccounts-styledTable th, table.cormackAccounts-styledTable td {
+  border-right: none;
+  border-left: 1px solid #d3d3d3;
+}
+
+table.cormackAccounts-styledTable thead tr td {
+  border-top: 1px solid #aaa;
+}
+
+table.cormackAccounts-styledTable th:first-child, table.cormackAccounts-styledTable td:first-child {
+  border-left: none;
+}
+
+table.cormackAccounts-styledTable tr td {
+  border-top: 1px solid #d3d3d3;
+  padding: 0;
+}
+
+table.cormackAccounts-styledTable tr:first-child td {
+  border-top-color: #aaa;
+}
+
+/* Wrapped headers and footer content */
+table.cormackAccounts-styledTable thead tr .cormackAccounts-wrappedHeader,
+table.cormackAccounts-styledTable tfoot tr .cormackAccounts-wrappedFooter {
+  background: rgb(225,226,225); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgb(225,226,225) 0%, rgb(203,204,203) 70%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(225,226,225)), color-stop(70%,rgb(203,204,203))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgb(225,226,225) 0%,rgb(203,204,203) 70%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgb(225,226,225) 0%,rgb(203,204,203) 70%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgb(225,226,225) 0%,rgb(203,204,203) 70%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgb(225,226,225) 0%,rgb(203,204,203) 70%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1e2e1', endColorstr='#cbcccb',GradientType=0 ); /* IE6-9 */
+}
+
+table.cormackAccounts-styledTable thead tr .cormackAccounts-wrappedHeader {
+  padding: 5px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+table.cormackAccounts-styledTable tfoot tr .cormackAccounts-wrappedFooter {
+  padding: 5px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.cormackAccounts-wrappedHeader-title {
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  padding: 3px inherit;
+}
+
+.cormackAccounts-wrappedHeader-buttonBar {
+  float: right;
+  padding-top: 1px;
+}
+
+/* Wrapped cells */
+tr .cormackAccounts-wrappedCell {
+  background: rgb(247,247,247); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgb(247,247,247) 0%, rgb(239,239,239) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(247,247,247)), color-stop(100%,rgb(239,239,239))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgb(247,247,247) 0%,rgb(239,239,239) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgb(247,247,247) 0%,rgb(239,239,239) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgb(247,247,247) 0%,rgb(239,239,239) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgb(247,247,247) 0%,rgb(239,239,239) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#efefef',GradientType=0 ); /* IE6-9 */
+  
+  padding: 5px;
+}
+
+.cormackAccounts-wrappedCell-right {
+  float: right;
+}
+
+.cormackAccounts-wrappedCell-title {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+a.cormackAccounts-wrappedCell-title {
+  color: #252348;
+}
+
+a.cormackAccounts-wrappedCell-title:hover {
+  color: #68719d;
+}
+
+.cormackAccounts-wrappedCell-description {
+  color: #666;
+}
+
+/* Utility CSS classes for column configuration */
+.stretchedColumn {
+  width: 97%;
+}
+
+.fixedColumn {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.dataTables_wrapper .fixedColumn {
+  min-width: 80px;
+}
+
+.dataTables_wrapper th.fixedColumn {
+  white-space: normal;
+}
+
+.centerColumn {
+  text-align: center;
+}
+
+/* Accounts list */
+.cormackAccounts-accountsList-balance,
+.cormackAccounts-accountsList-total {
+  padding-right: 4px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.cormackAccounts-accountsList-balance {
+  padding-top: 6px;
+  color: #3f3f4c;
+}
+
+.cormackAccounts-accountsList-total {
+  padding: 3px inherit;
 }

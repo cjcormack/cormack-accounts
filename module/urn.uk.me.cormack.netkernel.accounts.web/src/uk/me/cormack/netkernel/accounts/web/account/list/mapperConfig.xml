@@ -20,20 +20,13 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/account/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/navigation/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/security/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/user/mapperConfig.xml"/>
-
+<config>
   <endpoint>
-    <id>cormackAccounts:web:index</id>
-    <grammar>res:/cormackAccounts/</grammar>
-    <header name="accountsAutoStyle">true</header>
-    <role>User</role>
+    <id>cormackAccounts:web:account:list</id>
+    <grammar>cormackAccounts:web:account:list</grammar>
     <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/web/index.xml</identifier>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.account.list.ListAccessor</argument>
     </request>
   </endpoint>
 </config>

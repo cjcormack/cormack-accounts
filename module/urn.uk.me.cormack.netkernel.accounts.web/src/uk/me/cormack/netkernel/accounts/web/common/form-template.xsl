@@ -20,20 +20,39 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/account/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/navigation/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/security/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/user/mapperConfig.xml"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                version="2.0">
+  <xsl:param name="params"/>
+  
+  <xsl:template match="@* | node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
 
-  <endpoint>
-    <id>cormackAccounts:web:index</id>
-    <grammar>res:/cormackAccounts/</grammar>
-    <header name="accountsAutoStyle">true</header>
-    <role>User</role>
-    <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/web/index.xml</identifier>
-    </request>
-  </endpoint>
-</config>
+  <xsl:template match="input[@type='checkbox'][@name]">
+    <xsl:variable name="name" select="@name"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@* except @checked"/>
+      <xsl:if test="$params//*[local-name()=$name]">
+        <xsl:attribute name="checked" select="'checked'"/>
+      </xsl:if>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="input[not(@type='checkbox')][@name]">
+    <xsl:variable name="name" select="@name"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:attribute name="value" select="$params//*[local-name()=$name]"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="textarea[@name]">
+    <xsl:variable name="name" select="@name"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:value-of select="$params//*[local-name()=$name]"/>
+    </xsl:copy>
+  </xsl:template>
+</xsl:stylesheet>

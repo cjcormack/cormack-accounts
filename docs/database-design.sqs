@@ -326,6 +326,14 @@
             <unique><![CDATA[1]]></unique>
         </SQLField>
         <SQLField>
+            <name><![CDATA[description]]></name>
+            <type><![CDATA[VARCHAR]]></type>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <temporaryOriginalName><![CDATA[id_1]]></temporaryOriginalName>
+            <uid><![CDATA[2753869C-205A-4795-A981-4D4DE88CEFA9]]></uid>
+        </SQLField>
+        <SQLField>
             <name><![CDATA[balance]]></name>
             <type><![CDATA[DECIMAL(20, 10)]]></type>
             <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>

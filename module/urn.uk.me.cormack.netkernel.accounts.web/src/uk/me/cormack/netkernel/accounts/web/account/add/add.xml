@@ -22,18 +22,43 @@
   -->
 <accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                xmlns:xrl="http://netkernel.org/xrl">
-  <accounts:title>Cormack Accounts</accounts:title>
-  <accounts:heading>Cormack Accounts</accounts:heading>
+  <accounts:title>Add Account</accounts:title>
+  <accounts:heading>Add Account</accounts:heading>
   <accounts:head/>
   <accounts:breadcrumbs>
     <li>
       <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
     </li>
+    <li>
+      <span class="seperator">/</span>
+    </li>
+    <li>
+      <a href="meta:cormackAccounts:web:account:add" xrl:resolve="href">Add Account</a>
+    </li>
   </accounts:breadcrumbs>
   <accounts:content>
-    <p>Welcome to Cormack Accounts</p>
-    <xrl:include>
-      <xrl:identifier>cormackAccounts:web:account:list</xrl:identifier>
-    </xrl:include>
+    <form class="styled-form compact-form" action="meta:cormackAccounts:web:account:doAdd" xrl:resolve="action" method="POST">
+      <div class="form-header">
+        <h3>Add Account</h3>
+      </div>
+      <div class="form-body">
+        <div>
+          <label for="title">Name:</label>
+          <input type="text" name="name"/>
+        </div>
+        <div>
+          <label for="description">Description:</label>
+          <input type="text" name="description"/>
+        </div>
+        <div>
+          <label for="balance">Balance:</label>
+          <input type="text" name="balance"/>
+        </div>
+      </div>
+      <div class="form-footer">
+        <button type="submit">Add Account</button>
+        <div style="clear: both"></div>
+      </div>
+    </form>
   </accounts:content>
 </accounts:page>
