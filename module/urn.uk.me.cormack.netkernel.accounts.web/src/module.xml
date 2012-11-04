@@ -114,6 +114,10 @@
             </import>
 
             <import>
+              <uri>urn:org:netkernel:xml:core</uri>
+              <private/>
+            </import>
+            <import>
               <uri>urn:org:netkernel:xml:saxon</uri>
               <private/>
             </import>
@@ -143,11 +147,15 @@
         </import>
 
         <import>
-          <uri>urn:org:netkernel:xml:saxon</uri>
+          <uri>urn:org:netkernel:xml:core</uri>
           <private/>
         </import>
         <import>
           <uri>urn:org:netkernel:lang:xrl</uri>
+          <private/>
+        </import>
+        <import>
+          <uri>urn:org:netkernel:xml:saxon</uri>
           <private/>
         </import>
       </space>
