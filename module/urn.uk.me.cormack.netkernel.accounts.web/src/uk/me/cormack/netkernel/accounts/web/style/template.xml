@@ -24,7 +24,7 @@
   <head>
     <title><accounts:title/></title>
 
-    <script type="text/javascript" src="/nk4um-style/jquery-1.4.2.min.js"/>
+    <script type="text/javascript" src="/cormackAccounts-style/jquery.min.js"/>
 
     <link href="/cormackAccounts-style/defaultStyle.css" rel="stylesheet" type="text/css"/>
     <link href="/cormackAccounts-style/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css"/>

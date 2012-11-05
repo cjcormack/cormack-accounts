@@ -30,7 +30,7 @@
       </group>
     </grammar>
     <request>
-      <identifier>res:/uk/me/cormack/netkernel/accounts/style/js/[[arg:file-name]]</identifier>
+      <identifier>res:/uk/me/cormack/netkernel/accounts/web/style/js/[[arg:file-name]]</identifier>
     </request>
     <header name="mime">
       <literal type="string">application/javascript</literal>
