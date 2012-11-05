@@ -30,7 +30,7 @@
           <div class="cormackAccounts-wrappedHeader-buttonBar">
             <form action="meta:cormackAccounts:web:account:add" xrl:resolve="action"><button type="submit">Add Account</button></form>
           </div>
-          <div class="cormackAccounts-wrappedHeader-title">Your Accounts</div>
+          <h3>Your Accounts</h3>
         </div>
       </th>
     </tr>
