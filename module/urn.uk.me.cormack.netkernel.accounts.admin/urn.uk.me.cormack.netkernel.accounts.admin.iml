@@ -8,7 +8,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="NK5" level="application" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -20,6 +19,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="NK5" level="project" />
   </component>
 </module>
 

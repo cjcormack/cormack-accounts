@@ -34,9 +34,13 @@
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
     </wildcardResourcePatterns>
-    <annotationProcessing enabled="false" useClasspath="true" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+    </annotationProcessing>
   </component>
-  <component name="CopyrightManager" default="">
+  <component name="CopyrightManager" default="MIT">
     <copyright>
       <option name="notice" value="Copyright (C) &amp;#36;today.year by Chris Cormack&#10; &#10;Permission is hereby granted, free of charge, to any person obtaining a copy&#10;of this software and associated documentation files (the &quot;Software&quot;), to deal&#10;in the Software without restriction, including without limitation the rights&#10;to use, copy, modify, merge, publish, distribute, sublicense, and/or sell&#10;copies of the Software, and to permit persons to whom the Software is&#10;furnished to do so, subject to the following conditions:&#10;&#10;The above copyright notice and this permission notice shall be included in&#10;all copies or substantial portions of the Software.&#10;&#10;THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR&#10;IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,&#10;FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE&#10;AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER&#10;LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,&#10;OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN&#10;THE SOFTWARE." />
       <option name="keyword" value="Copyright" />
@@ -44,8 +48,11 @@
       <option name="myName" value="MIT" />
       <option name="myLocal" value="true" />
     </copyright>
-    <module2copyright />
+    <module2copyright>
+      <element module="All" copyright="MIT" />
+    </module2copyright>
   </component>
+  <component name="DataSourceManagerImpl" compressed="false" hash="3446601866" />
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
@@ -199,6 +206,95 @@
       </item>
     </group>
   </component>
+  <component name="ProjectCodeStyleSettingsManager">
+    <option name="PER_PROJECT_SETTINGS">
+      <value>
+        <option name="USE_SAME_INDENTS" value="true" />
+        <option name="IGNORE_SAME_INDENTS_FOR_LANGUAGES" value="true" />
+        <option name="OTHER_INDENT_OPTIONS">
+          <value>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="8" />
+            <option name="TAB_SIZE" value="2" />
+            <option name="USE_TAB_CHARACTER" value="false" />
+            <option name="SMART_TABS" value="false" />
+            <option name="LABEL_INDENT_SIZE" value="0" />
+            <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+            <option name="USE_RELATIVE_INDENTS" value="false" />
+          </value>
+        </option>
+        <option name="HTML_KEEP_BLANK_LINES" value="1" />
+        <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+        <XML>
+          <option name="XML_KEEP_BLANK_LINES" value="1" />
+          <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+        </XML>
+        <codeStyleSettings language="CSS">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="Gherkin">
+          <indentOptions>
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="Groovy">
+          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="HTML">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="0" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="JAVA">
+          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+          <option name="ALIGN_MULTILINE_THROWS_LIST" value="true" />
+          <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="JavaScript">
+          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="8" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="XML">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="0" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+      </value>
+    </option>
+    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
+  </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="chrisc">
+      <words>
+        <w>liquibase</w>
+        <w>netkernelroc</w>
+        <w>noninfringement</w>
+        <w>rdbms</w>
+      </words>
+    </dictionary>
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cormack-accounts.iml" filepath="$PROJECT_DIR$/cormack-accounts.iml" />
@@ -213,6 +309,9 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$" dialect="PostgreSQL" />
+  </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
@@ -221,6 +320,32 @@
     <option name="selectedProfile" value="" />
     <option name="autoscroll" value="false" />
     <option name="showOnlyWarnings" value="false" />
+  </component>
+  <component name="libraryTable">
+    <library name="NK5">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.boot-1.18.22.jar!/" />
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.ee.layer0-1.3.1.jar!/" />
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.layer0-1.82.57.jar!/" />
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.module.standard-1.61.29.jar!/" />
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.netkernel.api-4.2.5.jar!/" />
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.netkernel.impl-4.34.24.jar!/" />
+        <root url="file://$USER_HOME$/Library/NetKernel/EE_5.1.1/modules/urn.org.netkernel.xml.core-2.2.1" />
+        <root url="file://$USER_HOME$/Library/NetKernel/EE_5.1.1/modules/urn.org.netkernel.tpt.http-2.10.1" />
+        <root url="file://$PROJECT_DIR$/../../layer2/module/urn.org.netkernelroc.mod.layer2/build" />
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/expanded/urn.org.netkernel.xml.saxon-1.8.0___saxon9he.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.layer0-1.82.57.jar!/" />
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.module.standard-1.61.29.jar!/" />
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.netkernel.api-4.2.5.jar!/" />
+        <root url="jar://$USER_HOME$/Library/NetKernel/EE_5.1.1/lib/urn.com.ten60.core.netkernel.impl-4.34.24.jar!/" />
+        <root url="file://$USER_HOME$/Library/NetKernel/EE_5.1.1/modules/urn.org.netkernel.xml.core-2.2.1" />
+        <root url="file://$USER_HOME$/Library/NetKernel/EE_5.1.1/modules/urn.org.netkernel.tpt.http-2.10.1" />
+        <root url="file://$PROJECT_DIR$/../../layer2/module/urn.org.netkernelroc.mod.layer2/build" />
+      </SOURCES>
+    </library>
   </component>
 </project>
 
