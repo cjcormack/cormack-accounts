@@ -20,31 +20,29 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.db.account;
+package uk.me.cormack.netkernel.accounts.web.transactionType;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
-import org.netkernel.layer0.nkf.INKFResponse;
 import org.netkernel.layer0.representation.IHDSNode;
+import org.netkernelroc.mod.layer2.AccessorUtil;
+import org.netkernelroc.mod.layer2.Arg;
 import org.netkernelroc.mod.layer2.ArgByValue;
-import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
-import org.netkernelroc.mod.layer2.DatabaseUtil;
+import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
 
-public class ListAccessor extends DatabaseAccessorImpl {
+public class DisplayNameAccessor extends Layer2AccessorImpl {
   @Override
-  public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
-    String sql= "SELECT   id,\n" +
-                "         name,\n" +
-                "         description,\n" +
-                "         opening_balance,\n" +
-                "         current_balance,\n" +
-                "         simple_account\n" +
-                "FROM     accounts_account\n" +
-                "ORDER BY id;";
-    INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
-                                                         IHDSNode.class,
-                                                         new ArgByValue("operand", sql));
-    
-    resp.setHeader("no-cache", null);
-    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:accounts");
+  public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
+    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/web/transactionType/");
+
+    IHDSNode userDetails= util.issueSourceRequest("cormackAccounts:db:transactionType",
+                                                  IHDSNode.class,
+                                                  new Arg("id", "arg:id"));
+
+    String displayName= (String) userDetails.getFirstValue("//value");
+
+    util.issueSourceRequestAsResponse("active:xslt2",
+                                      new Arg("operand", "displayName.xml"),
+                                      new Arg("operator", "displayName.xsl"),
+                                      new ArgByValue("displayName", displayName));
   }
 }

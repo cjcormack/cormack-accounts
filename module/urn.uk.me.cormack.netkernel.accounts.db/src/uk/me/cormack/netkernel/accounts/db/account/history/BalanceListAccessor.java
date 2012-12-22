@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.db.account;
+package uk.me.cormack.netkernel.accounts.db.account.history;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernel.layer0.nkf.INKFResponse;
@@ -29,20 +29,19 @@ import org.netkernelroc.mod.layer2.ArgByValue;
 import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
 import org.netkernelroc.mod.layer2.DatabaseUtil;
 
-public class ListAccessor extends DatabaseAccessorImpl {
+public class BalanceListAccessor extends DatabaseAccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
-    String sql= "SELECT   id,\n" +
-                "         name,\n" +
-                "         description,\n" +
-                "         opening_balance,\n" +
-                "         current_balance,\n" +
-                "         simple_account\n" +
-                "FROM     accounts_account\n" +
-                "ORDER BY id;";
+    String sql= "SELECT   to_char(operation_time, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS operation_time,\n" +
+                "         user_id,\n" +
+                "         balance\n" +
+                "FROM     public.accounts_balance_change\n" +
+                "WHERE    account_id=?\n" +
+                "ORDER BY operation_time;";
     INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
                                                          IHDSNode.class,
-                                                         new ArgByValue("operand", sql));
+                                                         new ArgByValue("operand", sql),
+                                                         new ArgByValue("param", aContext.source("arg:id")));
     
     resp.setHeader("no-cache", null);
     util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:accounts");

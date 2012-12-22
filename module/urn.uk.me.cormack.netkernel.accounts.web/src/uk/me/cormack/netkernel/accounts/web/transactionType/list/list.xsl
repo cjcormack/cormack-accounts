@@ -23,57 +23,49 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
-                xmlns:xrl="http://netkernel.org/xrl"
                 exclude-result-prefixes="xs"
                 version="2.0">
-  <xsl:param name="account"/>
+  <xsl:param name="transactionTypeList"/>
   
-  <xsl:template match="@* | node()">
+  <xsl:template match="@* | node()" mode="#default">
     <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
+      <xsl:apply-templates select="@* | node()" mode="#current"/>
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="accounts:id">
-    <xsl:value-of select="$account//id"/>
+  <xsl:template match="accounts:transactionType">
+    <xsl:apply-templates select="$transactionTypeList//row" mode="transactionTypeList">
+      <xsl:with-param name="transactionTypeTemplate" select="."/>
+    </xsl:apply-templates>
+  </xsl:template>
+  
+  <xsl:template match="row" mode="transactionTypeList">
+    <xsl:param name="transactionTypeTemplate"/>
+    <xsl:apply-templates select="$transactionTypeTemplate/*" mode="transactionType">
+      <xsl:with-param name="currentTransactionType" select="."/>
+    </xsl:apply-templates>
+  </xsl:template>
+  
+  <xsl:template match="@* | node()" mode="transactionType">
+    <xsl:param name="currentTransactionType"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()" mode="#current">
+        <xsl:with-param name="currentTransactionType" select="$currentTransactionType"/>
+      </xsl:apply-templates>
+    </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="accounts:name">
-    <xsl:value-of select="$account//name"/>
+  <xsl:template match="accounts:value" mode="transactionType">
+    <xsl:param name="currentTransactionType" as="node()"/>
+    <xsl:value-of select="$currentTransactionType//value"/>
   </xsl:template>
 
-  <xsl:template match="accounts:balance">
-    <xsl:value-of select="format-number($account//current_balance, '£#,##0.00')"/>
-  </xsl:template>
-
-  <xsl:template match="accounts:accountType">
-    <xsl:choose>
-      <xsl:when test="xs:boolean($account//simple_account/text())">
-        <xsl:text>Simple Account</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:text>Normal Account</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
-  <xsl:template match="@*[contains(., '${accounts:id}')]">
+  <xsl:template match="@*[contains(., '${accounts:id}')]" mode="transactionType">
+    <xsl:param name="currentTransactionType" as="node()"/>
     <xsl:attribute name="{name()}">
-      <xsl:if test="$account//id">
-        <xsl:value-of select="replace(., '\$\{accounts:id\}', $account//id)"/>
+      <xsl:if test="$currentTransactionType//id">
+        <xsl:value-of select="replace(., '\$\{accounts:id\}', $currentTransactionType//id)"/>
       </xsl:if>
     </xsl:attribute>
-  </xsl:template>
-
-  <xsl:template match="accounts:simpleAccount">
-    <xsl:if test="xs:boolean($account//simple_account/text())">
-      <xsl:apply-templates select="*"/>
-    </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="accounts:normalAccount">
-    <xsl:if test="not(xs:boolean($account//simple_account/text()))">
-      <xsl:apply-templates select="*"/>
-    </xsl:if>
   </xsl:template>
 </xsl:stylesheet>

@@ -25,9 +25,11 @@
     <title><accounts:title/></title>
 
     <script type="text/javascript" src="/cormackAccounts-style/jquery.min.js"/>
+    <script type="text/javascript" src="/cormackAccounts-style/jquery-ui-1.9.2.custom.min.js"/>
+    <script type="text/javascript" src="/cormackAccounts-style/jquery.form.js"/>
 
     <link href="/cormackAccounts-style/defaultStyle.css" rel="stylesheet" type="text/css"/>
-    <link href="/cormackAccounts-style/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css"/>
+    <link href="/cormackAccounts-style/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript">
       $(document).ready(function() {

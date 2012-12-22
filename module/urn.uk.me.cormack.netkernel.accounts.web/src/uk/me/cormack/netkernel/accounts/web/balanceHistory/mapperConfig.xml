@@ -20,10 +20,7 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/account/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/liquibase/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transaction/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transactionType/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/user/mapperConfig.xml</import>
+<config xmlns:xrl="http://netkernel.org/xrl">
+  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/balanceHistory/list/mapperConfig.xml"/>
+  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/balanceHistory/update/mapperConfig.xml"/>
 </config>

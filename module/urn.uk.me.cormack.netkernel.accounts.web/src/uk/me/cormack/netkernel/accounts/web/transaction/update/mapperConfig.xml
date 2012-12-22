@@ -21,9 +21,18 @@
   ~ THE SOFTWARE.
   -->
 <config>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/account/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/liquibase/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transaction/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transactionType/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/user/mapperConfig.xml</import>
+  <endpoint>
+    <id>cormackAccounts:web:transaction:doUpdateChecked:ajax</id>
+    <grammar>
+      res:/cormackAccounts/transaction/
+      <group name="id"><regex type="integer"/></group>
+      /doUpdateChecked.ajax
+    </grammar>
+    <role>User</role>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.transaction.update.DoUpdateCheckedAccessor</argument>
+      <argument name="id" method="as-string">arg:id</argument>
+    </request>
+  </endpoint>
 </config>

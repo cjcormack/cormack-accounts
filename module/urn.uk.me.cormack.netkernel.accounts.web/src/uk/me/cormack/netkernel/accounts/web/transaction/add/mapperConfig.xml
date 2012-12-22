@@ -21,9 +21,33 @@
   ~ THE SOFTWARE.
   -->
 <config>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/account/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/liquibase/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transaction/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transactionType/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/user/mapperConfig.xml</import>
+  <endpoint>
+    <id>cormackAccounts:web:transaction:add</id>
+    <grammar>
+      res:/cormackAccounts/account/
+      <group name="id"><regex type="integer"/></group>
+      /addTransaction
+    </grammar>
+    <header name="accountsAutoStyle">true</header>
+    <role>User</role>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.transaction.add.AddTransactionAccessor</argument>
+      <argument name="id" method="as-string">arg:id</argument>
+    </request>
+  </endpoint>
+  <endpoint>
+    <id>cormackAccounts:web:transaction:doAdd</id>
+    <grammar>
+      res:/cormackAccounts/account/
+      <group name="id"><regex type="integer"/></group>
+      /doAddTransaction
+    </grammar>
+    <role>User</role>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.transaction.add.DoAddTransactionAccessor</argument>
+      <argument name="id" method="as-string">arg:id</argument>
+    </request>
+  </endpoint>
 </config>

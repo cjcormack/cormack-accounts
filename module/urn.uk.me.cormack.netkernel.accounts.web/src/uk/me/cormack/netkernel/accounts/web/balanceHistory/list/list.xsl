@@ -26,73 +26,57 @@
                 xmlns:xrl="http://netkernel.org/xrl"
                 exclude-result-prefixes="xs"
                 version="2.0">
-  <xsl:param name="totalBalance" as="xs:decimal"/>
-  <xsl:param name="accountList"/>
-  
+  <xsl:param name="balanceList"/>
+  <xsl:param name="accountDetails"/>
+
   <xsl:template match="@* | node()" mode="#default">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()" mode="#current"/>
     </xsl:copy>
   </xsl:template>
-  
-  <xsl:template match="accounts:totalBalance">
-    <xsl:value-of select="format-number($totalBalance, '£#,##0.00')"/>
-  </xsl:template>
 
-  <xsl:template match="accounts:noAccounts">
-    <xsl:if test="count($accountList//row)=0">
-      <xsl:apply-templates select="*"/>
-    </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="accounts:account">
-    <xsl:apply-templates select="$accountList//row" mode="balanceList">
-      <xsl:with-param name="accountTemplate" select="."/>
+  <xsl:template match="accounts:eachBalance">
+    <xsl:apply-templates select="$balanceList//row" mode="balanceList">
+      <xsl:with-param name="balanceTemplate" select="."/>
     </xsl:apply-templates>
   </xsl:template>
   
   <xsl:template match="row" mode="balanceList">
-    <xsl:param name="accountTemplate"/>
-    <xsl:apply-templates select="$accountTemplate/*" mode="account">
-      <xsl:with-param name="currentAccount" select="."/>
+    <xsl:param name="balanceTemplate"/>
+    <xsl:apply-templates select="$balanceTemplate/*" mode="balance">
+      <xsl:with-param name="currentBalance" select="."/>
     </xsl:apply-templates>
   </xsl:template>
   
-  <xsl:template match="@* | node()" mode="account">
-    <xsl:param name="currentAccount"/>
+  <xsl:template match="@* | node()" mode="balance">
+    <xsl:param name="currentBalance" as="node()"/>
     <xsl:copy>
       <xsl:apply-templates select="@* | node()" mode="#current">
-        <xsl:with-param name="currentAccount" select="$currentAccount"/>
+        <xsl:with-param name="currentBalance" select="$currentBalance"/>
       </xsl:apply-templates>
     </xsl:copy>
   </xsl:template>
-  
-  <xsl:template match="accounts:id" mode="account">
-    <xsl:param name="currentAccount" as="node()"/>
-    <xsl:value-of select="$currentAccount/id"/>
+
+  <xsl:template match="accounts:date" mode="balance">
+    <xsl:param name="currentBalance" as="node()"/>
+    <xsl:value-of select="format-dateTime($currentBalance//operation_time, '[D01]/[MNn,*-3]/[Y0001]', 'en', (), ())"/>
   </xsl:template>
 
-  <xsl:template match="accounts:name" mode="account">
-    <xsl:param name="currentAccount" as="node()"/>
-    <xsl:value-of select="$currentAccount//name"/>
+  <xsl:template match="accounts:userId" mode="balance">
+    <xsl:param name="currentBalance" as="node()"/>
+    <xsl:value-of select="$currentBalance//user_id"/>
   </xsl:template>
 
-  <xsl:template match="accounts:description" mode="account">
-    <xsl:param name="currentAccount" as="node()"/>
-    <xsl:value-of select="$currentAccount//description"/>
+  <xsl:template match="accounts:balance" mode="balance">
+    <xsl:param name="currentBalance" as="node()"/>
+    <xsl:value-of select="format-number($currentBalance//balance, '£#,##0.00')"/>
   </xsl:template>
 
-  <xsl:template match="accounts:balance" mode="account">
-    <xsl:param name="currentAccount" as="node()"/>
-    <xsl:value-of select="format-number($currentAccount//current_balance, '£#,##0.00')"/>
+  <xsl:template match="accounts:currentBalance">
+    <xsl:value-of select="format-number($accountDetails//current_balance, '£#,##0.00')"/>
   </xsl:template>
 
-  <xsl:template match="@*[contains(., '${accounts:id}')]" mode="account">
-    <xsl:param name="currentAccount" as="node()"/>
-    <xsl:attribute name="{name()}">
-      <xsl:if test="$currentAccount//id">
-        <xsl:value-of select="replace(., '\$\{accounts:id\}', $currentAccount//id)"/>
-      </xsl:if>
-    </xsl:attribute>
+  <xsl:template match="@*[contains(., '${accounts:accountId}')]">
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:accountId\}', $accountDetails//id)"/>
   </xsl:template>
 </xsl:stylesheet>

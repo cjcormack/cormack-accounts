@@ -24,7 +24,37 @@
                xmlns:xrl="http://netkernel.org/xrl">
   <accounts:title><accounts:name/></accounts:title>
   <accounts:heading><accounts:name/></accounts:heading>
-  <accounts:head/>
+  <accounts:head>
+    <accounts:normalAccount>
+      <script type="text/javascript">
+        $(function() {
+          $("input[name='checked']").change(function() {
+            var checkbox= $(this);
+            checkbox.parent().ajaxSubmit({
+              success: function (data, textStatus) {
+                checkbox.removeAttr("disabled");
+              },
+              error: function (data, textStatus, errorThrown) {
+                checkbox.removeAttr("disabled");
+                if (checkbox.attr("checked") === "checked") {
+                  checkbox.removeAttr("checked");
+                } else {
+                  checkbox.attr("checked", "checked");
+                }
+                if (data.status === 404) {
+                  alert(data.responseText);
+                } else {
+                  alert("An error occurred updating the transaction, please contact an administrator " +
+                        "if this issue persists.");
+                }
+              }
+            });
+            checkbox.attr("disabled", "disabled");
+          });
+        });
+      </script>
+    </accounts:normalAccount>
+  </accounts:head>
   <accounts:breadcrumbs>
     <li>
       <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
@@ -54,11 +84,28 @@
           <div class="label">Balance:</div>
           <div class="form-body-content"><accounts:balance/></div>
         </div>
+        <div>
+          <div class="label" style="margin-top: 7px;">Account Settings:</div>
+          <div class="form-body-content"><accounts:accountType/></div>
+        </div>
       </div>
       <div class="form-footer">
         <button type="submit">Update Account</button>
-        <div style="clear: both"></div>
+        <div style="clear: both"/>
       </div>
     </form>
+
+    <accounts:simpleAccount>
+      <xrl:include>
+        <xrl:identifier>cormackAccounts:web:balanceHistory:list</xrl:identifier>
+        <xrl:argument name="id"><literal type="string"><accounts:id/></literal></xrl:argument>
+      </xrl:include>
+    </accounts:simpleAccount>
+    <accounts:normalAccount>
+      <xrl:include>
+        <xrl:identifier>cormackAccounts:web:transaction:list</xrl:identifier>
+        <xrl:argument name="id"><literal type="string"><accounts:id/></literal></xrl:argument>
+      </xrl:include>
+    </accounts:normalAccount>
   </accounts:content>
 </accounts:page>

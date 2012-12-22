@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.db.account;
+package uk.me.cormack.netkernel.accounts.db.transactionType;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernel.layer0.nkf.INKFResponse;
@@ -33,18 +33,14 @@ public class ListAccessor extends DatabaseAccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     String sql= "SELECT   id,\n" +
-                "         name,\n" +
-                "         description,\n" +
-                "         opening_balance,\n" +
-                "         current_balance,\n" +
-                "         simple_account\n" +
-                "FROM     accounts_account\n" +
-                "ORDER BY id;";
+                "         value\n" +
+                "FROM     public.accounts_transaction_type\n" +
+                "ORDER BY value;";
     INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
                                                          IHDSNode.class,
                                                          new ArgByValue("operand", sql));
     
     resp.setHeader("no-cache", null);
-    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:accounts");
+    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:transactionTypes");
   }
 }

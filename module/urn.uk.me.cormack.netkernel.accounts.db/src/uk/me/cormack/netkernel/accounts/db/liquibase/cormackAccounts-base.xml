@@ -48,6 +48,30 @@
       <column name="description" type="varchar">
         <constraints nullable="false"/>
       </column>
+      <column name="current_balance" type="decimal(20, 10)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="opening_balance" type="decimal(20, 10)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="simple_account" type="boolean">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="accounts_balance_change">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="operation_time" type="timestamptz">
+        <constraints nullable="false"/>
+      </column>
+      <column name="account_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
       <column name="balance" type="decimal(20, 10)">
         <constraints nullable="false"/>
       </column>
@@ -108,7 +132,7 @@
       <column name="amount" type="decimal(20, 10)">
         <constraints nullable="false"/>
       </column>
-      <column name="balance" type="decimal(20, 10)">
+      <column name="checked" type="boolean" defaultValueBoolean="false">
         <constraints nullable="false"/>
       </column>
     </createTable>
@@ -133,6 +157,22 @@
         <constraints nullable="false"/>
       </column>
     </createTable>
+
+    <addForeignKeyConstraint constraintName="accounts_balance_change_account_id"
+                             baseTableName="accounts_balance_change"
+                             baseColumnNames="account_id"
+                             referencedTableName="accounts_account"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="accounts_balance_change_user_id"
+                             baseTableName="accounts_balance_change"
+                             baseColumnNames="user_id"
+                             referencedTableName="accounts_user"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
 
     <addForeignKeyConstraint constraintName="direct_debit_account_id"
                              baseTableName="accounts_direct_debit"
@@ -190,4 +230,42 @@
                              onDelete="RESTRICT"
                              onUpdate="RESTRICT"/>
   </changeSet>
+  
+  <changeSet id="transactionTypes"
+             author="chrisc">
+    <insert tableName="accounts_transaction_type">
+      <column name="value" value="Cheque"/>
+    </insert>
+    <insert tableName="accounts_transaction_type">
+      <column name="value" value="Direct Debit"/>
+    </insert>
+    <insert tableName="accounts_transaction_type">
+      <column name="value" value="Maestro"/>
+    </insert>
+    <insert tableName="accounts_transaction_type">
+      <column name="value" value="Transfer"/>
+    </insert>
+    <insert tableName="accounts_transaction_type">
+      <column name="value" value="Withdrawal"/>
+    </insert>
+ </changeSet>
+
+  <changeSet id="transactionAuditOperations"
+             author="chrisc">
+    <insert tableName="accounts_transaction_audit_operation">
+      <column name="operation" value="ADD"/>
+    </insert>
+    <insert tableName="accounts_transaction_audit_operation">
+      <column name="operation" value="DELETE"/>
+    </insert>
+    <insert tableName="accounts_transaction_audit_operation">
+      <column name="operation" value="MODIFY"/>
+    </insert>
+    <insert tableName="accounts_transaction_audit_operation">
+      <column name="operation" value="CHECK"/>
+    </insert>
+    <insert tableName="accounts_transaction_audit_operation">
+      <column name="operation" value="UNCHECK"/>
+    </insert>
+ </changeSet>
 </databaseChangeLog>

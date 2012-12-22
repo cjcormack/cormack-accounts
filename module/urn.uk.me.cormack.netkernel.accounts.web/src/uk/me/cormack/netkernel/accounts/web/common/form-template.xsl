@@ -21,6 +21,7 @@
   ~ THE SOFTWARE.
   -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                 version="2.0">
   <xsl:param name="params"/>
   
@@ -30,7 +31,7 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="input[@type='checkbox'][@name]">
+  <xsl:template match="input[@type='checkbox'][@name][not(@accounts:overrideValue='false')]">
     <xsl:variable name="name" select="@name"/>
     <xsl:copy>
       <xsl:apply-templates select="@* except @checked"/>
@@ -40,19 +41,43 @@
     </xsl:copy>
   </xsl:template>
   
-  <xsl:template match="input[not(@type='checkbox')][@name]">
+  <xsl:template match="input[not(@type='checkbox')][@name][not(@accounts:overrideValue='false')]">
     <xsl:variable name="name" select="@name"/>
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
-      <xsl:attribute name="value" select="$params//*[local-name()=$name]"/>
+      <xsl:attribute name="value">
+        <xsl:choose>
+          <xsl:when test="$params//*[local-name()=$name]">
+            <xsl:value-of select="$params//*[local-name()=$name]"/>
+          </xsl:when>
+          <xsl:when test="@accounts:defaultValueDateNow='true'">
+            <xsl:value-of select="format-date(current-date(), '[D01]/[MNn,*-3]/[Y0001]', 'en', (), ())"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="textarea[@name]">
+  <xsl:template match="textarea[@name][not(@accounts:overrideValue='false')]">
     <xsl:variable name="name" select="@name"/>
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:value-of select="$params//*[local-name()=$name]"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="select[@name][not(@accounts:overrideValue='false')]/option">
+    <xsl:variable name="name" select="../@name"/>
+    <xsl:variable name="value" select="@value"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:if test="$params//*[local-name()=$name]/text()=$value">
+        <xsl:attribute name="selected" select="'selected'"/>
+      </xsl:if>
+      <xsl:apply-templates select="node()"/>
     </xsl:copy>
   </xsl:template>
 </xsl:stylesheet>

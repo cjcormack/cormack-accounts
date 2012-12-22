@@ -34,10 +34,6 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="accounts:id">
-    <xsl:value-of select="$account//id"/>
-  </xsl:template>
-
   <xsl:template match="accounts:name">
     <xsl:value-of select="$account//name"/>
   </xsl:template>
@@ -46,34 +42,11 @@
     <xsl:value-of select="format-number($account//current_balance, '£#,##0.00')"/>
   </xsl:template>
 
-  <xsl:template match="accounts:accountType">
-    <xsl:choose>
-      <xsl:when test="xs:boolean($account//simple_account/text())">
-        <xsl:text>Simple Account</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:text>Normal Account</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
   <xsl:template match="@*[contains(., '${accounts:id}')]">
     <xsl:attribute name="{name()}">
       <xsl:if test="$account//id">
         <xsl:value-of select="replace(., '\$\{accounts:id\}', $account//id)"/>
       </xsl:if>
     </xsl:attribute>
-  </xsl:template>
-
-  <xsl:template match="accounts:simpleAccount">
-    <xsl:if test="xs:boolean($account//simple_account/text())">
-      <xsl:apply-templates select="*"/>
-    </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="accounts:normalAccount">
-    <xsl:if test="not(xs:boolean($account//simple_account/text()))">
-      <xsl:apply-templates select="*"/>
-    </xsl:if>
   </xsl:template>
 </xsl:stylesheet>

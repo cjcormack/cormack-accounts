@@ -64,27 +64,36 @@
       <uri>urn:org:netkernel:mod:pds:rdbms:local</uri>
     </import>
 
-    <mapper>
-      <config>res:/uk/me/cormack/netkernel/accounts/db/mapperConfig.xml</config>
-      <space name="Mapper Inner Space">
-        <fileset>
-          <regex>res:/uk/me/cormack/netkernel/accounts/db/.*</regex>
-        </fileset>
+    <overlay>
+      <prototype>mod-db:sqlTransactionOverlay</prototype>
+      <space>
+        <mapper>
+          <config>res:/uk/me/cormack/netkernel/accounts/db/mapperConfig.xml</config>
+          <space name="Mapper Inner Space">
+            <fileset>
+              <regex>res:/uk/me/cormack/netkernel/accounts/db/.*</regex>
+            </fileset>
 
-        <import>
-          <uri>urn:org:netkernel:ext:layer1</uri>
-          <private/>
-        </import>
-        <import>
-          <uri>urn:org:netkernel:mod:db</uri>
-          <private/>
-        </import>
-        <import>
-          <uri>urn:org:netkernel:mod:security</uri>
-          <private/>
-        </import>
+            <import>
+              <uri>urn:org:netkernel:ext:layer1</uri>
+              <private/>
+            </import>
+            <import>
+              <uri>urn:org:netkernel:mod:db</uri>
+              <private/>
+            </import>
+            <import>
+              <uri>urn:org:netkernel:mod:security</uri>
+              <private/>
+            </import>
+          </space>
+        </mapper>
       </space>
-    </mapper>
+    </overlay>
+
+    <import>
+      <uri>urn:org:netkernel:mod:db</uri>
+    </import>
 
     <import>
       <uri>urn:org:netkernelroc:mod:liquibase</uri>

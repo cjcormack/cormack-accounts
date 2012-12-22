@@ -37,7 +37,7 @@ public class TotalBalanceAccessor extends DatabaseAccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     
-    String sql= "SELECT   coalesce(sum(balance), 0) AS total_balance\n" +
+    String sql= "SELECT   coalesce(sum(current_balance), 0) AS total_balance\n" +
                 "FROM     accounts_account;";
     INKFResponse resp= aContext.createResponseFrom(util.issueSourceRequest("active:sqlPSQuery",
                                                    IHDSNode.class,

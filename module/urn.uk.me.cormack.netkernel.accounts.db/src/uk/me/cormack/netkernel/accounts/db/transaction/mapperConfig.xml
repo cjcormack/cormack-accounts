@@ -21,83 +21,17 @@
   ~ THE SOFTWARE.
   -->
 <config>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/account/history/mapperConfig.xml</import>
-
-  <endpoint>
-    <grammar>cormackAccounts:db:account:list</grammar>
-    <request>
-      <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.account.ListAccessor</argument>
-    </request>
-  </endpoint>
-
-  <endpoint>
-    <grammar>cormackAccounts:db:account:totalBalance</grammar>
-    <request>
-      <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.account.TotalBalanceAccessor</argument>
-    </request>
-  </endpoint>
-
   <endpoint>
     <grammar>
       <active>
-        <identifier>cormackAccounts:db:account</identifier>
+        <identifier>cormackAccounts:db:transaction</identifier>
         <argument name="id"/>
-      </active>
-    </grammar>
-    <verbs>EXISTS,SOURCE</verbs>
-    <request>
-      <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.account.AccountAccessor</argument>
-      <varargs/>
-    </request>
-  </endpoint>
-  <endpoint>
-    <grammar>
-      <active>
-        <identifier>cormackAccounts:db:account</identifier>
-        <argument name="name"/>
-        <argument name="description"/>
-        <argument name="balance"/>
-        <argument name="simpleAccount"/>
-      </active>
-    </grammar>
-    <verbs>NEW</verbs>
-    <request>
-      <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.account.AccountAccessor</argument>
-      <varargs/>
-    </request>
-  </endpoint>
-  <endpoint>
-    <grammar>
-      <active>
-        <identifier>cormackAccounts:db:account</identifier>
-        <argument name="id"/>
-        <argument name="name"/>
-        <argument name="description"/>
-      </active>
-    </grammar>
-    <verbs>SINK</verbs>
-    <request>
-      <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.account.AccountAccessor</argument>
-      <varargs/>
-    </request>
-  </endpoint>
-
-  <endpoint>
-    <grammar>
-      <active>
-        <identifier>cormackAccounts:db:account</identifier>
-        <argument name="name"/>
       </active>
     </grammar>
     <verbs>EXISTS</verbs>
     <request>
       <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.account.AccountNameAccessor</argument>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.TransactionAccessor</argument>
       <varargs/>
     </request>
   </endpoint>
@@ -105,16 +39,50 @@
   <endpoint>
     <grammar>
       <active>
-        <identifier>cormackAccounts:db:account:balance</identifier>
+        <identifier>cormackAccounts:db:transaction</identifier>
+        <argument name="accountId"/>
+        <argument name="userId"/>
+        <argument name="date"/>
+        <argument name="transactionTypeId"/>
+        <argument name="description"/>
+        <argument name="amount"/>
+      </active>
+    </grammar>
+    <verbs>NEW</verbs>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.TransactionAccessor</argument>
+      <varargs/>
+    </request>
+  </endpoint>
+
+  <endpoint>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:db:transaction</identifier>
         <argument name="id"/>
         <argument name="userId"/>
-        <argument name="balance"/>
+        <argument name="checked"/>
       </active>
     </grammar>
     <verbs>SINK</verbs>
     <request>
       <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.account.AccountBalanceAccessor</argument>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.TransactionAccessor</argument>
+      <varargs/>
+    </request>
+  </endpoint>
+
+  <endpoint>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:db:transaction:list</identifier>
+        <argument name="id"/>
+      </active>
+    </grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.ListAccessor</argument>
       <varargs/>
     </request>
   </endpoint>

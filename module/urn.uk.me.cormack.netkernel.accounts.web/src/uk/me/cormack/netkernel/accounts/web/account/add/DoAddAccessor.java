@@ -37,6 +37,7 @@ public class DoAddAccessor extends HttpLayer2AccessorImpl {
     String name= aContext.source("httpRequest:/param/name", String.class).trim();
     String description= aContext.source("httpRequest:/param/description", String.class).trim();
     String balanceString= aContext.source("httpRequest:/param/balance", String.class).trim();
+    boolean simpleAccount= !aContext.exists("httpRequest:/param/simple_account");
     BigDecimal balance= null;
 
     boolean valid= true;
@@ -71,19 +72,21 @@ public class DoAddAccessor extends HttpLayer2AccessorImpl {
       }
     }
 
-    if (valid && balance != null) {
+    if (valid) {
       long accountId= util.issueNewRequest("cormackAccounts:db:account",
                                            Long.class,
                                            null,
                                            new ArgByValue("name", name),
                                            new ArgByValue("description", description),
-                                           new ArgByValue("balance", balance));
+                                           new ArgByValue("balance", balance),
+                                           new ArgByValue("simpleAccount", simpleAccount));
 
       aContext.sink("session:/message/class", "success");
       aContext.sink("session:/message/title", "Account successfully added");
       aContext.sink("session:/message/content", "Your account '" + name + "' has been successfully added");
 
-      aContext.sink("httpResponse:/redirect", UrlUtil.resolve(aContext, "meta:cormackAccounts:web:account:view", new Arg("id", accountId + "")));
+      aContext.sink("httpResponse:/redirect",
+                    UrlUtil.resolve(aContext, "meta:cormackAccounts:web:account:view", new Arg("id", accountId + "")));
     } else {
       aContext.sink("session:/message/class", "error");
       aContext.sink("session:/message/title", "Add account failed");

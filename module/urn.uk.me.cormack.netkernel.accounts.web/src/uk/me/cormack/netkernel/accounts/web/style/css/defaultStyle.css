@@ -204,6 +204,7 @@ form {
 }
 
 .styled-form input,
+.styled-form select,
 .styled-form textarea,
 .styled-form .form-body-content {
   display: inline-block;
@@ -216,11 +217,9 @@ form {
   margin-top: 7px;
 }
 
-.styled-form input[type=radio] {
-  width: auto;
-}
-
-.styled-form input[type=checkbox] {
+.styled-form input[type=radio],
+.styled-form input[type=checkbox],
+.styled-form select {
   width: auto;
 }
 

@@ -22,8 +22,8 @@
   -->
 <accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                xmlns:xrl="http://netkernel.org/xrl">
-  <accounts:title>Add Account</accounts:title>
-  <accounts:heading>Add Account</accounts:heading>
+  <accounts:title>Update Balance (<accounts:name/>)</accounts:title>
+  <accounts:heading>Update Balance (<accounts:name/>)</accounts:heading>
   <accounts:head/>
   <accounts:breadcrumbs>
     <li>
@@ -33,35 +33,34 @@
       <span class="seperator">/</span>
     </li>
     <li>
-      <a href="meta:cormackAccounts:web:account:add" xrl:resolve="href">Add Account</a>
+      <a href="meta:cormackAccounts:web:account:view" xrl:resolve="href" xrl:argument-id="${accounts:id}"><accounts:name/></a>
+    </li>
+    <li>
+      <span class="seperator">/</span>
+    </li>
+    <li>
+      <a href="meta:cormackAccounts:web:balanceHistory:update"
+         xrl:resolve="href" xrl:argument-id="${accounts:id}">Update Balance</a>
     </li>
   </accounts:breadcrumbs>
   <accounts:content>
-    <form class="styled-form compact-form" action="meta:cormackAccounts:web:account:doAdd" xrl:resolve="action" method="POST">
+    <form class="styled-form compact-form" action="meta:cormackAccounts:web:balanceHistory:doUpdate"
+          xrl:resolve="action" xrl:argument-id="${accounts:id}" method="POST">
       <div class="form-header">
-        <h3>Add Account</h3>
+        <h3>Update Balance</h3>
       </div>
       <div class="form-body">
         <div>
-          <label for="title">Name:</label>
-          <input type="text" name="name"/>
+          <div class="label">Current Balance:</div>
+          <div class="form-body-content"><accounts:balance/></div>
         </div>
         <div>
-          <label for="description">Description:</label>
-          <input type="text" name="description"/>
-        </div>
-        <div>
-          <label for="balance">Balance:</label>
+          <label for="balance">New Balance:</label>
           <input type="text" name="balance"/>
-        </div>
-        <div>
-          <label for="simple_account" checked="checked">Account Settings:</label>
-          <input type="checkbox" name="simple_account" style="margin-right: 0; vertical-align: baseline;" checked="checked"/>
-          <p style="display: inline; margin-left: 1px"> Track transactions</p>
         </div>
       </div>
       <div class="form-footer">
-        <button type="submit">Add Account</button>
+        <button type="submit">Update Balance</button>
         <div style="clear: both"/>
       </div>
     </form>

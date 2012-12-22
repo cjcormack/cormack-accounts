@@ -53,7 +53,9 @@ public class AccountAccessor extends DatabaseAccessorImpl {
     String sql= "SELECT   id,\n" +
                 "         name,\n" +
                 "         description,\n" +
-                "         balance\n" +
+                "         opening_balance,\n" +
+                "         current_balance,\n" +
+                "         simple_account\n" +
                 "FROM     accounts_account\n" +
                 "WHERE    id=?;";
     INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
@@ -73,24 +75,47 @@ public class AccountAccessor extends DatabaseAccessorImpl {
                                                  new ArgByValue("operand", nextIdSql));
     Long nextId= (Long)nextIdNode.getFirstValue("//id");
 
-    String sql= "INSERT INTO accounts_account\n" +
-                "(\n" +
-                "    id,\n" +
-                "    name\n," +
-                "    description,\n" +
-                "    balance\n" +
-                ") VALUES (\n" +
-                "    ?,\n" +
-                "    ?,\n" +
-                "    ?,\n" +
-                "    ?\n" +
-                ");";
+    String insertSql= "INSERT INTO public.accounts_account\n" +
+                      "(\n" +
+                      "    id,\n" +
+                      "    name\n," +
+                      "    description,\n" +
+                      "    opening_balance,\n" +
+                      "    current_balance,\n" +
+                      "    simple_account\n" +
+                      ") VALUES (\n" +
+                      "    ?,\n" +
+                      "    ?,\n" +
+                      "    ?,\n" +
+                      "    ?,\n" +
+                      "    ?\n" +
+                      ");";
     util.issueSourceRequest("active:sqlPSUpdate",
                             null,
-                            new ArgByValue("operand", sql),
+                            new ArgByValue("operand", insertSql),
                             new ArgByValue("param", nextId),
                             new ArgByValue("param", aContext.source("arg:name")),
                             new ArgByValue("param", aContext.source("arg:description")),
+                            new ArgByValue("param", aContext.source("arg:balance")),
+                            new ArgByValue("param", aContext.source("arg:balance")),
+                            new ArgByValue("param", aContext.source("arg:simpleAccount")));
+
+    String registerSql= "INSERT INTO public.accounts_balance_change (\n" +
+                        "    operation_time," +
+                        "    account_id,\n" +
+                        "    user_id,\n" +
+                        "    balance\n" +
+                        ") VALUES (\n" +
+                        "    NOW()," +
+                        "    ?," +
+                        "    ?," +
+                        "    ?" +
+                        ")";
+    util.issueSourceRequest("active:sqlPSUpdate",
+                            null,
+                            new ArgByValue("operand", registerSql),
+                            new ArgByValue("param", nextId),
+                            new ArgByValue("param", aContext.source("arg:userId")),
                             new ArgByValue("param", aContext.source("arg:balance")));
 
     util.cutGoldenThread("cormackAccounts:accounts");

@@ -21,9 +21,12 @@
   ~ THE SOFTWARE.
   -->
 <config>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/account/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/liquibase/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transaction/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transactionType/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/user/mapperConfig.xml</import>
+  <endpoint>
+    <id>cormackAccounts:web:transaction:types</id>
+    <grammar>cormackAccounts:web:transaction:types</grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.transactionType.list.ListAccessor</argument>
+    </request>
+  </endpoint>
 </config>

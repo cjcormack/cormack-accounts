@@ -22,9 +22,15 @@
   -->
 <accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                xmlns:xrl="http://netkernel.org/xrl">
-  <accounts:title>Add Account</accounts:title>
-  <accounts:heading>Add Account</accounts:heading>
-  <accounts:head/>
+  <accounts:title>Add Transaction (<accounts:name/>)</accounts:title>
+  <accounts:heading>Add Transaction (<accounts:name/>)</accounts:heading>
+  <accounts:head>
+    <script>
+      $(function() {
+          $( ".datepicker" ).datepicker({ dateFormat: "dd/M/yy" });
+      });
+    </script>
+  </accounts:head>
   <accounts:breadcrumbs>
     <li>
       <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
@@ -33,35 +39,51 @@
       <span class="seperator">/</span>
     </li>
     <li>
-      <a href="meta:cormackAccounts:web:account:add" xrl:resolve="href">Add Account</a>
+      <a href="meta:cormackAccounts:web:account:view" xrl:resolve="href" xrl:argument-id="${accounts:id}"><accounts:name/></a>
+    </li>
+    <li>
+      <span class="seperator">/</span>
+    </li>
+    <li>
+      <a href="meta:cormackAccounts:web:transaction:add"
+         xrl:resolve="href" xrl:argument-id="${accounts:id}">Add Transaction</a>
     </li>
   </accounts:breadcrumbs>
   <accounts:content>
-    <form class="styled-form compact-form" action="meta:cormackAccounts:web:account:doAdd" xrl:resolve="action" method="POST">
+    <form class="styled-form compact-form" action="meta:cormackAccounts:web:transaction:doAdd"
+          xrl:resolve="action" xrl:argument-id="${accounts:id}" method="POST">
       <div class="form-header">
-        <h3>Add Account</h3>
+        <h3>Add Transaction</h3>
       </div>
       <div class="form-body">
         <div>
-          <label for="title">Name:</label>
-          <input type="text" name="name"/>
+          <label for="date">Date:</label>
+          <input class="datepicker" type="text" name="date" accounts:defaultValueDateNow="true"/>
+        </div>
+        <div>
+          <label for="type">Type:</label>
+          <xrl:include>
+            <xrl:identifier>cormackAccounts:web:transaction:types</xrl:identifier>
+          </xrl:include>
         </div>
         <div>
           <label for="description">Description:</label>
           <input type="text" name="description"/>
         </div>
         <div>
-          <label for="balance">Balance:</label>
-          <input type="text" name="balance"/>
+          <label for="mode">Mode:</label>
+          <select name="mode">
+            <option value="credit">Credit</option>
+            <option value="debit">Debit</option>
+          </select>
         </div>
         <div>
-          <label for="simple_account" checked="checked">Account Settings:</label>
-          <input type="checkbox" name="simple_account" style="margin-right: 0; vertical-align: baseline;" checked="checked"/>
-          <p style="display: inline; margin-left: 1px"> Track transactions</p>
+          <label for="amount">Amount:</label>
+          <input type="text" name="amount"/>
         </div>
       </div>
       <div class="form-footer">
-        <button type="submit">Add Account</button>
+        <button type="submit">Add</button>
         <div style="clear: both"/>
       </div>
     </form>

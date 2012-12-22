@@ -4,8 +4,8 @@
         <name><![CDATA[direct_debit]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>295.00</x>
-            <y>171.00</y>
+            <x>370.00</x>
+            <y>235.00</y>
         </location>
         <size>
             <width>217.00</width>
@@ -54,7 +54,7 @@
             <uid><![CDATA[9F1EC675-2DBC-4B6A-8E86-DC193964D347]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[7]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[direct_debit]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[2C6A1D09-4200-4431-B627-A3E651A217FC]]></uid>
@@ -63,11 +63,11 @@
         <name><![CDATA[transaction]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>618.00</x>
-            <y>21.00</y>
+            <x>684.00</x>
+            <y>15.00</y>
         </location>
         <size>
-            <width>264.00</width>
+            <width>213.00</width>
             <height>180.00</height>
         </size>
         <zorder>1</zorder>
@@ -148,17 +148,19 @@
             <type><![CDATA[DECIMAL(20, 10)]]></type>
             <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
             <notNull><![CDATA[1]]></notNull>
+            <temporaryOriginalName><![CDATA[amount]]></temporaryOriginalName>
             <uid><![CDATA[A44BF458-D93B-4825-9158-C0D30B4BC6BA]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[balance]]></name>
-            <type><![CDATA[DECIMAL(20, 10)]]></type>
+            <name><![CDATA[checked]]></name>
+            <type><![CDATA[BOOL]]></type>
             <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
             <notNull><![CDATA[1]]></notNull>
-            <uid><![CDATA[279F884B-D444-4C25-A433-D3569E5FCA40]]></uid>
+            <temporaryOriginalName><![CDATA[id_1]]></temporaryOriginalName>
+            <uid><![CDATA[98CDB4A4-2EEB-489A-BCFD-1010F4F031A0]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[5]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[Table13]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[2FDB43FA-27AB-4815-A218-8CA55FA1763A]]></uid>
@@ -167,8 +169,8 @@
         <name><![CDATA[user]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>296.00</x>
-            <y>388.00</y>
+            <x>714.00</x>
+            <y>344.00</y>
         </location>
         <size>
             <width>199.00</width>
@@ -202,7 +204,7 @@
             <uid><![CDATA[0566FA2B-472C-4955-9AA9-9978A79F0BB4]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[4]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[5]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[transaction_1]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[4788D42F-3ABB-4E17-A1DC-0820B6ACDC2F]]></uid>
@@ -211,8 +213,8 @@
         <name><![CDATA[transaction_audit]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>971.00</x>
-            <y>227.00</y>
+            <x>1035.00</x>
+            <y>224.00</y>
         </location>
         <size>
             <width>226.00</width>
@@ -289,7 +291,7 @@
             <uid><![CDATA[49124233-2954-4BF6-B646-02084E93AAB1]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[4]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[audit]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[97927786-F8D3-4C30-B7AB-DFE499E6BDB2]]></uid>
@@ -298,12 +300,12 @@
         <name><![CDATA[account]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>37.00</x>
-            <y>109.00</y>
+            <x>14.00</x>
+            <y>136.00</y>
         </location>
         <size>
-            <width>188.00</width>
-            <height>100.00</height>
+            <width>253.00</width>
+            <height>140.00</height>
         </size>
         <zorder>4</zorder>
         <SQLField>
@@ -334,14 +336,31 @@
             <uid><![CDATA[2753869C-205A-4795-A981-4D4DE88CEFA9]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[balance]]></name>
+            <name><![CDATA[opening_balance]]></name>
             <type><![CDATA[DECIMAL(20, 10)]]></type>
             <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
             <notNull><![CDATA[1]]></notNull>
+            <temporaryOriginalName><![CDATA[balance]]></temporaryOriginalName>
             <uid><![CDATA[2E08EE0E-820B-4AD8-8CB0-A35B9B23E79A]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[current_balance]]></name>
+            <type><![CDATA[DECIMAL(20, 10)]]></type>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <temporaryOriginalName><![CDATA[id_1]]></temporaryOriginalName>
+            <uid><![CDATA[BEE89F09-875D-4A04-A7DF-2CD155E0759F]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[simple_account]]></name>
+            <type><![CDATA[BOOL]]></type>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <temporaryOriginalName><![CDATA[simple_account]]></temporaryOriginalName>
+            <uid><![CDATA[D98B8BE2-F707-4BE8-B738-F28960137161]]></uid>
+        </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[transaction_type_1]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[C80EF188-4A5F-475C-A7E5-F60C6F9EAF64]]></uid>
@@ -350,8 +369,8 @@
         <name><![CDATA[transaction_audit_operation]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>635.00</x>
-            <y>237.00</y>
+            <x>699.00</x>
+            <y>234.00</y>
         </location>
         <size>
             <width>199.00</width>
@@ -378,7 +397,7 @@
             <unique><![CDATA[1]]></unique>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[1]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[transaction_audit_operation]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[CEE413E7-00BB-4DF1-BB2F-D9CD8DBDE69C]]></uid>
@@ -387,8 +406,8 @@
         <name><![CDATA[transaction_type]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>307.00</x>
-            <y>292.00</y>
+            <x>372.00</x>
+            <y>157.00</y>
         </location>
         <size>
             <width>189.00</width>
@@ -416,10 +435,85 @@
             <unique><![CDATA[1]]></unique>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[1]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[Table24]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[D7381EFB-7068-4ED9-A711-B2BCB3C086F5]]></uid>
+    </SQLTable>
+    <SQLTable>
+        <name><![CDATA[account_balance_change]]></name>
+        <schema><![CDATA[]]></schema>
+        <location>
+            <x>372.00</x>
+            <y>358.00</y>
+        </location>
+        <size>
+            <width>226.00</width>
+            <height>120.00</height>
+        </size>
+        <zorder>7</zorder>
+        <SQLField>
+            <name><![CDATA[id]]></name>
+            <type><![CDATA[INT8]]></type>
+            <primaryKey>1</primaryKey>
+            <autoIncrement><![CDATA[1]]></autoIncrement>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[6D5F30FC-341B-49F8-92EC-5B1340757832]]></uid>
+            <unique><![CDATA[1]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[operation_time]]></name>
+            <type><![CDATA[TIMESTAMPTZ]]></type>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[C0430B72-E586-4615-880E-ADB8BA47DD9E]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[account_id]]></name>
+            <type><![CDATA[INT8]]></type>
+            <referencesField>id</referencesField>
+            <referencesTable>account</referencesTable>
+            <referencesField><![CDATA[id]]></referencesField>
+            <referencesTable><![CDATA[account]]></referencesTable>
+            <sourceCardinality>5</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[67681C5A-7BBF-45CF-BFAF-CF49440B2BC3]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[C80EF188-4A5F-475C-A7E5-F60C6F9EAF64]]></referencesTableUID>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <temporaryOriginalName><![CDATA[id_1]]></temporaryOriginalName>
+            <uid><![CDATA[86B5531E-3007-45C1-9F71-E975C4995A75]]></uid>
+            <unique><![CDATA[0]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[user_id]]></name>
+            <type><![CDATA[INT8]]></type>
+            <referencesField>id</referencesField>
+            <referencesTable>user</referencesTable>
+            <referencesField><![CDATA[id]]></referencesField>
+            <referencesTable><![CDATA[user]]></referencesTable>
+            <sourceCardinality>5</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[B707733D-358C-413C-9030-FD9445464FFF]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[4788D42F-3ABB-4E17-A1DC-0820B6ACDC2F]]></referencesTableUID>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[2C15355D-C5D5-4959-9F4E-28CC1A330D60]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[balance]]></name>
+            <type><![CDATA[DECIMAL(20,10)]]></type>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <temporaryOriginalName><![CDATA[balance]]></temporaryOriginalName>
+            <uid><![CDATA[E73C76AE-B0FB-45A2-8048-87C697B74037]]></uid>
+        </SQLField>
+        <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+        <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
+        <temporaryOriginalName><![CDATA[account_balance_change]]></temporaryOriginalName>
+        <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
+        <uid><![CDATA[D8921FDE-1815-48AA-B171-85A3E2B0E69A]]></uid>
     </SQLTable>
     <SQLDocumentInfo>
         <encodedPrintInfo><![CDATA[BAtzdHJlYW10eXBlZIHoA4QBQISEhAtOU1ByaW50SW5mbwGEhAhOU09iamVjdACF

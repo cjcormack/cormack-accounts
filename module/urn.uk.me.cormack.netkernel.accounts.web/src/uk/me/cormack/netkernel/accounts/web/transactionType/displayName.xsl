@@ -23,57 +23,30 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
-                xmlns:xrl="http://netkernel.org/xrl"
                 exclude-result-prefixes="xs"
                 version="2.0">
-  <xsl:param name="account"/>
+  <xsl:param name="displayName"/>
   
-  <xsl:template match="@* | node()">
+  <xsl:template match="@* | node()" mode="#default">
     <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
+      <xsl:apply-templates select="@* | node()" mode="#current"/>
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="accounts:id">
-    <xsl:value-of select="$account//id"/>
-  </xsl:template>
-
-  <xsl:template match="accounts:name">
-    <xsl:value-of select="$account//name"/>
-  </xsl:template>
-
-  <xsl:template match="accounts:balance">
-    <xsl:value-of select="format-number($account//current_balance, '£#,##0.00')"/>
-  </xsl:template>
-
-  <xsl:template match="accounts:accountType">
-    <xsl:choose>
-      <xsl:when test="xs:boolean($account//simple_account/text())">
-        <xsl:text>Simple Account</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:text>Normal Account</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
-  <xsl:template match="@*[contains(., '${accounts:id}')]">
+  <xsl:template match="@*[contains(., '${accounts:displayName}')]">
     <xsl:attribute name="{name()}">
-      <xsl:if test="$account//id">
-        <xsl:value-of select="replace(., '\$\{accounts:id\}', $account//id)"/>
+      <xsl:if test="$displayName">
+        <xsl:value-of select="replace(., '\$\{accounts:displayName\}', accounts:clean-replace-output($displayName))"/>
       </xsl:if>
     </xsl:attribute>
   </xsl:template>
 
-  <xsl:template match="accounts:simpleAccount">
-    <xsl:if test="xs:boolean($account//simple_account/text())">
-      <xsl:apply-templates select="*"/>
-    </xsl:if>
+  <xsl:template match="accounts:displayName">
+    <xsl:value-of select="$displayName"/>
   </xsl:template>
 
-  <xsl:template match="accounts:normalAccount">
-    <xsl:if test="not(xs:boolean($account//simple_account/text()))">
-      <xsl:apply-templates select="*"/>
-    </xsl:if>
-  </xsl:template>
+  <xsl:function name="accounts:clean-replace-output" as="xs:string">
+    <xsl:param name="input" as="xs:string"/>
+    <xsl:value-of select="replace(replace($input, '\\', '\\\\'), '\$', '\\\$')"/>
+  </xsl:function>
 </xsl:stylesheet>

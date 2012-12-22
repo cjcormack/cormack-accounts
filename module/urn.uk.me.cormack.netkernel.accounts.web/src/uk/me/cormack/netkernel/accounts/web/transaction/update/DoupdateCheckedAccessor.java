@@ -20,31 +20,37 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.db.account;
+package uk.me.cormack.netkernel.accounts.web.transaction.update;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernel.layer0.nkf.INKFResponse;
-import org.netkernel.layer0.representation.IHDSNode;
 import org.netkernelroc.mod.layer2.ArgByValue;
-import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
-import org.netkernelroc.mod.layer2.DatabaseUtil;
+import org.netkernelroc.mod.layer2.HttpLayer2AccessorImpl;
+import org.netkernelroc.mod.layer2.HttpUtil;
 
-public class ListAccessor extends DatabaseAccessorImpl {
+public class DoUpdateCheckedAccessor extends HttpLayer2AccessorImpl {
   @Override
-  public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
-    String sql= "SELECT   id,\n" +
-                "         name,\n" +
-                "         description,\n" +
-                "         opening_balance,\n" +
-                "         current_balance,\n" +
-                "         simple_account\n" +
-                "FROM     accounts_account\n" +
-                "ORDER BY id;";
-    INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
-                                                         IHDSNode.class,
-                                                         new ArgByValue("operand", sql));
-    
-    resp.setHeader("no-cache", null);
-    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:accounts");
+  public void onPost(INKFRequestContext aContext, HttpUtil util) throws Exception {
+    String id= aContext.source("arg:id", String.class);
+
+    boolean checked= aContext.exists("httpRequest:/param/checked");
+    aContext.source("httpRequest:/params");
+
+    INKFResponse resp;
+    if (util.issueExistsRequest("cormackAccounts:db:transaction",
+                                new ArgByValue("id", id))) {
+
+      util.issueSinkRequest("cormackAccounts:db:transaction",
+                            null,
+                            new ArgByValue("id", id),
+                            new ArgByValue("checked", checked),
+                            new ArgByValue("userId", aContext.source("session:/currentUser")));
+
+      resp= aContext.createResponseFrom("success");
+    } else {
+      aContext.sink("httpResponse:/code", 404);
+      resp= aContext.createResponseFrom("This transaction no longer exists");
+    }
+    resp.setMimeType("text/plain");
   }
 }
