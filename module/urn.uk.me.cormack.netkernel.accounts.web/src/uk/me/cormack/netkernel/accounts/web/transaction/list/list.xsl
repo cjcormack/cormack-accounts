@@ -79,14 +79,14 @@
 
   <xsl:template match="accounts:debitAmount" mode="transaction">
     <xsl:param name="currentTransaction" as="node()"/>
-    <xsl:if test="not(number($currentTransaction//amount) lt 0)">
-      <xsl:value-of select="format-number($currentTransaction//amount, '£#,##0.00')"/>
+    <xsl:if test="number($currentTransaction//amount) lt 0">
+      <xsl:value-of select="format-number(abs($currentTransaction//amount), '£#,##0.00')"/>
     </xsl:if>
   </xsl:template>
 
   <xsl:template match="accounts:creditAmount" mode="transaction">
     <xsl:param name="currentTransaction" as="node()"/>
-    <xsl:if test="number($currentTransaction//amount) lt 0">
+    <xsl:if test="not(number($currentTransaction//amount) lt 0)">
       <xsl:value-of select="format-number(abs($currentTransaction//amount), '£#,##0.00')"/>
     </xsl:if>
   </xsl:template>

@@ -112,7 +112,7 @@ public class DoAddTransactionAccessor extends HttpLayer2AccessorImpl {
       }
 
       if (valid) {
-        if (modeString.equals("credit")) {
+        if (modeString.equals("debit")) {
           amount= amount.negate();
         }
 
