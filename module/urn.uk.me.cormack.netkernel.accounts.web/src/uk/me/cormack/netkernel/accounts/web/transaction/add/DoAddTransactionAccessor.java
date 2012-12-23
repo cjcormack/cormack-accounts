@@ -144,7 +144,7 @@ public class DoAddTransactionAccessor extends HttpLayer2AccessorImpl {
         }
 
         aContext.sink("httpResponse:/redirect", UrlUtil.resolve(aContext,
-                                                "meta:cormackAccounts:web:account:addTransaction",
+                                                "meta:cormackAccounts:web:transaction:add",
                                                 new Arg("id", id)));
       }
     } else {

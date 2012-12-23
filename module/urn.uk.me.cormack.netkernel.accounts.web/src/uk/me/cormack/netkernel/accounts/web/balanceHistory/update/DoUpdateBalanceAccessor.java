@@ -87,7 +87,7 @@ public class DoUpdateBalanceAccessor extends HttpLayer2AccessorImpl {
         }
 
         aContext.sink("httpResponse:/redirect", UrlUtil.resolve(aContext,
-                                                "meta:cormackAccounts:web:account:updateBalance",
+                                                "meta:cormackAccounts:web:balanceHistory:update",
                                                 new Arg("id", id)));
       }
     } else {
