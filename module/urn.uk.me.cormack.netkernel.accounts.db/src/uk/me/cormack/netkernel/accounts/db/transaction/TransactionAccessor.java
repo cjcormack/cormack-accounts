@@ -28,6 +28,7 @@ import org.netkernel.layer0.representation.IHDSNode;
 import org.netkernelroc.mod.layer2.ArgByValue;
 import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
 import org.netkernelroc.mod.layer2.DatabaseUtil;
+import uk.me.cormack.netkernel.accounts.db.AuditUtil;
 
 import java.util.Date;
 
@@ -104,26 +105,8 @@ public class TransactionAccessor extends DatabaseAccessorImpl {
                             new ArgByValue("operand", updateBalanceSql),
                             new ArgByValue("param", aContext.source("arg:accountId")));
 
-    String recordSql= "INSERT INTO public.accounts_transaction_audit (\n" +
-                      "    operation_time," +
-                      "    transaction_id,\n" +
-                      "    user_id,\n" +
-                      "    operation_id,\n" +
-                      "    description\n" +
-                      ") VALUES (\n" +
-                      "    NOW(),\n" +
-                      "    ?,\n" +
-                      "    ?,\n" +
-                      "    ( SELECT id\n" +
-                      "      FROM   public.accounts_transaction_audit_operation\n" +
-                      "      WHERE operation='ADD'),\n" +
-                      "    'Transaction Created'\n" +
-                      ");";
-    util.issueSourceRequest("active:sqlPSUpdate",
-                            null,
-                            new ArgByValue("operand", recordSql),
-                            new ArgByValue("param", nextId),
-                            new ArgByValue("param", aContext.source("arg:userId")));
+    AuditUtil.logTransactionAudit(util, nextId, util.getContext().source("arg:userId", Long.class),
+                                  AuditUtil.AuditOperation.ADD, "Transaction Created");
 
     util.cutGoldenThread("cormackAccounts:accounts", "cormackAccounts:transactions");
   }
@@ -143,28 +126,8 @@ public class TransactionAccessor extends DatabaseAccessorImpl {
                             new ArgByValue("param", checked),
                             new ArgByValue("param", id));
 
-    String recordSql= "INSERT INTO public.accounts_transaction_audit (\n" +
-                      "    operation_time," +
-                      "    transaction_id,\n" +
-                      "    user_id,\n" +
-                      "    operation_id,\n" +
-                      "    description\n" +
-                      ") VALUES (\n" +
-                      "    NOW(),\n" +
-                      "    ?,\n" +
-                      "    ?,\n" +
-                      "    ( SELECT id\n" +
-                      "      FROM   public.accounts_transaction_audit_operation\n" +
-                      "      WHERE operation=?),\n" +
-                      "    ?\n" +
-                      ");";
-    util.issueSourceRequest("active:sqlPSUpdate",
-                            null,
-                            new ArgByValue("operand", recordSql),
-                            new ArgByValue("param", id),
-                            new ArgByValue("param", aContext.source("arg:userId")),
-                            new ArgByValue("param", checked ? "CHECK" : "UNCHECK"),
-                            new ArgByValue("param", "Transaction " + (checked ? "Checked" : "Unchecked")));
+    AuditUtil.logTransactionAudit(util, id, util.getContext().source("arg:userId", Long.class),
+                                  AuditUtil.AuditOperation.MODIFY, "Transaction " + (checked ? "Checked" : "Unchecked"));
 
     util.cutGoldenThread( "cormackAccounts:transactions");
   }

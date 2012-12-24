@@ -79,7 +79,8 @@ public class DoAddAccessor extends HttpLayer2AccessorImpl {
                                            new ArgByValue("name", name),
                                            new ArgByValue("description", description),
                                            new ArgByValue("balance", balance),
-                                           new ArgByValue("simpleAccount", simpleAccount));
+                                           new ArgByValue("simpleAccount", simpleAccount),
+                                           new ArgByValue("userId", aContext.source("session:/currentUser")));
 
       aContext.sink("session:/message/class", "success");
       aContext.sink("session:/message/title", "Account successfully added");

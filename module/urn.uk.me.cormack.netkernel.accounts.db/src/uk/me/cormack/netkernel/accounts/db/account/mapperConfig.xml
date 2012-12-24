@@ -61,6 +61,7 @@
         <argument name="description"/>
         <argument name="balance"/>
         <argument name="simpleAccount"/>
+        <argument name="userId"/>
       </active>
     </grammar>
     <verbs>NEW</verbs>
@@ -77,6 +78,7 @@
         <argument name="id"/>
         <argument name="name"/>
         <argument name="description"/>
+        <argument name="userId"/>
       </active>
     </grammar>
     <verbs>SINK</verbs>

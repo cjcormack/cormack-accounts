@@ -92,15 +92,6 @@
       </column>
     </createTable>
 
-    <createTable tableName="accounts_transaction_audit_operation">
-      <column name="id" type="bigint" autoIncrement="true">
-        <constraints primaryKey="true" nullable="false" unique="true"/>
-      </column>
-      <column name="operation" type="varchar">
-        <constraints nullable="false" unique="true"/>
-      </column>
-    </createTable>
-
     <createTable tableName="accounts_transaction_type">
       <column name="id" type="bigint" autoIncrement="true">
         <constraints primaryKey="true" nullable="false" unique="true"/>
@@ -137,6 +128,36 @@
       </column>
     </createTable>
 
+    <createTable tableName="accounts_audit_operation">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="operation" type="varchar">
+        <constraints nullable="false" unique="true"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="accounts_account_audit">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="operation_time" type="timestamptz">
+        <constraints nullable="false"/>
+      </column>
+      <column name="account_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="operation_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="description" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
     <createTable tableName="accounts_transaction_audit">
       <column name="id" type="bigint" autoIncrement="true">
         <constraints primaryKey="true" nullable="false" unique="true"/>
@@ -145,6 +166,27 @@
         <constraints nullable="false"/>
       </column>
       <column name="transaction_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="operation_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="description" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="accounts_direct_debit_audit">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" unique="true"/>
+      </column>
+      <column name="operation_time" type="timestamptz">
+        <constraints nullable="false"/>
+      </column>
+      <column name="direct_debit_id" type="bigint">
         <constraints nullable="false"/>
       </column>
       <column name="operation_id" type="bigint">
@@ -206,6 +248,30 @@
                              onDelete="RESTRICT"
                              onUpdate="RESTRICT"/>
 
+    <addForeignKeyConstraint constraintName="account_audit_transaction_id"
+                             baseTableName="accounts_account_audit"
+                             baseColumnNames="account_id"
+                             referencedTableName="accounts_account"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="account_audit_operation_id"
+                             baseTableName="accounts_account_audit"
+                             baseColumnNames="operation_id"
+                             referencedTableName="accounts_audit_operation"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="account_audit_user_id"
+                             baseTableName="accounts_account_audit"
+                             baseColumnNames="user_id"
+                             referencedTableName="accounts_user"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
     <addForeignKeyConstraint constraintName="transaction_audit_transaction_id"
                              baseTableName="accounts_transaction_audit"
                              baseColumnNames="transaction_id"
@@ -217,13 +283,37 @@
     <addForeignKeyConstraint constraintName="transaction_audit_operation_id"
                              baseTableName="accounts_transaction_audit"
                              baseColumnNames="operation_id"
-                             referencedTableName="accounts_transaction_audit_operation"
+                             referencedTableName="accounts_audit_operation"
                              referencedColumnNames="id"
                              onDelete="RESTRICT"
                              onUpdate="RESTRICT"/>
 
     <addForeignKeyConstraint constraintName="transaction_audit_user_id"
                              baseTableName="accounts_transaction_audit"
+                             baseColumnNames="user_id"
+                             referencedTableName="accounts_user"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="direct_debit_audit_direct_debit_id"
+                             baseTableName="accounts_direct_debit_audit"
+                             baseColumnNames="direct_debit_id"
+                             referencedTableName="accounts_direct_debit"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="direct_debit_audit_operation_id"
+                             baseTableName="accounts_direct_debit_audit"
+                             baseColumnNames="operation_id"
+                             referencedTableName="accounts_audit_operation"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addForeignKeyConstraint constraintName="direct_debit_audit_user_id"
+                             baseTableName="accounts_direct_debit_audit"
                              baseColumnNames="user_id"
                              referencedTableName="accounts_user"
                              referencedColumnNames="id"
@@ -250,22 +340,16 @@
     </insert>
  </changeSet>
 
-  <changeSet id="transactionAuditOperations"
+  <changeSet id="auditOperations"
              author="chrisc">
-    <insert tableName="accounts_transaction_audit_operation">
+    <insert tableName="accounts_audit_operation">
       <column name="operation" value="ADD"/>
     </insert>
-    <insert tableName="accounts_transaction_audit_operation">
+    <insert tableName="accounts_audit_operation">
       <column name="operation" value="DELETE"/>
     </insert>
-    <insert tableName="accounts_transaction_audit_operation">
+    <insert tableName="accounts_audit_operation">
       <column name="operation" value="MODIFY"/>
-    </insert>
-    <insert tableName="accounts_transaction_audit_operation">
-      <column name="operation" value="CHECK"/>
-    </insert>
-    <insert tableName="accounts_transaction_audit_operation">
-      <column name="operation" value="UNCHECK"/>
     </insert>
  </changeSet>
 </databaseChangeLog>

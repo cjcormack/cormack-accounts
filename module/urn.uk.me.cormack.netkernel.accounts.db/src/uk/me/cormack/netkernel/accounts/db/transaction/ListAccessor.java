@@ -50,14 +50,7 @@ public class ListAccessor extends DatabaseAccessorImpl {
                 "                     AND  inner_transaction.id < accounts_transaction.id)\n" +
                 "               )\n" +
                 "             ),\n" +
-                "             0) + accounts_transaction.amount AS balance,\n" +
-                "         ( SELECT user_id\n" +
-                "           FROM   public.accounts_transaction_audit\n" +
-                "           WHERE  accounts_transaction_audit.transaction_id=accounts_transaction.id\n" +
-                "           AND    accounts_transaction_audit.operation_id=( SELECT id\n" +
-                "                                                            FROM   public.accounts_transaction_audit_operation\n" +
-                "                                                            WHERE  operation='ADD')\n" +
-                "         ) AS user_id\n" +
+                "             0) + accounts_transaction.amount AS balance\n" +
                 "FROM     public.accounts_transaction\n" +
                 "WHERE    account_id=?\n" +
                 "ORDER BY transaction_date,\n" +

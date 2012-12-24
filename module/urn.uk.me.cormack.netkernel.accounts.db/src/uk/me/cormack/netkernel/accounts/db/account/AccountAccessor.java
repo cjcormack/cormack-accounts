@@ -28,6 +28,7 @@ import org.netkernel.layer0.representation.IHDSNode;
 import org.netkernelroc.mod.layer2.ArgByValue;
 import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
 import org.netkernelroc.mod.layer2.DatabaseUtil;
+import uk.me.cormack.netkernel.accounts.db.AuditUtil;
 
 public class AccountAccessor extends DatabaseAccessorImpl {
   public AccountAccessor() {
@@ -37,7 +38,7 @@ public class AccountAccessor extends DatabaseAccessorImpl {
   @Override
   public void onExists(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     String sql= "SELECT id\n" +
-                "FROM   accounts_account\n" +
+                "FROM   public.accounts_account\n" +
                 "WHERE  id=?;";
 
     INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSBooleanQuery",
@@ -56,7 +57,7 @@ public class AccountAccessor extends DatabaseAccessorImpl {
                 "         opening_balance,\n" +
                 "         current_balance,\n" +
                 "         simple_account\n" +
-                "FROM     accounts_account\n" +
+                "FROM     public.accounts_account\n" +
                 "WHERE    id=?;";
     INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
                                                          IHDSNode.class,
@@ -88,6 +89,7 @@ public class AccountAccessor extends DatabaseAccessorImpl {
                       "    ?,\n" +
                       "    ?,\n" +
                       "    ?,\n" +
+                      "    ?,\n" +
                       "    ?\n" +
                       ");";
     util.issueSourceRequest("active:sqlPSUpdate",
@@ -99,6 +101,10 @@ public class AccountAccessor extends DatabaseAccessorImpl {
                             new ArgByValue("param", aContext.source("arg:balance")),
                             new ArgByValue("param", aContext.source("arg:balance")),
                             new ArgByValue("param", aContext.source("arg:simpleAccount")));
+
+
+    AuditUtil.logAccountAudit(util, nextId, util.getContext().source("arg:userId", Long.class),
+                              AuditUtil.AuditOperation.ADD, "Account Created");
 
     String registerSql= "INSERT INTO public.accounts_balance_change (\n" +
                         "    operation_time," +
@@ -127,7 +133,7 @@ public class AccountAccessor extends DatabaseAccessorImpl {
   public void onSink(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     Long id= aContext.source("arg:id", Long.class);
 
-    String sql= "UPDATE accounts_account\n" +
+    String sql= "UPDATE public.accounts_account\n" +
                 "SET    name=?,\n" +
                 "       description=?\n" +
                 "WHERE  id=?";
@@ -137,6 +143,9 @@ public class AccountAccessor extends DatabaseAccessorImpl {
                             new ArgByValue("param", aContext.source("arg:name")),
                             new ArgByValue("param", aContext.source("arg:description")),
                             new ArgByValue("param", id));
+
+    AuditUtil.logAccountAudit(util, id, util.getContext().source("arg:userId", Long.class),
+                              AuditUtil.AuditOperation.MODIFY, "Account Updated");
 
     util.cutGoldenThread("cormackAccounts:accounts");
   }

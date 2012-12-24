@@ -27,6 +27,7 @@ import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernelroc.mod.layer2.ArgByValue;
 import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
 import org.netkernelroc.mod.layer2.DatabaseUtil;
+import uk.me.cormack.netkernel.accounts.db.AuditUtil;
 
 public class AccountBalanceAccessor extends DatabaseAccessorImpl {
   @Override
@@ -59,6 +60,9 @@ public class AccountBalanceAccessor extends DatabaseAccessorImpl {
                             new ArgByValue("param", id),
                             new ArgByValue("param", aContext.source("arg:userId")),
                             new ArgByValue("param", aContext.source("arg:balance")));
+
+    AuditUtil.logAccountAudit(util, id, util.getContext().source("arg:userId", Long.class),
+                              AuditUtil.AuditOperation.MODIFY, "Account Balance Updated");
 
     util.cutGoldenThread("cormackAccounts:accounts");
   }
