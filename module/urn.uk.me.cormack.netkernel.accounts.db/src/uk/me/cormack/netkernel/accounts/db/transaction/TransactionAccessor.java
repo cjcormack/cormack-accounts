@@ -81,28 +81,18 @@ public class TransactionAccessor extends DatabaseAccessorImpl {
                             new ArgByValue("param", aContext.source("arg:amount")));
 
     String updateBalanceSql= "UPDATE public.accounts_account\n" +
-                             "SET    current_balance=(SELECT   ( SELECT opening_balance\n" +
-                             "                                   FROM   public.accounts_account\n" +
-                             "                                   WHERE  id=accounts_transaction.account_id)+\n" +
-                             "                                 coalesce(\n" +
-                             "                                     ( SELECT sum(amount)\n" +
-                             "                                       FROM   public.accounts_transaction AS inner_transaction\n" +
-                             "                                       WHERE  inner_transaction.account_id=accounts_transaction.account_id\n" +
-                             "                                       AND    ( inner_transaction.transaction_date < accounts_transaction.transaction_date\n" +
-                             "                                          OR    ( inner_transaction.transaction_date=accounts_transaction.transaction_date\n" +
-                             "                                             AND  inner_transaction.id < accounts_transaction.id)\n" +
-                             "                                       )\n" +
-                             "                                     ),\n" +
-                             "                                     0) + amount AS balance\n" +
-                             "                        FROM     public.accounts_transaction\n" +
-                             "                        WHERE    account_id=3\n" +
-                             "                        ORDER BY transaction_date DESC,\n" +
-                             "                                 id DESC\n" +
-                             "                        LIMIT    1)\n" +
+                             "SET    current_balance=opening_balance\n" +
+                             "                        + coalesce(\n" +
+                             "                            ( SELECT sum(amount)\n" +
+                             "                              FROM   public.accounts_transaction AS inner_transaction\n" +
+                             "                              WHERE  inner_transaction.account_id=?\n" +
+                             "                            ),\n" +
+                             "                            0)\n" +
                              "WHERE  id=?;";
     util.issueSourceRequest("active:sqlPSUpdate",
                             null,
                             new ArgByValue("operand", updateBalanceSql),
+                            new ArgByValue("param", aContext.source("arg:accountId")),
                             new ArgByValue("param", aContext.source("arg:accountId")));
 
     AuditUtil.logTransactionAudit(util, nextId, util.getContext().source("arg:userId", Long.class),
