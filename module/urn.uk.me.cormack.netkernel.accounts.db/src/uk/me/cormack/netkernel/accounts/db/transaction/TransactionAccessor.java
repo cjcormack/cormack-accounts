@@ -117,7 +117,7 @@ public class TransactionAccessor extends DatabaseAccessorImpl {
                       "    ( SELECT id\n" +
                       "      FROM   public.accounts_transaction_audit_operation\n" +
                       "      WHERE operation='ADD'),\n" +
-                      "    'Transaction added'\n" +
+                      "    'Transaction Created'\n" +
                       ");";
     util.issueSourceRequest("active:sqlPSUpdate",
                             null,
@@ -156,14 +156,15 @@ public class TransactionAccessor extends DatabaseAccessorImpl {
                       "    ( SELECT id\n" +
                       "      FROM   public.accounts_transaction_audit_operation\n" +
                       "      WHERE operation=?),\n" +
-                      "    'Transaction added'\n" +
+                      "    ?\n" +
                       ");";
     util.issueSourceRequest("active:sqlPSUpdate",
                             null,
                             new ArgByValue("operand", recordSql),
                             new ArgByValue("param", id),
                             new ArgByValue("param", aContext.source("arg:userId")),
-                            new ArgByValue("param", checked ? "CHECK" : "UNCHECK"));
+                            new ArgByValue("param", checked ? "CHECK" : "UNCHECK"),
+                            new ArgByValue("param", "Transaction " + (checked ? "Checked" : "Unchecked")));
 
     util.cutGoldenThread( "cormackAccounts:transactions");
   }
