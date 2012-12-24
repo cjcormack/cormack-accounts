@@ -55,7 +55,7 @@
           <input type="text" name="balance"/>
         </div>
         <div>
-          <label for="simple_account" checked="checked">Account Settings:</label>
+          <label for="simple_account" checked="checked" style="margin-top: 0;">Account Settings:</label>
           <input type="checkbox" name="simple_account" style="margin-right: 0; vertical-align: baseline;" checked="checked"/>
           <p style="display: inline; margin-left: 1px"> Track transactions</p>
         </div>
