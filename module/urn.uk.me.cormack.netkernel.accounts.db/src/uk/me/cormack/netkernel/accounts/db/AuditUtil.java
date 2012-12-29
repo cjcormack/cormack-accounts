@@ -29,19 +29,19 @@ import org.netkernelroc.mod.layer2.DatabaseUtil;
 public class AuditUtil {
   private AuditUtil() {}
 
-  public static void logAccountAudit(DatabaseUtil util, long id, long userId, AuditOperation operation, String description) throws NKFException {
+  public static void logAccountAudit(DatabaseUtil util, long id, Long userId, AuditOperation operation, String description) throws NKFException {
     logGenericAudit(util, "account", id, userId, operation, description);
   }
 
-  public static void logDirectDebitAudit(DatabaseUtil util, long id, long userId, AuditOperation operation, String description) throws NKFException {
+  public static void logDirectDebitAudit(DatabaseUtil util, long id, Long userId, AuditOperation operation, String description) throws NKFException {
     logGenericAudit(util, "direct_debit", id, userId, operation, description);
   }
 
-  public static void logTransactionAudit(DatabaseUtil util, long id, long userId, AuditOperation operation, String description) throws NKFException {
+  public static void logTransactionAudit(DatabaseUtil util, long id, Long userId, AuditOperation operation, String description) throws NKFException {
     logGenericAudit(util, "transaction", id, userId, operation, description);
   }
 
-  private static void logGenericAudit(DatabaseUtil util, String type, long id, long userId, AuditOperation operation, String description) throws NKFException {
+  private static void logGenericAudit(DatabaseUtil util, String type, long id, Long userId, AuditOperation operation, String description) throws NKFException {
     String recordSql= "INSERT INTO public.accounts_" + type + "_audit (\n" +
                       "    operation_time," +
                       "    " + type + "_id,\n" +

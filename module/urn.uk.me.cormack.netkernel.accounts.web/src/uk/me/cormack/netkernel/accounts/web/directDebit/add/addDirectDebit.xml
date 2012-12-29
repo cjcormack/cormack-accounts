@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2012 by Chris Cormack
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+<accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
+               xmlns:xrl="http://netkernel.org/xrl">
+  <accounts:title>Add Direct Debit (<accounts:name/>)</accounts:title>
+  <accounts:heading>Add Direct Debit (<accounts:name/>)</accounts:heading>
+  <accounts:head/>
+  <accounts:breadcrumbs>
+    <li>
+      <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
+    </li>
+    <li>
+      <span class="seperator">/</span>
+    </li>
+    <li>
+      <a href="meta:cormackAccounts:web:account:view" xrl:resolve="href" xrl:argument-id="${accounts:id}"><accounts:name/></a>
+    </li>
+    <li>
+      <span class="seperator">/</span>
+    </li>
+    <li>
+      <a href="meta:cormackAccounts:web:transaction:add"
+         xrl:resolve="href" xrl:argument-id="${accounts:id}">Add Direct Debit</a>
+    </li>
+  </accounts:breadcrumbs>
+  <accounts:content>
+    <form class="styled-form compact-form" action="meta:cormackAccounts:web:directDebit:doAdd"
+          xrl:resolve="action" xrl:argument-id="${accounts:id}" method="POST">
+      <div class="form-header">
+        <h3>Add Transaction</h3>
+      </div>
+      <div class="form-body">
+        <div>
+          <label for="description">Description:</label>
+          <input type="text" name="description"/>
+        </div>
+        <div>
+          <label for="amount">Amount:</label>
+          <input type="text" name="amount"/>
+        </div>
+      </div>
+      <div class="form-footer">
+        <button type="submit">Add</button>
+        <div style="clear: both"/>
+      </div>
+    </form>
+  </accounts:content>
+</accounts:page>

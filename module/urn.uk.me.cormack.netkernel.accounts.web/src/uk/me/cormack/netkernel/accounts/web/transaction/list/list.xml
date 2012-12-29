@@ -28,6 +28,12 @@
       <th colspan="7">
         <div class="cormackAccounts-wrappedHeader">
           <div class="cormackAccounts-wrappedHeader-buttonBar">
+            <form action="meta:cormackAccounts:web:directDebit:list"
+                  style="display: inline;"
+                  xrl:resolve="action" xrl:argument-id="${accounts:accountId}">
+              <input type="hidden" name="mode" value="debit" accounts:overrideValue="false"/>
+              <button type="submit">Direct Debits</button>
+            </form>
             <form action="meta:cormackAccounts:web:transaction:add"
                   style="display: inline;"
                   xrl:resolve="action" xrl:argument-id="${accounts:accountId}">
@@ -65,36 +71,76 @@
       <td style="font-weight: bold;"><accounts:openingBalance/></td>
       <td/>
     </tr>
-    <accounts:eachTransaction>
-      <tr>
+    <accounts:directDebitSummary>
+      <tr class="cormackAccounts-directDebit-summary">
         <td class="fixedColumn">
           <accounts:date/>
         </td>
         <td class="fixedColumn">
-          <xrl:include>
-            <xrl:identifier>cormackAccounts:web:transactionType:displayName</xrl:identifier>
-            <xrl:argument name="id">
-              <literal type="string"><accounts:type/></literal>
-            </xrl:argument>
-          </xrl:include>
+          Direct Debit
         </td>
         <td class="stretchingColumn">
-          <accounts:description/>
+          Direct Debits
         </td>
         <td class="fixedColumn rightColumn">
-          <accounts:debitAmount/>
+          <accounts:total/>
         </td>
         <td class="fixedColumn rightColumn">
-          <accounts:creditAmount/>
+
         </td>
         <td class="fixedColumn rightColumn">
           <accounts:balance/>
         </td>
         <td class="fixedColumn centerColumn">
-          <form style="display: inline" class="ajax-form" action="meta:cormackAccounts:web:transaction:doUpdateChecked:ajax" method="POST"
-                xrl:resolve="action" xrl:argument-id="${accounts:id}">
-            <input type="checkbox" name="checked" value="checked" accounts:overrideValue="false"/>
-          </form>
+          <input type="checkbox" name="checked" value="checked" accounts:overrideValue="false"/>
+        </td>
+      </tr>
+    </accounts:directDebitSummary>
+    <accounts:eachTransaction>
+      <tr>
+        <td class="fixedColumn">
+          <div>
+            <accounts:date/>
+          </div>
+        </td>
+        <td class="fixedColumn">
+          <div>
+            <xrl:include>
+              <xrl:identifier>cormackAccounts:web:transactionType:displayName</xrl:identifier>
+              <xrl:argument name="id">
+                <literal type="string"><accounts:type/></literal>
+              </xrl:argument>
+            </xrl:include>
+          </div>
+        </td>
+        <td class="stretchingColumn">
+          <div>
+            <accounts:description/>
+          </div>
+        </td>
+        <td class="fixedColumn rightColumn">
+          <div>
+            <accounts:debitAmount/>
+          </div>
+        </td>
+        <td class="fixedColumn rightColumn">
+          <div>
+            <accounts:creditAmount/>
+          </div>
+        </td>
+        <td class="fixedColumn rightColumn">
+          <div>
+            <accounts:balance/>
+          </div>
+        </td>
+        <td class="fixedColumn centerColumn">
+          <div>
+            <form style="display: inline" class="ajax-form"
+                  action="meta:cormackAccounts:web:transaction:doUpdateChecked:ajax" method="POST"
+                  xrl:resolve="action" xrl:argument-id="${accounts:id}">
+              <input type="checkbox" name="checked" value="checked" accounts:overrideValue="false"/>
+            </form>
+          </div>
         </td>
       </tr>
     </accounts:eachTransaction>

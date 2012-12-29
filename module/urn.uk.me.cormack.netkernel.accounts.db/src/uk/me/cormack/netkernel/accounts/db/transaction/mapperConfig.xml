@@ -55,6 +55,20 @@
       <varargs/>
     </request>
   </endpoint>
+  <endpoint>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:db:transaction</identifier>
+        <argument name="directDebitId"/>
+      </active>
+    </grammar>
+    <verbs>EXISTS,NEW</verbs>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.DirectDebitTransactionAccessor</argument>
+      <varargs/>
+    </request>
+  </endpoint>
 
   <endpoint>
     <grammar>

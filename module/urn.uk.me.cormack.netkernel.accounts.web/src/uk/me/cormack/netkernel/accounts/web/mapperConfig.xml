@@ -23,6 +23,7 @@
 <config xmlns:xrl="http://netkernel.org/xrl">
   <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/account/mapperConfig.xml"/>
   <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/balanceHistory/mapperConfig.xml"/>
+  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/mapperConfig.xml"/>
   <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/message/mapperConfig.xml"/>
   <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/navigation/mapperConfig.xml"/>
   <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/security/mapperConfig.xml"/>

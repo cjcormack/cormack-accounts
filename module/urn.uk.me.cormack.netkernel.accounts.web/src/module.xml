@@ -166,7 +166,50 @@
         <argument name="response">arg:response</argument>
       </postProcess>
     </pluggable-overlay>
+  </rootspace>
 
+  <rootspace name="Cormack Accounts / Cron" uri="urn:uk:me:cormack:netkernel:accounts:web:cron">
+    <fileset>
+      <regex>res:/(etc/system/CronConfig\.xml)</regex>
+      <rewrite>res:/uk/me/cormack/netkernel/accounts/web/$1</rewrite>
+    </fileset>
+    <mapper>
+      <config>
+        <endpoint>
+          <grammar>
+            <active>
+              <identifier>cormackAccounts:cron:directDebits:apply</identifier>
+            </active>
+          </grammar>
+          <request>
+            <identifier>active:java</identifier>
+            <argument name="class">uk.me.cormack.netkernel.accounts.web.directDebit.apply.ApplyAccessor</argument>
+          </request>
+        </endpoint>
+      </config>
+      <space>
+        <import>
+          <uri>urn:org:netkernel:ext:layer1</uri>
+          <private/>
+        </import>
+        <import>
+          <uri>urn:uk:me:cormack:netkernel:accounts:db</uri>
+          <private/>
+        </import>
+      </space>
+    </mapper>
 
+    <import>
+      <uri>urn:org:netkernel:ext:layer1</uri>
+      <private/>
+    </import>
+    <import>
+      <uri>urn:org:netkernelroc:mod:layer2</uri>
+      <private/>
+    </import>
+    <import>
+      <uri>urn:uk:me:cormack:netkernel:accounts:db</uri>
+      <private/>
+    </import>
   </rootspace>
 </module>

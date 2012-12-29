@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.db.transaction;
+package uk.me.cormack.netkernel.accounts.db.directDebit;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernel.layer0.nkf.INKFResponse;
@@ -32,34 +32,12 @@ import org.netkernelroc.mod.layer2.DatabaseUtil;
 public class ListAccessor extends DatabaseAccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
-    String sql= "SELECT   accounts_transaction.id,\n" +
-                "         accounts_transaction.transaction_date,\n" +
-                "         accounts_transaction.description,\n" +
-                "         accounts_transaction.transaction_type_id,\n" +
-                "         ( SELECT value\n" +
-                "           FROM   public.accounts_transaction_type\n" +
-                "           WHERE  id=accounts_transaction.transaction_type_id\n" +
-                "         ) AS transaction_type,\n" +
-                "         accounts_transaction.direct_debit_id,\n" +
-                "         accounts_transaction.amount,\n" +
-                "         accounts_transaction.checked,\n" +
-                "         ( SELECT opening_balance\n" +
-                "           FROM   public.accounts_account\n" +
-                "           WHERE  id=accounts_transaction.account_id)+\n" +
-                "         coalesce(\n" +
-                "             ( SELECT sum(amount)\n" +
-                "               FROM   public.accounts_transaction AS inner_transaction\n" +
-                "               WHERE  inner_transaction.account_id=accounts_transaction.account_id\n" +
-                "               AND    ( inner_transaction.transaction_date < accounts_transaction.transaction_date\n" +
-                "                  OR    ( inner_transaction.transaction_date=accounts_transaction.transaction_date\n" +
-                "                     AND  inner_transaction.id < accounts_transaction.id)\n" +
-                "               )\n" +
-                "             ),\n" +
-                "             0) + accounts_transaction.amount AS balance\n" +
-                "FROM     public.accounts_transaction\n" +
+    String sql= "SELECT   id," +
+                "         description,\n" +
+                "         amount\n" +
+                "FROM     public.accounts_direct_debit\n" +
                 "WHERE    account_id=?\n" +
-                "ORDER BY transaction_date,\n" +
-                "         id;";
+                "ORDER BY id;";
     INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
                                                          IHDSNode.class,
                                                          new ArgByValue("operand", sql),

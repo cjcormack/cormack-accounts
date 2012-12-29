@@ -20,11 +20,33 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/account/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/directDebit/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/liquibase/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transaction/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transactionType/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/user/mapperConfig.xml</import>
-</config>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xrl="http://netkernel.org/xrl"
+                xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
+                exclude-result-prefixes="xs"
+                version="2.0">
+  <xsl:param name="account"/>
+  
+  <xsl:template match="@* | node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="accounts:name">
+    <xsl:value-of select="$account//name"/>
+  </xsl:template>
+
+  <xsl:template match="accounts:balance">
+    <xsl:value-of select="format-number($account//balance, '£#,##0.00')"/>
+  </xsl:template>
+
+  <xsl:template match="@*[contains(., '${accounts:id}')]">
+    <xsl:attribute name="{name()}">
+      <xsl:if test="$account//id">
+        <xsl:value-of select="replace(., '\$\{accounts:id\}', $account//id)"/>
+      </xsl:if>
+    </xsl:attribute>
+  </xsl:template>
+</xsl:stylesheet>

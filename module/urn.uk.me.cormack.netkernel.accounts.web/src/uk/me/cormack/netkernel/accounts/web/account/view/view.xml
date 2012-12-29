@@ -28,18 +28,35 @@
     <accounts:normalAccount>
       <script type="text/javascript">
         $(function() {
-          $("input[name='checked']").change(function() {
+          var animationInProgress= false;
+          $("tr:not(.cormackAccounts-directDebit-summary) input[name='checked']").change(function() {
+            updateDirectDebitSummaryCheckbox();
             var checkbox= $(this);
+
+            var parentTr= checkbox.parentsUntil("tr").parent();
+
+            if (parentTr.hasClass("cormackAccounts-hiddenTransaction")) {
+              $(".cormackAccounts-directDebit-summary input[type=checkbox]").prop("disabled", true);
+            }
+
             checkbox.parent().ajaxSubmit({
               success: function (data, textStatus) {
-                checkbox.removeAttr("disabled");
+                checkbox.prop("disabled", false);
+                if (parentTr.hasClass("cormackAccounts-hiddenTransaction")) {
+                  $(".cormackAccounts-directDebit-summary input[type=checkbox]").prop("disabled", false);
+                }
               },
               error: function (data, textStatus, errorThrown) {
-                checkbox.removeAttr("disabled");
-                if (checkbox.attr("checked") === "checked") {
-                  checkbox.removeAttr("checked");
+                checkbox.prop("disabled", false);
+                if (parentTr.hasClass("cormackAccounts-hiddenTransaction")) {
+                  $(".cormackAccounts-directDebit-summary input[type=checkbox]").prop("disabled", false);
+                }
+                if (checkbox.prop("checked")) {
+                  checkbox.prop("checked", false);
+                  updateDirectDebitSummaryCheckbox();
                 } else {
-                  checkbox.attr("checked", "checked");
+                  checkbox.prop("checked", true);
+                  updateDirectDebitSummaryCheckbox();
                 }
                 if (data.status === 404) {
                   alert(data.responseText);
@@ -49,10 +66,117 @@
                 }
               }
             });
-            checkbox.attr("disabled", "disabled");
+            checkbox.prop("disabled", true);
           });
+
+          $(".cormackAccounts-directDebit-summary td").click(function(e) {
+            if (!(animationInProgress || e.target.tagName.toUpperCase() === "INPUT")) {
+              animationInProgress= true;
+              if ($(".cormackAccounts-hiddenTransaction:visible").length > 0) {
+                $(".cormackAccounts-hiddenTransaction td div").slideUp(function() {
+                  $(".cormackAccounts-hiddenTransaction td").animate({padding: '0px'}, 50, function() {
+                    $(".cormackAccounts-hiddenTransaction").hide();
+                    animationInProgress= false;
+                  });
+                });
+              } else {
+                $(".cormackAccounts-hiddenTransaction").show();
+                $(".cormackAccounts-hiddenTransaction td").animate({padding: '5px'}, 50, function() {
+                  $(".cormackAccounts-hiddenTransaction td div").slideDown(function () {
+                    animationInProgress= false;
+                  });
+                });
+              }
+            }
+          });
+
+          var summaryItem= $(".cormackAccounts-directDebit-summary input[type=checkbox]");
+          summaryItem.change(function() {
+            var summaryChecked= $(this).prop("checked");
+            var requestCount= 0;
+
+            var items= $(".cormackAccounts-type-directDebit.cormackAccounts-hiddenTransaction input[type=checkbox]");
+
+            items.each(function() {
+              var checkbox= $(this);
+
+              if (checkbox.prop("checked") !== summaryChecked) {
+                requestCount++;
+                checkbox.prop("checked", summaryChecked);
+                checkbox.closest("form").ajaxSubmit({
+                  success: function (data, textStatus) {
+                    checkbox.prop("disabled", false);
+                    requestCount--;
+                    if (requestCount == 0) summaryItem.prop("disabled", false);
+                  },
+                  error: function (data, textStatus, errorThrown) {
+                    checkbox.prop("disabled", false);
+                    if (checkbox.prop("checked")) {
+                      checkbox.prop("checked", false);
+                    } else {
+                      checkbox.prop("checked", true);
+                    }
+                    requestCount--;
+                    if (requestCount == 0) summaryItem.prop("disabled", false);
+                    updateDirectDebitSummaryCheckbox();
+
+                    if (data.status === 404) {
+                      alert(data.responseText);
+                    } else {
+                      alert("An error occurred updating the transaction, please contact an administrator " +
+                            "if this issue persists.");
+                    }
+                  }
+                });
+                checkbox.prop("disabled", true);
+              }
+            });
+
+            summaryItem.prop("disabled", true);
+
+            updateDirectDebitSummaryCheckbox();
+          });
+
+          updateDirectDebitSummaryCheckbox();
         });
+
+        function updateDirectDebitSummaryCheckbox() {
+          var allItems= $(".cormackAccounts-type-directDebit.cormackAccounts-hiddenTransaction input[type=checkbox]");
+          var checkedItems= $(".cormackAccounts-type-directDebit.cormackAccounts-hiddenTransaction input[type=checkbox]:checked");
+          var summaryItem= $(".cormackAccounts-directDebit-summary input[type=checkbox]");
+
+          if (allItems.length === checkedItems.length) {
+            summaryItem.prop("checked", true);
+            summaryItem.prop("indeterminate", false);
+          } else if (checkedItems.length >= 1) {
+            summaryItem.prop("checked", false);
+            summaryItem.prop("indeterminate", true);
+          } else {
+            summaryItem.prop("checked", false);
+            summaryItem.prop("indeterminate", false);
+          }
+        }
       </script>
+      <style type="text/css">
+        tbody tr.cormackAccounts-directDebit-summary td {
+          cursor: pointer;
+        }
+
+        tbody tr.cormackAccounts-directDebit-summary td,
+        tbody tr.cormackAccounts-directDebit-summary td div {
+          font-weight: bold;
+        }
+
+        tbody tr.cormackAccounts-type-directDebit:nth-child(even) td,
+        tbody tr.cormackAccounts-directDebit-summary:nth-child(even) td {
+          background: #d4daff;
+        }
+
+        tbody tr.cormackAccounts-type-directDebit:nth-child(odd) td,
+        tbody tr.cormackAccounts-directDebit-summary:nth-child(odd) td {
+          background: #dfe2ff;
+        }
+      </style>
     </accounts:normalAccount>
   </accounts:head>
   <accounts:breadcrumbs>

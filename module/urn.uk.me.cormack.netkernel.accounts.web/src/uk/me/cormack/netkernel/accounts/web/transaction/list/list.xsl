@@ -35,26 +35,137 @@
     </xsl:copy>
   </xsl:template>
 
+  <xsl:template match="accounts:directDebitSummary"/>
+
   <xsl:template match="accounts:eachTransaction">
-    <xsl:apply-templates select="$transactionList//row" mode="transactionList">
-      <xsl:with-param name="transactionTemplate" select="."/>
+    <xsl:param name="transactionTemplate" select="."/>
+    <xsl:param name="directDebitSummary" select="//accounts:directDebitSummary"/>
+
+    <xsl:for-each-group select="$transactionList//row" group-adjacent="transaction_type/text()">
+        <xsl:choose>
+          <xsl:when test="current-grouping-key()='Direct Debit' and position()=1 and count(current-group()) gt 1">
+            <xsl:apply-templates select="$directDebitSummary" mode="directDebitSummary">
+              <xsl:with-param name="directDebitList" select="current-group()"/>
+            </xsl:apply-templates>
+            <xsl:apply-templates select="current-group()" mode="transactionList">
+              <xsl:with-param name="transactionTemplate" select="$transactionTemplate"/>
+              <xsl:with-param name="transactionHidden" select="true()"/>
+            </xsl:apply-templates>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="current-group()" mode="transactionList">
+              <xsl:with-param name="transactionTemplate" select="$transactionTemplate"/>
+            </xsl:apply-templates>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:for-each-group>
+  </xsl:template>
+
+  <xsl:template match="accounts:directDebitSummary" mode="directDebitSummary">
+    <xsl:param name="directDebitList"/>
+    <xsl:apply-templates select="node()" mode="#current">
+      <xsl:with-param name="directDebitList" select="$directDebitList"/>
     </xsl:apply-templates>
+  </xsl:template>
+
+  <xsl:template match="@* | node()" mode="directDebitSummary">
+    <xsl:param name="directDebitList"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()" mode="#current">
+        <xsl:with-param name="directDebitList" select="$directDebitList"/>
+      </xsl:apply-templates>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="accounts:date" mode="directDebitSummary">
+    <xsl:param name="directDebitList"/>
+    <xsl:value-of select="format-date($directDebitList[1]/transaction_date, '[D01]/[MNn,*-3]/[Y0001]', 'en', (), ())"/>
+  </xsl:template>
+
+  <xsl:template match="accounts:total" mode="directDebitSummary">
+    <xsl:param name="directDebitList"/>
+    <xsl:value-of select="format-number(abs(sum($directDebitList/amount)), '£#,##0.00')"/>
+  </xsl:template>
+
+  <xsl:template match="accounts:balance" mode="directDebitSummary">
+    <xsl:param name="directDebitList"/>
+    <xsl:value-of select="format-number(sum($directDebitList[last()]/balance), '£#,##0.00')"/>
   </xsl:template>
   
   <xsl:template match="row" mode="transactionList">
     <xsl:param name="transactionTemplate"/>
+    <xsl:param name="transactionHidden" select="false()"/>
     <xsl:apply-templates select="$transactionTemplate/*" mode="transaction">
       <xsl:with-param name="currentTransaction" select="."/>
+      <xsl:with-param name="transactionHidden" select="$transactionHidden"/>
     </xsl:apply-templates>
   </xsl:template>
   
   <xsl:template match="@* | node()" mode="transaction">
     <xsl:param name="currentTransaction" as="node()"/>
+    <xsl:param name="transactionHidden" select="false()"/>
     <xsl:copy>
       <xsl:apply-templates select="@* | node()" mode="#current">
         <xsl:with-param name="currentTransaction" select="$currentTransaction"/>
+        <xsl:with-param name="transactionHidden" select="$transactionHidden"/>
       </xsl:apply-templates>
     </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="td" mode="transaction">
+    <xsl:param name="currentTransaction" as="node()"/>
+    <xsl:param name="transactionHidden" select="false()"/>
+    <xsl:copy>
+      <xsl:if test="$transactionHidden">
+        <xsl:attribute name="style" select="'padding: 0;'"/>
+      </xsl:if>
+      <xsl:apply-templates select="@* | node()" mode="#current">
+        <xsl:with-param name="currentTransaction" select="$currentTransaction"/>
+        <xsl:with-param name="transactionHidden" select="$transactionHidden"/>
+      </xsl:apply-templates>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="div" mode="transaction">
+    <xsl:param name="currentTransaction" as="node()"/>
+    <xsl:param name="transactionHidden" select="false()"/>
+    <xsl:copy>
+      <xsl:if test="$transactionHidden">
+        <xsl:attribute name="style" select="'display: none;'"/>
+      </xsl:if>
+      <xsl:apply-templates select="@* | node()" mode="#current">
+        <xsl:with-param name="currentTransaction" select="$currentTransaction"/>
+        <xsl:with-param name="transactionHidden" select="$transactionHidden"/>
+      </xsl:apply-templates>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="tr" mode="transaction">
+    <xsl:param name="currentTransaction" as="node()"/>
+    <xsl:param name="transactionHidden" select="false()"/>
+    <xsl:copy>
+      <xsl:if test="$transactionHidden">
+        <xsl:attribute name="style" select="'display: none;'"/>
+      </xsl:if>
+
+      <xsl:variable name="typeString" select="replace(concat(lower-case(substring($currentTransaction//transaction_type, 1, 1)),
+                                                                        substring($currentTransaction//transaction_type, 2)), ' ', '')"/>
+      <xsl:attribute name="class" select="concat('cormackAccounts-type-', $typeString, if   ($transactionHidden)
+                                                                                       then ' cormackAccounts-hiddenTransaction'
+                                                                                       else '')"/>
+      <xsl:apply-templates select="@* | node()" mode="#current">
+        <xsl:with-param name="currentTransaction" select="$currentTransaction"/>
+        <xsl:with-param name="transactionHidden" select="$transactionHidden"/>
+      </xsl:apply-templates>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="@*[contains(., '${accounts:type}')]" mode="transaction">
+    <xsl:param name="currentTransaction" as="node()"/>
+    <xsl:variable name="typeString" select="replace($currentTransaction//transaction_type, ' ', '')"/>
+
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:type\}', concat(lower-case(substring($typeString, 1, 1)),
+                                                                                    substring($typeString, 2)))"/>
   </xsl:template>
 
   <xsl:template match="accounts:date" mode="transaction">

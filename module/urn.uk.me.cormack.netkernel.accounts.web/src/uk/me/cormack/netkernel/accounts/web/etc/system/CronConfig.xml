@@ -20,11 +20,13 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/account/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/directDebit/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/liquibase/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transaction/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/transactionType/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/user/mapperConfig.xml</import>
-</config>
+<jobs>
+  <job>
+    <name>Monthly Direct Debits</name>
+    <desc>Apply 1st of each month</desc>
+    <request>
+      <identifier>cormackAccounts:cron:directDebits:apply</identifier>
+    </request>
+    <cron><expr>0 0 0 1 * ?</expr></cron>
+  </job>
+</jobs>
