@@ -4,3 +4,4 @@
 /lib/
 /module/*/build/
 /cormack-accounts.ids
+.DS_Store
