@@ -92,6 +92,8 @@
       <active>
         <identifier>cormackAccounts:db:transaction:list</identifier>
         <argument name="id"/>
+        <argument name="year"/>
+        <argument name="month"/>
       </active>
     </grammar>
     <request>

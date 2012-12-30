@@ -27,7 +27,10 @@
                 exclude-result-prefixes="xs"
                 version="2.0">
   <xsl:param name="account"/>
-  
+  <xsl:param name="isCurrent" as="xs:boolean"/>
+  <xsl:param name="month" as="xs:string"/>
+  <xsl:param name="year" as="xs:string"/>
+
   <xsl:template match="@* | node()">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()"/>
@@ -58,11 +61,15 @@
   </xsl:template>
 
   <xsl:template match="@*[contains(., '${accounts:id}')]">
-    <xsl:attribute name="{name()}">
-      <xsl:if test="$account//id">
-        <xsl:value-of select="replace(., '\$\{accounts:id\}', $account//id)"/>
-      </xsl:if>
-    </xsl:attribute>
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:id\}', $account//id)"/>
+  </xsl:template>
+
+  <xsl:template match="@*[contains(., '${accounts:month}')]">
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:month\}', $month)"/>
+  </xsl:template>
+
+  <xsl:template match="@*[contains(., '${accounts:year}')]">
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:year\}', $year)"/>
   </xsl:template>
 
   <xsl:template match="accounts:simpleAccount">
@@ -73,7 +80,19 @@
 
   <xsl:template match="accounts:normalAccount">
     <xsl:if test="not(xs:boolean($account//simple_account/text()))">
-      <xsl:apply-templates select="*"/>
+      <xsl:apply-templates select="node()"/>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="accounts:notCurrent">
+    <xsl:if test="not($isCurrent)">
+      <xsl:apply-templates select="node()"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="accounts:monthName">
+    <xsl:variable name="normalizedMonth" select="concat(if (string-length($month)=1) then '0' else '', $month)"/>
+
+    <xsl:value-of select="format-date(xs:date(concat($year, '-', $normalizedMonth, '-01')), '[MNn] [Y0001]', 'en', (), ())"/>
   </xsl:template>
 </xsl:stylesheet>

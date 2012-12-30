@@ -28,11 +28,59 @@
                 version="2.0">
   <xsl:param name="transactionList"/>
   <xsl:param name="accountDetails"/>
+  <xsl:param name="monthDetails"/>
+  <xsl:param name="nextString" as="xs:string"/>
+  <xsl:param name="previousString" as="xs:string"/>
+  <xsl:param name="dateBeingViewed" as="xs:date"/>
 
   <xsl:template match="@* | node()" mode="#default">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()" mode="#current"/>
     </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="accounts:openingBalance">
+    <xsl:if test="not($monthDetails//broughtForward/text()) and $monthDetails//carriedForward/text()">
+      <xsl:apply-templates select="node()"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="accounts:openingBalanceAmount">
+    <xsl:value-of select="format-number($accountDetails//opening_balance, '£#,##0.00')"/>
+  </xsl:template>
+
+  <xsl:template match="accounts:broughtForward">
+    <xsl:if test="$monthDetails//broughtForward/text()">
+      <xsl:apply-templates select="node()"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="accounts:noTransactions">
+    <xsl:if test="count($transactionList//row) eq 0">
+      <xsl:apply-templates select="node()"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="accounts:broughtForwardAmount">
+    <xsl:value-of select="format-number($monthDetails//broughtForward, '£#,##0.00')"/>
+  </xsl:template>
+
+  <xsl:template match="@*[contains(., '${accounts:previousString}')]">
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:previousString\}', $previousString)"/>
+  </xsl:template>
+
+  <xsl:template match="accounts:carriedForward">
+    <xsl:if test="$monthDetails//carriedForward/text()">
+      <xsl:apply-templates select="node()"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="accounts:carriedForwardAmount">
+    <xsl:value-of select="format-number($monthDetails//carriedForward, '£#,##0.00')"/>
+  </xsl:template>
+
+  <xsl:template match="@*[contains(., '${accounts:nextString}')]">
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:nextString\}', $nextString)"/>
   </xsl:template>
 
   <xsl:template match="accounts:directDebitSummary"/>
@@ -224,12 +272,8 @@
     <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:id\}', $currentTransaction//id)"/>
   </xsl:template>
 
-  <xsl:template match="accounts:currentBalance">
-    <xsl:value-of select="format-number($accountDetails//current_balance, '£#,##0.00')"/>
-  </xsl:template>
-
-  <xsl:template match="accounts:openingBalance">
-    <xsl:value-of select="format-number($accountDetails//opening_balance, '£#,##0.00')"/>
+  <xsl:template match="accounts:monthTotal">
+    <xsl:value-of select="format-number($monthDetails//total, '£#,##0.00')"/>
   </xsl:template>
 
   <xsl:template match="@*[contains(., '${accounts:accountId}')]">

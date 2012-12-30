@@ -352,4 +352,24 @@
       <column name="operation" value="MODIFY"/>
     </insert>
  </changeSet>
+
+  <changeSet id="transactionWithBalanceView" author="chrisc">
+    <createView viewName="accounts_transaction_with_balance">
+      SELECT   accounts_transaction.*,
+               ( SELECT opening_balance
+                 FROM   public.accounts_account
+                 WHERE  id=accounts_transaction.account_id)+
+               coalesce(
+                   ( SELECT sum(amount)
+                     FROM   public.accounts_transaction AS inner_transaction
+                     WHERE  inner_transaction.account_id=accounts_transaction.account_id
+                     AND    ( inner_transaction.transaction_date &lt; accounts_transaction.transaction_date
+                        OR    ( inner_transaction.transaction_date=accounts_transaction.transaction_date
+                           AND  inner_transaction.id &lt; accounts_transaction.id)
+                     )
+                   ),
+                   0) + accounts_transaction.amount AS balance
+      FROM     public.accounts_transaction;
+    </createView>
+  </changeSet>
 </databaseChangeLog>

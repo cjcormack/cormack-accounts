@@ -30,12 +30,14 @@ import org.netkernelroc.mod.layer2.AccessorUtil;
 import org.netkernelroc.mod.layer2.Arg;
 import org.netkernelroc.mod.layer2.ArgByValue;
 import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
+import uk.me.cormack.netkernel.accounts.web.common.UrlUtil;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class ViewAccessor extends Layer2AccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
-    aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/web/account/view/");
-
     if (util.issueExistsRequest("cormackAccounts:db:account",
                                 new ArgByValue("id", aContext.source("arg:id")))) {
       IHDSNode account= util.issueSourceRequest("cormackAccounts:db:account",
@@ -53,11 +55,44 @@ public class ViewAccessor extends Layer2AccessorImpl {
         params= account;
       }
 
+      Calendar currentCal= Calendar.getInstance();
+
+      if ((Boolean)account.getFirstValue("//simple_account") &&
+            (aContext.exists("arg:month") ||
+             aContext.exists("arg:year"))) {
+        // Month or year parameters are not appropriate for simple accounts
+        aContext.sink("httpResponse:/redirect",
+                      UrlUtil.resolve(aContext,
+                                      "meta:cormackAccounts:web:account:view",
+                                      new Arg("id", aContext.source("arg:id", String.class))));
+        return;
+      }
+
+      int month;
+      int year;
+
+      if (aContext.exists("arg:month")) {
+        month= aContext.source("arg:month", Integer.class);
+      } else {
+        month= currentCal.get(Calendar.MONTH) + 1;
+      }
+
+      if (aContext.exists("arg:year")) {
+        year= aContext.source("arg:year", Integer.class);
+      } else {
+        year= currentCal.get(Calendar.YEAR);
+      }
+
+      aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/web/account/view/");
       XdmNode view= util.issueSourceRequest("active:xslt2",
                                             XdmNode.class,
                                             new Arg("operator", "view.xsl"),
                                             new Arg("operand", "view.xml"),
-                                            new ArgByValue("account", account));
+                                            new ArgByValue("account", account),
+                                            new ArgByValue("month", month + ""),
+                                            new ArgByValue("year", year + ""),
+                                            new ArgByValue("isCurrent", !(aContext.exists("arg:month") ||
+                                                                          aContext.exists("arg:year"))));
 
       XdmNode formNode= util.issueSourceRequest("active:xslt2",
                                                 XdmNode.class,
@@ -66,11 +101,22 @@ public class ViewAccessor extends Layer2AccessorImpl {
                                                 new ArgByValue("params", params));
 
       util.issueSourceRequestAsResponse("active:xrl2",
-                                        new ArgByValue("template", formNode));
+                                        new ArgByValue("template", formNode),
+                                        new ArgByValue("month", month),
+                                        new ArgByValue("year", year));
     } else {
-      util.issueSourceRequestAsResponse("active:xrl2",
-                                        new Arg("template", "accountNotFound.xml"));
-      aContext.sink("httpResponse:/code", 404);
+      if (aContext.exists("arg:month") ||
+          aContext.exists("arg:year")) {
+        aContext.sink("httpResponse:/redirect",
+                      UrlUtil.resolve(aContext,
+                                      "meta:cormackAccounts:web:account:view",
+                                      new Arg("id", aContext.source("arg:id", String.class))));
+      } else {
+        aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/web/account/view/");
+        util.issueSourceRequestAsResponse("active:xrl2",
+                                          new Arg("template", "accountNotFound.xml"));
+        aContext.sink("httpResponse:/code", 404);
+      }
     }
   }
 }

@@ -55,22 +55,42 @@
       <th class="fixedColumn">Date</th>
       <th class="fixedColumn">Type</th>
       <th class="stretchingColumn">Description</th>
-      <th class="fixedColumn">Debit</th>
       <th class="fixedColumn">Credit</th>
+      <th class="fixedColumn">Debit</th>
       <th class="fixedColumn">Balance</th>
       <th class="fixedColumn">Checked</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td/>
-      <td/>
-      <td style="font-weight: bold;">Opening Balance</td>
-      <td/>
-      <td/>
-      <td style="font-weight: bold;"><accounts:openingBalance/></td>
-      <td/>
-    </tr>
+    <accounts:openingBalance>
+      <tr>
+        <td class="fixedColumn"/>
+        <td class="fixedColumn"/>
+        <td class="stretchingColumn" style="font-weight: bold;">Opening Balance</td>
+        <td class="fixedColumn"/>
+        <td class="fixedColumn"/>
+        <td class="fixedColumn rightColumn" style="font-weight: bold;"><accounts:openingBalanceAmount/></td>
+        <td class="fixedColumn"/>
+      </tr>
+    </accounts:openingBalance>
+    <accounts:broughtForward>
+      <tr>
+        <td class="fixedColumn"/>
+        <td class="fixedColumn"/>
+        <td class="stretchingColumn" style="font-weight: bold;"><a href="${accounts:previousString}">Brought Forward</a></td>
+        <td class="fixedColumn"/>
+        <td class="fixedColumn"/>
+        <td class="fixedColumn rightColumn" style="font-weight: bold;"><accounts:broughtForwardAmount/></td>
+        <td class="fixedColumn"/>
+      </tr>
+    </accounts:broughtForward>
+    <accounts:noTransactions>
+      <tr>
+        <td class="stretchingColumn centerColumn" colspan="7">
+          There are no transactions for this period.
+        </td>
+      </tr>
+    </accounts:noTransactions>
     <accounts:directDebitSummary>
       <tr class="cormackAccounts-directDebit-summary">
         <td class="fixedColumn">
@@ -83,10 +103,10 @@
           Direct Debits
         </td>
         <td class="fixedColumn rightColumn">
-          <accounts:total/>
+
         </td>
         <td class="fixedColumn rightColumn">
-
+          <accounts:total/>
         </td>
         <td class="fixedColumn rightColumn">
           <accounts:balance/>
@@ -120,12 +140,12 @@
         </td>
         <td class="fixedColumn rightColumn">
           <div>
-            <accounts:debitAmount/>
+            <accounts:creditAmount/>
           </div>
         </td>
         <td class="fixedColumn rightColumn">
           <div>
-            <accounts:creditAmount/>
+            <accounts:debitAmount/>
           </div>
         </td>
         <td class="fixedColumn rightColumn">
@@ -144,12 +164,23 @@
         </td>
       </tr>
     </accounts:eachTransaction>
+    <accounts:carriedForward>
+      <tr>
+        <td class="fixedColumn"/>
+        <td class="fixedColumn"/>
+        <td class="stretchingColumn" style="font-weight: bold;"><a href="${accounts:nextString}">Carried Forward</a></td>
+        <td class="fixedColumn"/>
+        <td class="fixedColumn"/>
+        <td class="fixedColumn rightColumn" style="font-weight: bold;"><accounts:carriedForwardAmount/></td>
+        <td class="fixedColumn"/>
+      </tr>
+    </accounts:carriedForward>
   </tbody>
   <tfoot>
     <tr>
       <td colspan="7">
         <div class="cormackAccounts-wrappedFooter" style="text-align: right">
-          <div class="cormackAccounts-accountsList-total"><accounts:currentBalance/></div>
+          <div class="cormackAccounts-accountsList-total"><accounts:monthTotal/></div>
         </div>
       </td>
     </tr>

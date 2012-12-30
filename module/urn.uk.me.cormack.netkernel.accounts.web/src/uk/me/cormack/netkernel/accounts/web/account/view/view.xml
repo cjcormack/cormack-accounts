@@ -22,8 +22,8 @@
   -->
 <accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                xmlns:xrl="http://netkernel.org/xrl">
-  <accounts:title><accounts:name/></accounts:title>
-  <accounts:heading><accounts:name/></accounts:heading>
+  <accounts:title><accounts:name/><accounts:normalAccount><accounts:notCurrent> (<accounts:monthName/>)</accounts:notCurrent></accounts:normalAccount></accounts:title>
+  <accounts:heading><accounts:name/><accounts:normalAccount><accounts:notCurrent> (<accounts:monthName/>)</accounts:notCurrent></accounts:normalAccount></accounts:heading>
   <accounts:head>
     <accounts:normalAccount>
       <script type="text/javascript">
@@ -189,6 +189,19 @@
     <li>
       <a href="meta:cormackAccounts:web:account:view" xrl:resolve="href" xrl:argument-id="${accounts:id}"><accounts:name/></a>
     </li>
+    <accounts:normalAccount>
+      <accounts:notCurrent>
+        <li>
+          <span class="seperator">/</span>
+        </li>
+        <li>
+          <a href="meta:cormackAccounts:web:account:view" xrl:resolve="href"
+             xrl:argument-month="${accounts:month}"
+             xrl:argument-year="${accounts:year}"
+             xrl:argument-id="${accounts:id}"><accounts:monthName/></a>
+        </li>
+      </accounts:notCurrent>
+    </accounts:normalAccount>
   </accounts:breadcrumbs>
   <accounts:content>
     <form class="styled-form compact-form" action="meta:cormackAccounts:web:account:doUpdate" xrl:resolve="action" xrl:argument-id="${accounts:id}" method="POST">
@@ -229,6 +242,8 @@
       <xrl:include>
         <xrl:identifier>cormackAccounts:web:transaction:list</xrl:identifier>
         <xrl:argument name="id"><literal type="string"><accounts:id/></literal></xrl:argument>
+        <xrl:argument name="month">arg:month</xrl:argument>
+        <xrl:argument name="year">arg:year</xrl:argument>
       </xrl:include>
     </accounts:normalAccount>
   </accounts:content>

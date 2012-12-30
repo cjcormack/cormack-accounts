@@ -27,6 +27,12 @@
       res:/cormackAccounts/account/
       <group name="id"><regex type="integer"/></group>
       /
+      <optional>
+        <group name="year"><regex type="integer"/></group>
+        /
+        <group name="month"><regex type="integer"/></group>
+        /
+      </optional>
     </grammar>
     <header name="accountsAutoStyle">true</header>
     <role>User</role>
@@ -34,8 +40,11 @@
       <identifier>active:java</identifier>
       <argument name="class">uk.me.cormack.netkernel.accounts.web.account.view.ViewAccessor</argument>
       <argument name="id" method="as-string">arg:id</argument>
+      <argument name="year" method="as-string">arg:year</argument>
+      <argument name="month" method="as-string">arg:month</argument>
     </request>
   </endpoint>
+
   <endpoint>
     <id>cormackAccounts:web:account:doUpdate</id>
     <grammar>

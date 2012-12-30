@@ -120,4 +120,20 @@
       <varargs/>
     </request>
   </endpoint>
+
+  <endpoint>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:db:account:month</identifier>
+        <argument name="id"/>
+        <argument name="year"/>
+        <argument name="month"/>
+      </active>
+    </grammar>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.account.MonthDetailsAccessor</argument>
+      <varargs/>
+    </request>
+  </endpoint>
 </config>
