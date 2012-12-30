@@ -20,8 +20,6 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/add/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/edit/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/list/mapperConfig.xml"/>
-</config>
+<a href="meta:cormackAccounts:web:directDebit:edit" xrl:resolve="href"
+   xrl:argument-id="${accounts:id}" xmlns:xrl="http://netkernel.org/xrl"
+   xmlns:accounts="http://cormack.me.uk/netkernel/accounts"><accounts:description/></a>

@@ -28,7 +28,7 @@
         <argument name="id"/>
       </active>
     </grammar>
-    <verbs>EXISTS</verbs>
+    <verbs>EXISTS,SOURCE</verbs>
     <request>
       <identifier>active:java</identifier>
       <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.TransactionAccessor</argument>
@@ -55,6 +55,28 @@
       <varargs/>
     </request>
   </endpoint>
+
+  <endpoint>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:db:transaction</identifier>
+        <argument name="id"/>
+        <argument name="userId"/>
+        <argument name="date"/>
+        <argument name="transactionTypeId"/>
+        <argument name="description"/>
+        <argument name="amount"/>
+        <argument name="accountId"/>
+      </active>
+    </grammar>
+    <verbs>SINK</verbs>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.TransactionAccessor</argument>
+      <varargs/>
+    </request>
+  </endpoint>
+
   <endpoint>
     <grammar>
       <active>
@@ -82,7 +104,7 @@
     <verbs>SINK</verbs>
     <request>
       <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.TransactionAccessor</argument>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.TransactionCheckAccessor</argument>
       <varargs/>
     </request>
   </endpoint>

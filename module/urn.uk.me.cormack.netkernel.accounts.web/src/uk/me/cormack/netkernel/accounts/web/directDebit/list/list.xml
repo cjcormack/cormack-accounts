@@ -82,7 +82,8 @@
         <accounts:eachDirectDebit>
           <tr>
             <td class="stretchingColumn">
-              <accounts:description/>
+              <a href="meta:cormackAccounts:web:directDebit:edit"
+                 xrl:resolve="href" xrl:argument-id="${accounts:id}"><accounts:description/></a>
             </td>
             <td class="fixedColumn rightColumn">
               <accounts:amount/>

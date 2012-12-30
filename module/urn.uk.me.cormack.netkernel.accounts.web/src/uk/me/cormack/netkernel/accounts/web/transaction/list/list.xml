@@ -135,7 +135,8 @@
         </td>
         <td class="stretchingColumn">
           <div>
-            <accounts:description/>
+            <a href="meta:cormackAccounts:web:transaction:edit"
+               xrl:resolve="href" xrl:argument-id="${accounts:id}"><accounts:description/></a>
           </div>
         </td>
         <td class="fixedColumn rightColumn">

@@ -46,6 +46,20 @@ public class DirectDebitAccessor extends DatabaseAccessorImpl {
   }
 
   @Override
+  public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
+    String sql= "SELECT *\n" +
+                "FROM   public.accounts_direct_debit\n" +
+                "WHERE  id=?;";
+
+    INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
+                                                         new ArgByValue("operand", sql),
+                                                         new ArgByValue("param", aContext.source("arg:id")));
+
+    resp.setHeader("no-cache", null);
+    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:directDebits");
+  }
+
+  @Override
   public void onNew(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     String nextIdSql= "SELECT nextval('accounts_direct_debit_id_seq') AS id;";
     IHDSNode nextIdNode= util.issueSourceRequest("active:sqlPSQuery",
@@ -73,6 +87,25 @@ public class DirectDebitAccessor extends DatabaseAccessorImpl {
                             new ArgByValue("param", aContext.source("arg:amount")));
 
     AuditUtil.logDirectDebitAudit(util, nextId, aContext.source("arg:userId", Long.class), AuditUtil.AuditOperation.ADD, "Directed Debit Created");
+
+    util.cutGoldenThread("cormackAccounts:accounts", "cormackAccounts:directDebits");
+  }
+
+  @Override
+  public void onSink(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
+    String updateSql= "UPDATE public.accounts_direct_debit\n" +
+                      "SET    description=?,\n" +
+                      "       amount=?\n" +
+                      "WHERE  id=?;";
+    util.issueSourceRequest("active:sqlPSUpdate",
+                            null,
+                            new ArgByValue("operand", updateSql),
+                            new ArgByValue("param", aContext.source("arg:description")),
+                            new ArgByValue("param", aContext.source("arg:amount")),
+                            new ArgByValue("param", aContext.source("arg:id")));
+
+    AuditUtil.logDirectDebitAudit(util, aContext.source("arg:id", Long.class), aContext.source("arg:userId", Long.class),
+                                  AuditUtil.AuditOperation.MODIFY, "Directed Debit Updated");
 
     util.cutGoldenThread("cormackAccounts:accounts", "cormackAccounts:directDebits");
   }

@@ -73,6 +73,11 @@
     <xsl:value-of select="format-number(abs($currentDirectDebit//amount), '£#,##0.00')"/>
   </xsl:template>
 
+  <xsl:template match="@*[contains(., '${accounts:id}')]" mode="directDebit">
+    <xsl:param name="currentDirectDebit" as="node()"/>
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:id\}', $currentDirectDebit//id)"/>
+  </xsl:template>
+
   <xsl:template match="accounts:totalAmount">
     <xsl:value-of select="format-number(sum($directDebitList//row/amount), '£#,##0.00')"/>
   </xsl:template>

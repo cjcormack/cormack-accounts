@@ -22,6 +22,7 @@
   -->
 <config xmlns:xrl="http://netkernel.org/xrl">
   <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/transaction/add/mapperConfig.xml"/>
+  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/transaction/edit/mapperConfig.xml"/>
   <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/transaction/list/mapperConfig.xml"/>
   <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/transaction/update/mapperConfig.xml"/>
 </config>

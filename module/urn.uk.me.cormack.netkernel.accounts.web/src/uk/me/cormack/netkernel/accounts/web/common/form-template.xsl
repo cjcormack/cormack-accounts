@@ -35,7 +35,7 @@
     <xsl:variable name="name" select="@name"/>
     <xsl:copy>
       <xsl:apply-templates select="@* except @checked"/>
-      <xsl:if test="$params//*[local-name()=$name]">
+      <xsl:if test="$params//*[local-name()=$name] and not($params//*[local-name()=$name]='false')">
         <xsl:attribute name="checked" select="'checked'"/>
       </xsl:if>
     </xsl:copy>
@@ -46,9 +46,17 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:attribute name="value">
+        <xsl:variable name="value" select="$params//*[local-name()=$name]"/>
         <xsl:choose>
-          <xsl:when test="$params//*[local-name()=$name]">
-            <xsl:value-of select="$params//*[local-name()=$name]"/>
+          <xsl:when test="$value">
+            <xsl:choose>
+              <xsl:when test="@accounts:type='numeric'">
+                <xsl:value-of select="if (matches($value, '[0-9]+(\.[0-9+])?')) then format-number($value, '0.00#########') else $value"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="$value"/>
+              </xsl:otherwise>
+            </xsl:choose>
           </xsl:when>
           <xsl:when test="@accounts:defaultValueDateNow='true'">
             <xsl:value-of select="format-date(current-date(), '[D01]/[MNn,*-3]/[Y0001]', 'en', (), ())"/>

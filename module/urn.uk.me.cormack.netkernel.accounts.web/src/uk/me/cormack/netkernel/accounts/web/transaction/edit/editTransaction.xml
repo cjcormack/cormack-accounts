@@ -22,9 +22,15 @@
   -->
 <accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                xmlns:xrl="http://netkernel.org/xrl">
-  <accounts:title>Add Direct Debit (<accounts:name/>)</accounts:title>
-  <accounts:heading>Add Direct Debit (<accounts:name/>)</accounts:heading>
-  <accounts:head/>
+  <accounts:title>Edit Transaction (<accounts:description/>)</accounts:title>
+  <accounts:heading>Edit Transaction (<accounts:description/>)</accounts:heading>
+  <accounts:head>
+    <script>
+      $(function() {
+          $( ".datepicker" ).datepicker({ dateFormat: "dd/M/yy" });
+      });
+    </script>
+  </accounts:head>
   <accounts:breadcrumbs>
     <li>
       <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
@@ -33,40 +39,62 @@
       <span class="seperator">/</span>
     </li>
     <li>
-      <a href="meta:cormackAccounts:web:account:view" xrl:resolve="href" xrl:argument-id="${accounts:id}"><accounts:name/></a>
+      <a href="meta:cormackAccounts:web:account:view" xrl:resolve="href" xrl:argument-id="${accounts:accountId}"><accounts:accountName/></a>
     </li>
     <li>
       <span class="seperator">/</span>
     </li>
     <li>
-      <a href="meta:cormackAccounts:web:directDebit:list" xrl:resolve="href" xrl:argument-id="${accounts:id}">Direct Debits</a>
-    </li>
-    <li>
-      <span class="seperator">/</span>
-    </li>
-    <li>
-      <a href="meta:cormackAccounts:web:transaction:add"
-         xrl:resolve="href" xrl:argument-id="${accounts:id}">Add Direct Debit</a>
+      <a href="meta:cormackAccounts:web:transaction:edit"
+         xrl:resolve="href" xrl:argument-id="${accounts:id}">Edit Transaction</a>
     </li>
   </accounts:breadcrumbs>
   <accounts:content>
-    <form class="styled-form compact-form" action="meta:cormackAccounts:web:directDebit:doAdd"
+    <form class="styled-form compact-form" action="meta:cormackAccounts:web:transaction:doEdit"
           xrl:resolve="action" xrl:argument-id="${accounts:id}" method="POST">
       <div class="form-header">
-        <h3>Add Transaction</h3>
+        <h3>Edit Transaction</h3>
       </div>
       <div class="form-body">
+        <div>
+          <label for="date">Date:</label>
+          <input class="datepicker" type="text" name="date"/>
+        </div>
+        <div>
+          <label for="type">Type:</label>
+          <xrl:include>
+            <xrl:identifier>cormackAccounts:web:transaction:types</xrl:identifier>
+          </xrl:include>
+        </div>
+        <accounts:directDebitOnly>
+          <div>
+            <div class="label" style="margin-top: 7px;">Direct Debit:</div>
+            <div class="form-body-content">
+              <xrl:include>
+                <xrl:identifier>cormackAccounts:web:directDebit:editLink</xrl:identifier>
+                <xrl:argument name="id"><literal type="string"><accounts:directDebitId/></literal></xrl:argument>
+              </xrl:include>
+            </div>
+          </div>
+        </accounts:directDebitOnly>
         <div>
           <label for="description">Description:</label>
           <input type="text" name="description"/>
         </div>
         <div>
+          <label for="mode">Mode:</label>
+          <select name="mode">
+            <option value="credit">Credit</option>
+            <option value="debit">Debit</option>
+          </select>
+        </div>
+        <div>
           <label for="amount">Amount:</label>
-          <input type="text" name="amount"/>
+          <input type="text" name="amount" accounts:type="numeric"/>
         </div>
       </div>
       <div class="form-footer">
-        <button type="submit">Add</button>
+        <button type="submit">Edit</button>
         <div style="clear: both"/>
       </div>
     </form>

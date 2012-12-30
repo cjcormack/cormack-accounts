@@ -22,66 +22,46 @@
   -->
 <config>
   <endpoint>
+    <id>cormackAccounts:web:directDebit:edit</id>
+    <grammar>
+      res:/cormackAccounts/directDebit/
+      <group name="id"><regex type="integer"/></group>
+      /edit
+    </grammar>
+    <header name="accountsAutoStyle">true</header>
+    <role>User</role>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.directDebit.edit.EditDirectDebitAccessor</argument>
+      <argument name="id" method="as-string">arg:id</argument>
+    </request>
+  </endpoint>
+  <endpoint>
+    <id>cormackAccounts:web:directDebit:doEdit</id>
+    <grammar>
+      res:/cormackAccounts/directDebit/
+      <group name="id"><regex type="integer"/></group>
+      /doEdit
+    </grammar>
+    <role>User</role>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.directDebit.edit.DoEditDirectDebitAccessor</argument>
+      <argument name="id" method="as-string">arg:id</argument>
+    </request>
+  </endpoint>
+
+  <endpoint>
+    <id>cormackAccounts:web:directDebit:editLink</id>
     <grammar>
       <active>
-        <identifier>cormackAccounts:db:directDebit:list</identifier>
+        <identifier>cormackAccounts:web:directDebit:editLink</identifier>
         <argument name="id"/>
       </active>
     </grammar>
     <request>
       <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.directDebit.ListAccessor</argument>
-      <varargs/>
-    </request>
-  </endpoint>
-
-  <endpoint>
-    <grammar>
-      <active>
-        <identifier>cormackAccounts:db:directDebit</identifier>
-        <argument name="accountId"/>
-        <argument name="userId"/>
-        <argument name="description"/>
-        <argument name="amount"/>
-      </active>
-    </grammar>
-    <verbs>NEW</verbs>
-    <request>
-      <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.directDebit.DirectDebitAccessor</argument>
-      <varargs/>
-    </request>
-  </endpoint>
-
-  <endpoint>
-    <grammar>
-      <active>
-        <identifier>cormackAccounts:db:directDebit</identifier>
-        <argument name="id"/>
-        <argument name="userId"/>
-        <argument name="description"/>
-        <argument name="amount"/>
-      </active>
-    </grammar>
-    <verbs>SINK</verbs>
-    <request>
-      <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.directDebit.DirectDebitAccessor</argument>
-      <varargs/>
-    </request>
-  </endpoint>
-
-  <endpoint>
-    <grammar>
-      <active>
-        <identifier>cormackAccounts:db:directDebit</identifier>
-        <argument name="id"/>
-      </active>
-    </grammar>
-    <verbs>EXISTS,SOURCE</verbs>
-    <request>
-      <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.directDebit.DirectDebitAccessor</argument>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.directDebit.edit.EditLinkAccessor</argument>
       <varargs/>
     </request>
   </endpoint>
