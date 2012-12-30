@@ -35,6 +35,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DoAddTransactionAccessor extends HttpLayer2AccessorImpl {
@@ -130,9 +131,14 @@ public class DoAddTransactionAccessor extends HttpLayer2AccessorImpl {
         aContext.sink("session:/message/content", "Transaction '" + descriptionString + "' in '" + accountDetails.getFirstValue("//name") +
                                                   "' has been successfully added");
 
+        Calendar cal= Calendar.getInstance();
+        cal.setTime(date);
+
         aContext.sink("httpResponse:/redirect", UrlUtil.resolve(aContext,
                                                                 "meta:cormackAccounts:web:account:view",
-                                                                new Arg("id", id)));
+                                                                new Arg("id", id),
+                                                                new Arg("month", (cal.get(Calendar.MONTH) + 1) + ""),
+                                                                new Arg("year", cal.get(Calendar.YEAR) + "")));
       } else {
         aContext.sink("session:/message/class", "error");
         aContext.sink("session:/message/title", "Add transaction failed");
