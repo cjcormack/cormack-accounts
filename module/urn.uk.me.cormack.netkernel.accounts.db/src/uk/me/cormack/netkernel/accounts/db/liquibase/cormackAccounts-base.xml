@@ -90,6 +90,9 @@
       <column name="amount" type="decimal(20, 10)">
         <constraints nullable="false"/>
       </column>
+      <column name="apply_automatically" type="boolean">
+        <constraints nullable="false"/>
+      </column>
     </createTable>
 
     <createTable tableName="accounts_transaction_type">

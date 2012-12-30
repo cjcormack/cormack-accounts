@@ -96,6 +96,25 @@
     <grammar>
       <active>
         <identifier>cormackAccounts:db:transaction</identifier>
+        <argument name="directDebitId"/>
+        <argument name="date"/>
+        <argument name="description"/>
+        <argument name="amount"/>
+        <argument name="userId"/>
+      </active>
+    </grammar>
+    <verbs>NEW</verbs>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.CustomDirectDebitTransactionAccessor</argument>
+      <varargs/>
+    </request>
+  </endpoint>
+
+  <endpoint>
+    <grammar>
+      <active>
+        <identifier>cormackAccounts:db:transaction</identifier>
         <argument name="id"/>
         <argument name="userId"/>
         <argument name="checked"/>

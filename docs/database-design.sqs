@@ -4,12 +4,12 @@
         <name><![CDATA[direct_debit]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>416.00</x>
+            <x>387.00</x>
             <y>189.00</y>
         </location>
         <size>
-            <width>217.00</width>
-            <height>100.00</height>
+            <width>228.00</width>
+            <height>120.00</height>
         </size>
         <zorder>0</zorder>
         <SQLField>
@@ -61,8 +61,16 @@
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[9F1EC675-2DBC-4B6A-8E86-DC193964D347]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[apply_automatically]]></name>
+            <type><![CDATA[BOOLEAN]]></type>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <temporaryOriginalName><![CDATA[apply_automatically]]></temporaryOriginalName>
+            <uid><![CDATA[53147EFC-5246-48CC-BD32-99B24C759050]]></uid>
+        </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[7]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[9]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[direct_debit]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[2C6A1D09-4200-4431-B627-A3E651A217FC]]></uid>
@@ -168,7 +176,7 @@
             <uid><![CDATA[98CDB4A4-2EEB-489A-BCFD-1010F4F031A0]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[8]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[Table13]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[2FDB43FA-27AB-4815-A218-8CA55FA1763A]]></uid>
@@ -249,7 +257,7 @@
             <uid><![CDATA[AD313D90-FCB1-458B-B568-402D0D3110B8]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[direct_debit_audit_1]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[42B4B690-9738-4CA3-B485-2ED4B4A66040]]></uid>
@@ -293,7 +301,7 @@
             <uid><![CDATA[0566FA2B-472C-4955-9AA9-9978A79F0BB4]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[5]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[7]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[transaction_1]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[4788D42F-3ABB-4E17-A1DC-0820B6ACDC2F]]></uid>
@@ -374,7 +382,7 @@
             <uid><![CDATA[BE7E3FAE-CBE4-4E38-BC37-A439A625048B]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[1]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[direct_debit_audit_1]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[5DFE2399-80DE-4FDF-81D3-F85B9083B5D8]]></uid>
@@ -461,7 +469,7 @@
             <uid><![CDATA[49124233-2954-4BF6-B646-02084E93AAB1]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[4]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[audit]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[97927786-F8D3-4C30-B7AB-DFE499E6BDB2]]></uid>
@@ -538,7 +546,7 @@
             <uid><![CDATA[D98B8BE2-F707-4BE8-B738-F28960137161]]></uid>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[5]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[transaction_type_1]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[C80EF188-4A5F-475C-A7E5-F60C6F9EAF64]]></uid>
@@ -575,7 +583,7 @@
             <unique><![CDATA[1]]></unique>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[4]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[transaction_audit_operation]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[CEE413E7-00BB-4DF1-BB2F-D9CD8DBDE69C]]></uid>
@@ -613,7 +621,7 @@
             <unique><![CDATA[1]]></unique>
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
-        <labelWindowIndex><![CDATA[1]]></labelWindowIndex>
+        <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[Table24]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[D7381EFB-7068-4ED9-A711-B2BCB3C086F5]]></uid>
@@ -851,9 +859,9 @@ YWN0b3KGkoSjnqihAYaShJmZC05TUGFwZXJOYW1lhpKEmZkGaXNvLWE0hoaG
         <SourceSplitViewState><![CDATA[2 399.743 1261.26]]></SourceSplitViewState>
         <uid><![CDATA[35979F84-59F3-43C6-AF95-496777A58E00]]></uid>
         <windowHeight><![CDATA[962.000000]]></windowHeight>
-        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
+        <windowLocationX><![CDATA[-0.000000]]></windowLocationX>
         <windowLocationY><![CDATA[66.000000]]></windowLocationY>
-        <windowWidth><![CDATA[1680.000000]]></windowWidth>
+        <windowWidth><![CDATA[1207.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <containerName><![CDATA[model controller orginal container]]></containerName>

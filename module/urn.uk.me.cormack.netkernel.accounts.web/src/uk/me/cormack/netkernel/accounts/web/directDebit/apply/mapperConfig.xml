@@ -20,9 +20,34 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/add/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/apply/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/edit/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/list/mapperConfig.xml"/>
+<config>
+  <endpoint>
+    <id>cormackAccounts:web:directDebit:apply</id>
+    <grammar>
+      res:/cormackAccounts/directDebit/
+      <group name="id"><regex type="integer"/></group>
+      /apply
+    </grammar>
+    <header name="accountsAutoStyle">true</header>
+    <role>User</role>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.directDebit.apply.ApplyAccessor</argument>
+      <argument name="id" method="as-string">arg:id</argument>
+    </request>
+  </endpoint>
+  <endpoint>
+    <id>cormackAccounts:web:directDebit:doApply</id>
+    <grammar>
+      res:/cormackAccounts/directDebit/
+      <group name="id"><regex type="integer"/></group>
+      /doApply
+    </grammar>
+    <role>User</role>
+    <request>
+      <identifier>active:java</identifier>
+      <argument name="class">uk.me.cormack.netkernel.accounts.web.directDebit.apply.DoApplyAccessor</argument>
+      <argument name="id" method="as-string">arg:id</argument>
+    </request>
+  </endpoint>
 </config>

@@ -183,7 +183,7 @@
           </grammar>
           <request>
             <identifier>active:java</identifier>
-            <argument name="class">uk.me.cormack.netkernel.accounts.web.directDebit.apply.ApplyAccessor</argument>
+            <argument name="class">uk.me.cormack.netkernel.accounts.web.directDebit.apply.ApplyAllAccessor</argument>
           </request>
         </endpoint>
       </config>

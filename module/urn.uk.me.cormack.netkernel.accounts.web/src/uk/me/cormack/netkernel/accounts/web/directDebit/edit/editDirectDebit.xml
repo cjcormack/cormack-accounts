@@ -22,8 +22,8 @@
   -->
 <accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                xmlns:xrl="http://netkernel.org/xrl">
-  <accounts:title>Edit Transaction (<accounts:description/>)</accounts:title>
-  <accounts:heading>Edit Transaction (<accounts:description/>)</accounts:heading>
+  <accounts:title>Edit Direct Debit (<accounts:description/>)</accounts:title>
+  <accounts:heading>Edit Direct Debit (<accounts:description/>)</accounts:heading>
   <accounts:head/>
   <accounts:breadcrumbs><li>
       <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
@@ -45,14 +45,14 @@
     </li>
     <li>
       <a href="meta:cormackAccounts:web:directDebit:edit"
-         xrl:resolve="href" xrl:argument-id="${accounts:id}">Edit Direct Debit</a>
+         xrl:resolve="href" xrl:argument-id="${accounts:id}">Edit '<accounts:description/>'</a>
     </li>
   </accounts:breadcrumbs>
   <accounts:content>
     <form class="styled-form compact-form" action="meta:cormackAccounts:web:directDebit:doEdit"
           xrl:resolve="action" xrl:argument-id="${accounts:id}" method="POST">
       <div class="form-header">
-        <h3>Edit Transaction</h3>
+        <h3>Edit Direct Debit</h3>
       </div>
       <div class="form-body">
         <div>
@@ -62,6 +62,11 @@
         <div>
           <label for="amount">Amount:</label>
           <input type="text" name="amount" accounts:type="numeric"/>
+        </div>
+        <div>
+           <label for="apply_automatically" checked="checked" style="margin-top: 0;">Apply:</label>
+          <input type="checkbox" name="apply_automatically" style="margin-right: 0; vertical-align: baseline;" checked="checked"/>
+          <p style="display: inline; margin-left: 1px"> automatically on the 1st</p>
         </div>
       </div>
       <div class="form-footer">

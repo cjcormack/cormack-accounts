@@ -43,6 +43,7 @@
         <argument name="userId"/>
         <argument name="description"/>
         <argument name="amount"/>
+        <argument name="applyAutomatically"/>
       </active>
     </grammar>
     <verbs>NEW</verbs>
@@ -61,6 +62,7 @@
         <argument name="userId"/>
         <argument name="description"/>
         <argument name="amount"/>
+        <argument name="applyAutomatically"/>
       </active>
     </grammar>
     <verbs>SINK</verbs>

@@ -48,7 +48,7 @@
            class="cormackAccounts-styledTable" id="cormackAccounts-transactionTable" style="width: 500px; margin-left: auto; margin-right: auto;">
       <thead>
         <tr>
-          <th colspan="2">
+          <th colspan="4">
             <div class="cormackAccounts-wrappedHeader">
               <div class="cormackAccounts-wrappedHeader-buttonBar">
                 <form action="meta:cormackAccounts:web:account:view"
@@ -69,12 +69,14 @@
         <tr class="cormackAccounts-tableHeadings">
           <th class="stretchingColumn">Description</th>
           <th class="fixedColumn">Amount</th>
+          <th class="fixedColumn">Automatic</th>
+          <th class="fixedColumn">Apply</th>
         </tr>
       </thead>
       <tbody>
         <accounts:empty>
           <tr>
-            <td colspan="2">
+            <td colspan="4">
               No direct debits have been added.
             </td>
           </tr>
@@ -88,12 +90,22 @@
             <td class="fixedColumn rightColumn">
               <accounts:amount/>
             </td>
+            <td class="fixedColumn centerColumn">
+              <input id="accounts:applyAutomatically" type="checkbox" disabled="disabled"/>
+            </td>
+            <td class="fixedColumn centerColumn">
+              <form action="meta:cormackAccounts:web:directDebit:apply"
+                    style="display: inline;"
+                    xrl:resolve="action" xrl:argument-id="${accounts:id}">
+                <button type="submit">Apply</button>
+              </form>
+            </td>
           </tr>
         </accounts:eachDirectDebit>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="2">
+          <td colspan="4">
             <div class="cormackAccounts-wrappedFooter" style="text-align: right">
               <div class="cormackAccounts-accountsList-total"><accounts:totalAmount/></div>
             </div>

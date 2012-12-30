@@ -34,7 +34,8 @@ public class ListAccessor extends DatabaseAccessorImpl {
   public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     String sql= "SELECT   id," +
                 "         description,\n" +
-                "         amount\n" +
+                "         amount,\n" +
+                "         apply_automatically\n" +
                 "FROM     public.accounts_direct_debit\n" +
                 "WHERE    account_id=?\n" +
                 "ORDER BY id;";

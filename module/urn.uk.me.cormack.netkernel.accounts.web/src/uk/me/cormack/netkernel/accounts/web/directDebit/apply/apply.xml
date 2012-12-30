@@ -22,56 +22,60 @@
   -->
 <accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                xmlns:xrl="http://netkernel.org/xrl">
-  <accounts:title>Add Direct Debit (<accounts:name/>)</accounts:title>
-  <accounts:heading>Add Direct Debit (<accounts:name/>)</accounts:heading>
-  <accounts:head/>
-  <accounts:breadcrumbs>
-    <li>
+  <accounts:title>Apply Direct Debit (<accounts:description/>)</accounts:title>
+  <accounts:heading>Apply Direct Debit (<accounts:description/>)</accounts:heading>
+  <accounts:head>
+    <script>
+      $(function() {
+          $( ".datepicker" ).datepicker({ dateFormat: "dd/M/yy" });
+      });
+    </script>
+  </accounts:head>
+  <accounts:breadcrumbs><li>
       <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
     </li>
     <li>
       <span class="seperator">/</span>
     </li>
     <li>
-      <a href="meta:cormackAccounts:web:account:view" xrl:resolve="href" xrl:argument-id="${accounts:id}"><accounts:name/></a>
+      <a href="meta:cormackAccounts:web:account:view" xrl:resolve="href" xrl:argument-id="${accounts:accountId}"><accounts:accountName/></a>
     </li>
     <li>
       <span class="seperator">/</span>
     </li>
     <li>
-      <a href="meta:cormackAccounts:web:directDebit:list" xrl:resolve="href" xrl:argument-id="${accounts:id}">Direct Debits</a>
+      <a href="meta:cormackAccounts:web:directDebit:list" xrl:resolve="href" xrl:argument-id="${accounts:accountId}">Direct Debits</a>
     </li>
     <li>
       <span class="seperator">/</span>
     </li>
     <li>
-      <a href="meta:cormackAccounts:web:transaction:add"
-         xrl:resolve="href" xrl:argument-id="${accounts:id}">Add Direct Debit</a>
+      <a href="meta:cormackAccounts:web:directDebit:apply"
+         xrl:resolve="href" xrl:argument-id="${accounts:id}">Apply '<accounts:description/>'</a>
     </li>
   </accounts:breadcrumbs>
   <accounts:content>
-    <form class="styled-form compact-form" action="meta:cormackAccounts:web:directDebit:doAdd"
+    <form class="styled-form compact-form" action="meta:cormackAccounts:web:directDebit:doApply"
           xrl:resolve="action" xrl:argument-id="${accounts:id}" method="POST">
       <div class="form-header">
-        <h3>Add Direct Debit</h3>
+        <h3>Apply Direct Debit</h3>
       </div>
       <div class="form-body">
+        <div>
+          <label for="date">Date:</label>
+          <input class="datepicker" type="text" name="date" accounts:defaultValueDateNow="true"/>
+        </div>
         <div>
           <label for="description">Description:</label>
           <input type="text" name="description"/>
         </div>
         <div>
           <label for="amount">Amount:</label>
-          <input type="text" name="amount"/>
-        </div>
-        <div>
-           <label for="apply_automatically" checked="checked" style="margin-top: 0;">Apply:</label>
-          <input type="checkbox" name="apply_automatically" style="margin-right: 0; vertical-align: baseline;" checked="checked"/>
-          <p style="display: inline; margin-left: 1px"> automatically on the 1st</p>
+          <input type="text" name="amount" accounts:type="numeric"/>
         </div>
       </div>
       <div class="form-footer">
-        <button type="submit">Add</button>
+        <button type="submit">Apply</button>
         <div style="clear: both"/>
       </div>
     </form>

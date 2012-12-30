@@ -20,44 +20,62 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.web.directDebit.add;
+package uk.me.cormack.netkernel.accounts.web.directDebit.apply;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernel.layer0.representation.IHDSNode;
 import org.netkernel.layer0.representation.impl.HDSBuilder;
-import org.netkernelroc.mod.layer2.Arg;
-import org.netkernelroc.mod.layer2.ArgByValue;
-import org.netkernelroc.mod.layer2.HttpLayer2AccessorImpl;
-import org.netkernelroc.mod.layer2.HttpUtil;
+import org.netkernelroc.mod.layer2.*;
 import uk.me.cormack.netkernel.accounts.web.common.UrlUtil;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-public class DoAddDirectDebitAccessor extends HttpLayer2AccessorImpl {
+public class DoApplyAccessor extends HttpLayer2AccessorImpl {
   @Override
   public void onPost(INKFRequestContext aContext, HttpUtil util) throws Exception {
     String id= aContext.source("arg:id", String.class);
+    String dateString= aContext.source("httpRequest:/param/date", String.class).trim();
     String descriptionString= aContext.source("httpRequest:/param/description", String.class).trim();
     String amountString= aContext.source("httpRequest:/param/amount", String.class).trim();
-    boolean applyAutomatically= aContext.exists("httpRequest:/param/apply_automatically");
 
+    Date date= null;
     BigDecimal amount= null;
 
-    if (util.issueExistsRequest("cormackAccounts:db:account",
+    if (util.issueExistsRequest("cormackAccounts:db:directDebit",
                                 new ArgByValue("id", id))) {
+
+      IHDSNode directDebitDetails= util.issueSourceRequest("cormackAccounts:db:directDebit",
+                                                           IHDSNode.class,
+                                                           new Arg("id", "arg:id"));
+
+      String accountId= aContext.transrept(directDebitDetails.getFirstValue("//account_id"), String.class);
 
       IHDSNode accountDetails= util.issueSourceRequest("cormackAccounts:db:account",
                                                        IHDSNode.class,
-                                                       new Arg("id", "arg:id"));
+                                                       new ArgByValue("id", accountId));
 
       boolean valid= true;
       HDSBuilder reasonsBuilder= new HDSBuilder();
       reasonsBuilder.pushNode("div");
-      reasonsBuilder.addNode("p", "Adding direct debit failed for the following reasons: ");
+      reasonsBuilder.addNode("p", "Applying direct debit failed for the following reasons: ");
       reasonsBuilder.pushNode("ul");
+
+      if (dateString.equals("")) {
+        valid= false;
+        reasonsBuilder.addNode("li", "Date must be supplied");
+      } else {
+        SimpleDateFormat sdf= new SimpleDateFormat("dd/MMM/yyyy");
+        try {
+          date= sdf.parse(dateString);
+        } catch (ParseException e) {
+          valid= false;
+          reasonsBuilder.addNode("li", "Date must be in form dd/MMM/yyyy");
+        }
+      }
 
       if (descriptionString.equals("")) {
         valid= false;
@@ -81,39 +99,46 @@ public class DoAddDirectDebitAccessor extends HttpLayer2AccessorImpl {
       }
 
       if (valid) {
-        util.issueNewRequest("cormackAccounts:db:directDebit",
+        amount= amount.negate();
+
+        util.issueNewRequest("cormackAccounts:db:transaction",
                              Long.class,
                              null,
-                             new ArgByValue("accountId", id),
+                             new ArgByValue("directDebitId", id),
+                             new ArgByValue("date", date),
                              new ArgByValue("description", descriptionString),
                              new ArgByValue("amount", amount),
-                             new ArgByValue("applyAutomatically", applyAutomatically),
                              new ArgByValue("userId", aContext.source("session:/currentUser")));
         aContext.sink("session:/message/class", "success");
-        aContext.sink("session:/message/title", "Direct debit successfully added");
-        aContext.sink("session:/message/content", "Transaction '" + descriptionString + "' in '" + accountDetails.getFirstValue("//name") +
-                                                  "' has been successfully added");
+        aContext.sink("session:/message/title", "Direct debit successfully applied");
+        aContext.sink("session:/message/content", "Direct debit '" + descriptionString + "' in '" + accountDetails.getFirstValue("//name") +
+                                                  "' has been successfully applied");
+
+        Calendar cal= Calendar.getInstance();
+        cal.setTime(date);
 
         aContext.sink("httpResponse:/redirect", UrlUtil.resolve(aContext,
-                                                                "meta:cormackAccounts:web:directDebit:list",
-                                                                new Arg("id", id)));
+                                                                "meta:cormackAccounts:web:account:view",
+                                                                new Arg("id", accountId),
+                                                                new Arg("month", (cal.get(Calendar.MONTH) + 1) + ""),
+                                                                new Arg("year", cal.get(Calendar.YEAR) + "")));
       } else {
         aContext.sink("session:/message/class", "error");
-        aContext.sink("session:/message/title", "Add direct debit failed");
+        aContext.sink("session:/message/title", "Apply direct debit failed");
         aContext.sink("session:/message/content", reasonsBuilder.getRoot());
 
         if (aContext.exists("httpRequest:/params")) {
-          aContext.sink("session:/formData/name", "account-directDebit-add");
+          aContext.sink("session:/formData/name", "account-transaction-" + id + "apply");
           aContext.sink("session:/formData/params", aContext.source("httpRequest:/params"));
         }
 
         aContext.sink("httpResponse:/redirect", UrlUtil.resolve(aContext,
-                                                "meta:cormackAccounts:web:directDebit:add",
+                                                "meta:cormackAccounts:web:directDebit:apply",
                                                 new Arg("id", id)));
       }
     } else {
       aContext.sink("httpResponse:/redirect", UrlUtil.resolve(aContext,
-                                                              "meta:cormackAccounts:web:account:view",
+                                                              "meta:cormackAccounts:web:directDebit:edit",
                                                               new Arg("id", id)));
     }
   }

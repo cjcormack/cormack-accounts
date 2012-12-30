@@ -46,7 +46,7 @@
     </li>
     <li>
       <a href="meta:cormackAccounts:web:transaction:edit"
-         xrl:resolve="href" xrl:argument-id="${accounts:id}">Edit Transaction</a>
+         xrl:resolve="href" xrl:argument-id="${accounts:id}">Edit '<accounts:description/>'</a>
     </li>
   </accounts:breadcrumbs>
   <accounts:content>

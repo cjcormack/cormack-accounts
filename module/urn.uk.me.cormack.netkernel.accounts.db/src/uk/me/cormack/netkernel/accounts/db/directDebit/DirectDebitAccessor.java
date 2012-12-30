@@ -71,7 +71,8 @@ public class DirectDebitAccessor extends DatabaseAccessorImpl {
                       "     id,\n" +
                       "     account_id,\n" +
                       "     description,\n" +
-                      "     amount\n" +
+                      "     amount,\n" +
+                      "     apply_automatically\n" +
                       ") VALUES (\n" +
                       "     ?,\n" +
                       "     ?,\n" +
@@ -84,7 +85,8 @@ public class DirectDebitAccessor extends DatabaseAccessorImpl {
                             new ArgByValue("param", nextId),
                             new ArgByValue("param", aContext.source("arg:accountId")),
                             new ArgByValue("param", aContext.source("arg:description")),
-                            new ArgByValue("param", aContext.source("arg:amount")));
+                            new ArgByValue("param", aContext.source("arg:amount")),
+                            new ArgByValue("param", aContext.source("arg:applyAutomatically")));
 
     AuditUtil.logDirectDebitAudit(util, nextId, aContext.source("arg:userId", Long.class), AuditUtil.AuditOperation.ADD, "Directed Debit Created");
 
@@ -95,13 +97,15 @@ public class DirectDebitAccessor extends DatabaseAccessorImpl {
   public void onSink(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     String updateSql= "UPDATE public.accounts_direct_debit\n" +
                       "SET    description=?,\n" +
-                      "       amount=?\n" +
+                      "       amount=?,\n" +
+                      "       apply_automatically=?\n" +
                       "WHERE  id=?;";
     util.issueSourceRequest("active:sqlPSUpdate",
                             null,
                             new ArgByValue("operand", updateSql),
                             new ArgByValue("param", aContext.source("arg:description")),
                             new ArgByValue("param", aContext.source("arg:amount")),
+                            new ArgByValue("param", aContext.source("arg:applyAutomatically")),
                             new ArgByValue("param", aContext.source("arg:id")));
 
     AuditUtil.logDirectDebitAudit(util, aContext.source("arg:id", Long.class), aContext.source("arg:userId", Long.class),

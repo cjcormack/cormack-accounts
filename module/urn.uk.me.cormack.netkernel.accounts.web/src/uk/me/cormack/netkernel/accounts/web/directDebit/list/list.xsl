@@ -73,6 +73,18 @@
     <xsl:value-of select="format-number(abs($currentDirectDebit//amount), '£#,##0.00')"/>
   </xsl:template>
 
+  <xsl:template match="input[@id='accounts:applyAutomatically']" mode="directDebit">
+    <xsl:param name="currentDirectDebit" as="node()"/>
+    <xsl:copy>
+      <xsl:if test="xs:boolean($currentDirectDebit//apply_automatically)">
+        <xsl:attribute name="checked" select="'checked'"/>
+      </xsl:if>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="@id[.='accounts:applyAutomatically']" mode="directDebit"/>
+
   <xsl:template match="@*[contains(., '${accounts:id}')]" mode="directDebit">
     <xsl:param name="currentDirectDebit" as="node()"/>
     <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:id\}', $currentDirectDebit//id)"/>

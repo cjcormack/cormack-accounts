@@ -31,7 +31,7 @@ import org.netkernelroc.mod.layer2.ArgByValue;
 import org.netkernelroc.mod.layer2.Layer2AccessorImpl;
 import uk.me.cormack.netkernel.accounts.web.common.UrlUtil;
 
-public class ApplyAccessor extends Layer2AccessorImpl {
+public class NewApplyAccessor extends Layer2AccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, AccessorUtil util) throws Exception {
     aContext.setCWU("res:/uk/me/cormack/netkernel/accounts/web/directDebit/apply/");

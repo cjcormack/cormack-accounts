@@ -43,6 +43,7 @@ public class DoEditDirectDebitAccessor extends HttpLayer2AccessorImpl {
     String id= aContext.source("arg:id", String.class);
     String descriptionString= aContext.source("httpRequest:/param/description", String.class).trim();
     String amountString= aContext.source("httpRequest:/param/amount", String.class).trim();
+    boolean applyAutomatically= aContext.exists("httpRequest:/param/apply_automatically");
 
     BigDecimal amount= null;
 
@@ -92,6 +93,7 @@ public class DoEditDirectDebitAccessor extends HttpLayer2AccessorImpl {
                               new ArgByValue("id", id),
                               new ArgByValue("description", descriptionString),
                               new ArgByValue("amount", amount),
+                              new ArgByValue("applyAutomatically", applyAutomatically),
                               new ArgByValue("userId", aContext.source("session:/currentUser")));
         aContext.sink("session:/message/class", "success");
         aContext.sink("session:/message/title", "Direct debit successfully edited");

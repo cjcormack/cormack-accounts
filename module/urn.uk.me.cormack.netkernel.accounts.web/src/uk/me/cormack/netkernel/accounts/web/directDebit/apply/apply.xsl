@@ -20,9 +20,34 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<config xmlns:xrl="http://netkernel.org/xrl">
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/add/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/apply/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/edit/mapperConfig.xml"/>
-  <xrl:include identifier="res:/uk/me/cormack/netkernel/accounts/web/directDebit/list/mapperConfig.xml"/>
-</config>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xrl="http://netkernel.org/xrl"
+                xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
+                exclude-result-prefixes="xs"
+                version="2.0">
+  <xsl:param name="account"/>
+  <xsl:param name="directDebit"/>
+
+  <xsl:template match="@* | node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="accounts:accountName">
+    <xsl:value-of select="$account//name"/>
+  </xsl:template>
+
+  <xsl:template match="accounts:description">
+    <xsl:value-of select="$directDebit//description"/>
+  </xsl:template>
+
+  <xsl:template match="@*[contains(., '${accounts:accountId}')]">
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:accountId\}', $account//id)"/>
+  </xsl:template>
+
+  <xsl:template match="@*[contains(., '${accounts:id}')]">
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:id\}', $directDebit//id)"/>
+  </xsl:template>
+</xsl:stylesheet>
