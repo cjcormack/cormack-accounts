@@ -77,6 +77,7 @@ public class DirectDebitAccessor extends DatabaseAccessorImpl {
                       "     ?,\n" +
                       "     ?,\n" +
                       "     ?,\n" +
+                      "     ?,\n" +
                       "     ?\n" +
                       ");";
     util.issueSourceRequest("active:sqlPSUpdate",
