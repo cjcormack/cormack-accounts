@@ -20,13 +20,23 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<jobs>
-  <job>
-    <name>Monthly Repeating Transactions</name>
-    <desc>Apply 1st of each month</desc>
-    <request>
-      <identifier>cormackAccounts:cron:repeatingTransaction:apply</identifier>
-    </request>
-    <cron><expr>0 0 0 1 * ?</expr></cron>
-  </job>
-</jobs>
+<accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
+               xmlns:xrl="http://netkernel.org/xrl">
+  <accounts:title>Repeating Transaction Not Found</accounts:title>
+  <accounts:heading>Repeating Transaction Not Found</accounts:heading>
+  <accounts:head/>
+  <accounts:breadcrumbs>
+    <li>
+      <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
+    </li>
+    <li>
+      <span class="seperator">/</span>
+    </li>
+    <li>
+      <a href="">Repeating Transaction Not Found</a>
+    </li>
+  </accounts:breadcrumbs>
+  <accounts:content>
+    <p>This Repeating Transaction no longer exists</p>
+  </accounts:content>
+</accounts:page>

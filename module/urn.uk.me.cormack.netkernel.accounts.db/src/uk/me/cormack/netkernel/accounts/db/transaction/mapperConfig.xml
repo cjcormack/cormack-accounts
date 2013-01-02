@@ -81,13 +81,13 @@
     <grammar>
       <active>
         <identifier>cormackAccounts:db:transaction</identifier>
-        <argument name="directDebitId"/>
+        <argument name="repeatingTransactionId"/>
       </active>
     </grammar>
     <verbs>EXISTS,NEW</verbs>
     <request>
       <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.DirectDebitTransactionAccessor</argument>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.RepeatingTransactionAccessor</argument>
       <varargs/>
     </request>
   </endpoint>
@@ -96,9 +96,10 @@
     <grammar>
       <active>
         <identifier>cormackAccounts:db:transaction</identifier>
-        <argument name="directDebitId"/>
+        <argument name="repeatingTransactionId"/>
         <argument name="date"/>
         <argument name="description"/>
+        <argument name="transactionTypeId"/>
         <argument name="amount"/>
         <argument name="userId"/>
       </active>
@@ -106,7 +107,7 @@
     <verbs>NEW</verbs>
     <request>
       <identifier>active:java</identifier>
-      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.CustomDirectDebitTransactionAccessor</argument>
+      <argument name="class">uk.me.cormack.netkernel.accounts.db.transaction.CustomRepeatingTransactionAccessor</argument>
       <varargs/>
     </request>
   </endpoint>

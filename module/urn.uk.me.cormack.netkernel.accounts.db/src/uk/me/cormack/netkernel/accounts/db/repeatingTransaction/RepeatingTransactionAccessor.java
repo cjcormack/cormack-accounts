@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.db.transaction;
+package uk.me.cormack.netkernel.accounts.db.repeatingTransaction;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernel.layer0.nkf.INKFResponse;
@@ -30,13 +30,11 @@ import org.netkernelroc.mod.layer2.DatabaseAccessorImpl;
 import org.netkernelroc.mod.layer2.DatabaseUtil;
 import uk.me.cormack.netkernel.accounts.db.AuditUtil;
 
-import java.util.Date;
-
-public class TransactionAccessor extends DatabaseAccessorImpl {
+public class RepeatingTransactionAccessor extends DatabaseAccessorImpl {
   @Override
   public void onExists(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     String sql= "SELECT id\n" +
-                "FROM   public.accounts_transaction\n" +
+                "FROM   public.accounts_repeating_transaction\n" +
                 "WHERE  id=?;";
 
     INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSBooleanQuery",
@@ -44,22 +42,21 @@ public class TransactionAccessor extends DatabaseAccessorImpl {
                                                          new ArgByValue("param", aContext.source("arg:id")));
 
     resp.setHeader("no-cache", null);
-    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:transactions");
+    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:repeatingTransactions");
   }
 
   @Override
   public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
     String sql= "SELECT id,\n" +
-                "       to_char(transaction_date, 'DD/Mon/YYYY') AS date,\n" +
                 "       account_id,\n" +
-                "       transaction_type_id AS type,\n" +
                 "       description,\n" +
-                "       repeating_transaction_id,\n" +
+                "       apply_automatically,\n" +
+                "       transaction_type_id AS type,\n" +
                 "       abs(amount) AS amount,\n" +
                 "       CASE WHEN amount > 0 THEN 'credit'\n" +
                 "            ELSE 'debit'\n" +
                 "       END AS mode\n" +
-                "FROM   public.accounts_transaction\n" +
+                "FROM   public.accounts_repeating_transaction\n" +
                 "WHERE  id=?;";
 
     INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
@@ -67,24 +64,24 @@ public class TransactionAccessor extends DatabaseAccessorImpl {
                                                          new ArgByValue("param", aContext.source("arg:id")));
 
     resp.setHeader("no-cache", null);
-    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:transactions");
+    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:repeatingTransactions");
   }
 
   @Override
   public void onNew(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
-    String nextIdSql= "SELECT nextval('accounts_transaction_id_seq') AS id;";
+    String nextIdSql= "SELECT nextval('accounts_direct_debit_id_seq') AS id;";
     IHDSNode nextIdNode= util.issueSourceRequest("active:sqlPSQuery",
                                                  IHDSNode.class,
                                                  new ArgByValue("operand", nextIdSql));
     Long nextId= (Long)nextIdNode.getFirstValue("//id");
 
-    String insertSql= "INSERT INTO public.accounts_transaction (\n" +
+    String insertSql= "INSERT INTO public.accounts_repeating_transaction (\n" +
                       "     id,\n" +
                       "     account_id,\n" +
-                      "     transaction_date,\n" +
-                      "     transaction_type_id,\n" +
                       "     description,\n" +
-                      "     amount\n" +
+                      "     amount,\n" +
+                      "     apply_automatically,\n" +
+                      "     transaction_type_id\n" +
                       ") VALUES (\n" +
                       "     ?,\n" +
                       "     ?,\n" +
@@ -98,67 +95,36 @@ public class TransactionAccessor extends DatabaseAccessorImpl {
                             new ArgByValue("operand", insertSql),
                             new ArgByValue("param", nextId),
                             new ArgByValue("param", aContext.source("arg:accountId")),
-                            new ArgByValue("param", new java.sql.Date(aContext.source("arg:date", Date.class).getTime())),
-                            new ArgByValue("param", aContext.source("arg:transactionTypeId")),
                             new ArgByValue("param", aContext.source("arg:description")),
-                            new ArgByValue("param", aContext.source("arg:amount")));
+                            new ArgByValue("param", aContext.source("arg:amount")),
+                            new ArgByValue("param", aContext.source("arg:applyAutomatically")),
+                            new ArgByValue("param", aContext.source("arg:transactionTypeId")));
 
-    String updateBalanceSql= "UPDATE public.accounts_account\n" +
-                             "SET    current_balance=opening_balance\n" +
-                             "                        + coalesce(\n" +
-                             "                            ( SELECT sum(amount)\n" +
-                             "                              FROM   public.accounts_transaction AS inner_transaction\n" +
-                             "                              WHERE  inner_transaction.account_id=?\n" +
-                             "                            ),\n" +
-                             "                            0)\n" +
-                             "WHERE  id=?;";
-    util.issueSourceRequest("active:sqlPSUpdate",
-                            null,
-                            new ArgByValue("operand", updateBalanceSql),
-                            new ArgByValue("param", aContext.source("arg:accountId")),
-                            new ArgByValue("param", aContext.source("arg:accountId")));
+    AuditUtil.logRepeatingTransactionAudit(util, nextId, aContext.source("arg:userId", Long.class), AuditUtil.AuditOperation.ADD, "Repeating Transaction Created");
 
-    AuditUtil.logTransactionAudit(util, nextId, util.getContext().source("arg:userId", Long.class),
-                                  AuditUtil.AuditOperation.ADD, "Transaction Created");
-
-    util.cutGoldenThread("cormackAccounts:accounts", "cormackAccounts:transactions");
+    util.cutGoldenThread("cormackAccounts:accounts", "cormackAccounts:repeatingTransactions");
   }
 
   @Override
   public void onSink(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
-    String updateSql= "UPDATE public.accounts_transaction\n" +
-                      "SET    transaction_date=?,\n" +
-                      "       transaction_type_id=?,\n" +
-                      "       description=?,\n" +
-                      "       amount=?\n" +
+    String updateSql= "UPDATE public.accounts_repeating_transaction\n" +
+                      "SET    description=?,\n" +
+                      "       amount=?,\n" +
+                      "       apply_automatically=?,\n" +
+                      "       transaction_type_id=?\n" +
                       "WHERE  id=?;";
     util.issueSourceRequest("active:sqlPSUpdate",
                             null,
                             new ArgByValue("operand", updateSql),
-                            new ArgByValue("param", new java.sql.Date(aContext.source("arg:date", Date.class).getTime())),
-                            new ArgByValue("param", aContext.source("arg:transactionTypeId")),
                             new ArgByValue("param", aContext.source("arg:description")),
                             new ArgByValue("param", aContext.source("arg:amount")),
+                            new ArgByValue("param", aContext.source("arg:applyAutomatically")),
+                            new ArgByValue("param", aContext.source("arg:transactionTypeId")),
                             new ArgByValue("param", aContext.source("arg:id")));
 
-    String updateBalanceSql= "UPDATE public.accounts_account\n" +
-                             "SET    current_balance=opening_balance\n" +
-                             "                        + coalesce(\n" +
-                             "                            ( SELECT sum(amount)\n" +
-                             "                              FROM   public.accounts_transaction AS inner_transaction\n" +
-                             "                              WHERE  inner_transaction.account_id=?\n" +
-                             "                            ),\n" +
-                             "                            0)\n" +
-                             "WHERE  id=?;";
-    util.issueSourceRequest("active:sqlPSUpdate",
-                            null,
-                            new ArgByValue("operand", updateBalanceSql),
-                            new ArgByValue("param", aContext.source("arg:accountId")),
-                            new ArgByValue("param", aContext.source("arg:accountId")));
+    AuditUtil.logRepeatingTransactionAudit(util, aContext.source("arg:id", Long.class), aContext.source("arg:userId", Long.class),
+                                           AuditUtil.AuditOperation.MODIFY, "Repeating Transaction Updated");
 
-    AuditUtil.logTransactionAudit(util, aContext.source("arg:id", Long.class), util.getContext().source("arg:userId", Long.class),
-                                  AuditUtil.AuditOperation.MODIFY, "Transaction Modified");
-
-    util.cutGoldenThread("cormackAccounts:accounts", "cormackAccounts:transactions");
+    util.cutGoldenThread("cormackAccounts:accounts", "cormackAccounts:repeatingTransactions");
   }
 }

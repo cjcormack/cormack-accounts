@@ -33,8 +33,8 @@ public class AuditUtil {
     logGenericAudit(util, "account", id, userId, operation, description);
   }
 
-  public static void logDirectDebitAudit(DatabaseUtil util, long id, Long userId, AuditOperation operation, String description) throws NKFException {
-    logGenericAudit(util, "direct_debit", id, userId, operation, description);
+  public static void logRepeatingTransactionAudit(DatabaseUtil util, long id, Long userId, AuditOperation operation, String description) throws NKFException {
+    logGenericAudit(util, "repeating_transaction", id, userId, operation, description);
   }
 
   public static void logTransactionAudit(DatabaseUtil util, long id, Long userId, AuditOperation operation, String description) throws NKFException {

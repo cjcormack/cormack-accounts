@@ -22,17 +22,10 @@
   -->
 <accounts:page xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                xmlns:xrl="http://netkernel.org/xrl">
-  <accounts:title>Edit Transaction (<accounts:description/>)</accounts:title>
-  <accounts:heading>Edit Transaction (<accounts:description/>)</accounts:heading>
-  <accounts:head>
-    <script>
-      $(function() {
-          $( ".datepicker" ).datepicker({ dateFormat: "dd/M/yy" });
-      });
-    </script>
-  </accounts:head>
-  <accounts:breadcrumbs>
-    <li>
+  <accounts:title>Edit Repeating Transaction (<accounts:description/>)</accounts:title>
+  <accounts:heading>Edit Repeating Transaction (<accounts:description/>)</accounts:heading>
+  <accounts:head/>
+  <accounts:breadcrumbs><li>
       <a href="meta:cormackAccounts:web:index" xrl:resolve="href">Accounts Home</a>
     </li>
     <li>
@@ -45,38 +38,29 @@
       <span class="seperator">/</span>
     </li>
     <li>
-      <a href="meta:cormackAccounts:web:transaction:edit"
+      <a href="meta:cormackAccounts:web:repeatingTransaction:list" xrl:resolve="href" xrl:argument-id="${accounts:accountId}">Repeating Transaction</a>
+    </li>
+    <li>
+      <span class="seperator">/</span>
+    </li>
+    <li>
+      <a href="meta:cormackAccounts:web:repeatingTransaction:edit"
          xrl:resolve="href" xrl:argument-id="${accounts:id}">Edit '<accounts:description/>'</a>
     </li>
   </accounts:breadcrumbs>
   <accounts:content>
-    <form class="styled-form compact-form" action="meta:cormackAccounts:web:transaction:doEdit"
+    <form class="styled-form compact-form" action="meta:cormackAccounts:web:repeatingTransaction:doEdit"
           xrl:resolve="action" xrl:argument-id="${accounts:id}" method="POST">
       <div class="form-header">
-        <h3>Edit Transaction</h3>
+        <h3>Edit Repeating Transaction</h3>
       </div>
       <div class="form-body">
-        <div>
-          <label for="date">Date:</label>
-          <input class="datepicker" type="text" name="date"/>
-        </div>
         <div>
           <label for="type">Type:</label>
           <xrl:include>
             <xrl:identifier>cormackAccounts:web:transaction:types</xrl:identifier>
           </xrl:include>
         </div>
-        <accounts:repeatingTransactionOnly>
-          <div>
-            <div class="label" style="margin-top: 7px;">Repeating Transaction:</div>
-            <div class="form-body-content">
-              <xrl:include>
-                <xrl:identifier>cormackAccounts:web:repeatingTransaction:editLink</xrl:identifier>
-                <xrl:argument name="id"><literal type="string"><accounts:repeatingTransactionId/></literal></xrl:argument>
-              </xrl:include>
-            </div>
-          </div>
-        </accounts:repeatingTransactionOnly>
         <div>
           <label for="description">Description:</label>
           <input type="text" name="description"/>
@@ -91,6 +75,11 @@
         <div>
           <label for="amount">Amount:</label>
           <input type="text" name="amount" accounts:type="numeric"/>
+        </div>
+        <div>
+           <label for="apply_automatically" checked="checked" style="margin-top: 0;">Apply:</label>
+          <input type="checkbox" name="apply_automatically" style="margin-right: 0; vertical-align: baseline;" checked="checked"/>
+          <p style="display: inline; margin-left: 1px"> automatically on the 1st</p>
         </div>
       </div>
       <div class="form-footer">

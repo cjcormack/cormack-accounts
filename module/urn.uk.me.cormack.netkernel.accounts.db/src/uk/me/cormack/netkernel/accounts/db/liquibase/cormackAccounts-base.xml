@@ -375,4 +375,61 @@
       FROM     public.accounts_transaction;
     </createView>
   </changeSet>
+
+  <changeSet id="changeDirectDebitToRepeatingTransaction" author="chrisc">
+    <renameTable oldTableName="accounts_direct_debit"
+                 newTableName="accounts_repeating_transaction"/>
+
+    <addColumn tableName="accounts_repeating_transaction">
+      <column name="transaction_type_id" type="bigint"/>
+    </addColumn>
+
+    <sql>
+      UPDATE public.accounts_repeating_transaction
+      SET    transaction_type_id=(SELECT id FROM accounts_transaction_type WHERE value='Direct Debit'),
+             amount=-amount;
+    </sql>
+
+    <addForeignKeyConstraint constraintName="repeating_transaction_transaction_type_id"
+                             baseTableName="accounts_repeating_transaction"
+                             baseColumnNames="transaction_type_id"
+                             referencedTableName="accounts_transaction_type"
+                             referencedColumnNames="id"
+                             onDelete="RESTRICT"
+                             onUpdate="RESTRICT"/>
+
+    <addNotNullConstraint tableName="accounts_repeating_transaction"
+                          columnName="transaction_type_id"/>
+
+    <renameTable oldTableName="accounts_direct_debit_audit"
+                 newTableName="accounts_repeating_transaction_audit"/>
+
+    <renameColumn tableName="accounts_repeating_transaction_audit"
+                  oldColumnName="direct_debit_id"
+                  newColumnName="repeating_transaction_id"/>
+
+    <renameColumn tableName="accounts_transaction"
+                  oldColumnName="direct_debit_id"
+                  newColumnName="repeating_transaction_id"/>
+
+    <dropView viewName="accounts_transaction_with_balance"/>
+
+    <createView viewName="accounts_transaction_with_balance">
+      SELECT   accounts_transaction.*,
+               ( SELECT opening_balance
+                 FROM   public.accounts_account
+                 WHERE  id=accounts_transaction.account_id)+
+               coalesce(
+                   ( SELECT sum(amount)
+                     FROM   public.accounts_transaction AS inner_transaction
+                     WHERE  inner_transaction.account_id=accounts_transaction.account_id
+                     AND    ( inner_transaction.transaction_date &lt; accounts_transaction.transaction_date
+                        OR    ( inner_transaction.transaction_date=accounts_transaction.transaction_date
+                           AND  inner_transaction.id &lt; accounts_transaction.id)
+                     )
+                   ),
+                   0) + accounts_transaction.amount AS balance
+      FROM     public.accounts_transaction;
+    </createView>
+  </changeSet>
 </databaseChangeLog>

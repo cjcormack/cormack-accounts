@@ -27,7 +27,7 @@
                 exclude-result-prefixes="xs"
                 version="2.0">
   <xsl:param name="account"/>
-  <xsl:param name="transaction"/>
+  <xsl:param name="repeatingTransaction"/>
 
   <xsl:template match="@* | node()">
     <xsl:copy>
@@ -35,22 +35,12 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="accounts:repeatingTransactionOnly">
-    <xsl:if test="$transaction//repeating_transaction_id/text()">
-      <xsl:apply-templates select="node()"/>
-    </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="accounts:repeatingTransactionId">
-    <xsl:value-of select="$transaction//repeating_transaction_id"/>
-  </xsl:template>
-
   <xsl:template match="accounts:accountName">
     <xsl:value-of select="$account//name"/>
   </xsl:template>
 
   <xsl:template match="accounts:description">
-    <xsl:value-of select="$transaction//description"/>
+    <xsl:value-of select="$repeatingTransaction//description"/>
   </xsl:template>
 
   <xsl:template match="@*[contains(., '${accounts:accountId}')]">
@@ -58,6 +48,6 @@
   </xsl:template>
 
   <xsl:template match="@*[contains(., '${accounts:id}')]">
-    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:id\}', $transaction//id)"/>
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:id\}', $repeatingTransaction//id)"/>
   </xsl:template>
 </xsl:stylesheet>

@@ -26,38 +26,19 @@
                 xmlns:accounts="http://cormack.me.uk/netkernel/accounts"
                 exclude-result-prefixes="xs"
                 version="2.0">
-  <xsl:param name="account"/>
-  <xsl:param name="transaction"/>
-
-  <xsl:template match="@* | node()">
+  <xsl:param name="repeatingTransactionDetails"/>
+  
+  <xsl:template match="@* | node()" mode="#default">
     <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
+      <xsl:apply-templates select="@* | node()" mode="#current"/>
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="accounts:repeatingTransactionOnly">
-    <xsl:if test="$transaction//repeating_transaction_id/text()">
-      <xsl:apply-templates select="node()"/>
-    </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="accounts:repeatingTransactionId">
-    <xsl:value-of select="$transaction//repeating_transaction_id"/>
-  </xsl:template>
-
-  <xsl:template match="accounts:accountName">
-    <xsl:value-of select="$account//name"/>
+  <xsl:template match="@*[contains(., '${accounts:id}')]">
+    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:id\}', $repeatingTransactionDetails//id)"/>
   </xsl:template>
 
   <xsl:template match="accounts:description">
-    <xsl:value-of select="$transaction//description"/>
-  </xsl:template>
-
-  <xsl:template match="@*[contains(., '${accounts:accountId}')]">
-    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:accountId\}', $account//id)"/>
-  </xsl:template>
-
-  <xsl:template match="@*[contains(., '${accounts:id}')]">
-    <xsl:attribute name="{name()}" select="replace(., '\$\{accounts:id\}', $transaction//id)"/>
+    <xsl:value-of select="$repeatingTransactionDetails//description"/>
   </xsl:template>
 </xsl:stylesheet>

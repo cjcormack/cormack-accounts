@@ -178,12 +178,12 @@
         <endpoint>
           <grammar>
             <active>
-              <identifier>cormackAccounts:cron:directDebits:apply</identifier>
+              <identifier>cormackAccounts:cron:repeatingTransaction:apply</identifier>
             </active>
           </grammar>
           <request>
             <identifier>active:java</identifier>
-            <argument name="class">uk.me.cormack.netkernel.accounts.web.directDebit.apply.ApplyAllAccessor</argument>
+            <argument name="class">uk.me.cormack.netkernel.accounts.web.repeatingTransaction.apply.ApplyAllAccessor</argument>
           </request>
         </endpoint>
       </config>

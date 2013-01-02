@@ -28,11 +28,11 @@
       <th colspan="7">
         <div class="cormackAccounts-wrappedHeader">
           <div class="cormackAccounts-wrappedHeader-buttonBar">
-            <form action="meta:cormackAccounts:web:directDebit:list"
+            <form action="meta:cormackAccounts:web:repeatingTransaction:list"
                   style="display: inline;"
                   xrl:resolve="action" xrl:argument-id="${accounts:accountId}">
               <input type="hidden" name="mode" value="debit" accounts:overrideValue="false"/>
-              <button type="submit">Direct Debits</button>
+              <button type="submit">Repeating Transaction</button>
             </form>
             <form action="meta:cormackAccounts:web:transaction:add"
                   style="display: inline;"

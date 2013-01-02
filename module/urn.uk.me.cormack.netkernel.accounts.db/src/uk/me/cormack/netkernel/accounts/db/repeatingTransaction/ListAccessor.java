@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package uk.me.cormack.netkernel.accounts.db.transaction;
+package uk.me.cormack.netkernel.accounts.db.repeatingTransaction;
 
 import org.netkernel.layer0.nkf.INKFRequestContext;
 import org.netkernel.layer0.nkf.INKFResponse;
@@ -32,33 +32,26 @@ import org.netkernelroc.mod.layer2.DatabaseUtil;
 public class ListAccessor extends DatabaseAccessorImpl {
   @Override
   public void onSource(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
-
-    String sql= "SELECT   accounts_transaction.id,\n" +
-                "         accounts_transaction.transaction_date,\n" +
-                "         accounts_transaction.description,\n" +
-                "         accounts_transaction.transaction_type_id,\n" +
+    String sql= "SELECT   id," +
+                "         description,\n" +
+                "         amount,\n" +
+                "         apply_automatically,\n" +
                 "         ( SELECT value\n" +
                 "           FROM   public.accounts_transaction_type\n" +
-                "           WHERE  id=accounts_transaction.transaction_type_id\n" +
-                "         ) AS transaction_type,\n" +
-                "         accounts_transaction.repeating_transaction_id,\n" +
-                "         accounts_transaction.amount,\n" +
-                "         accounts_transaction.checked,\n" +
-                "         accounts_transaction.balance\n" +
-                "FROM     public.accounts_transaction_with_balance AS accounts_transaction\n" +
+                "           WHERE  id=transaction_type_id) AS type\n" +
+                "FROM     public.accounts_repeating_transaction\n" +
                 "WHERE    account_id=?\n" +
-                "AND      date_part('year', accounts_transaction.transaction_date)=?\n" +
-                "AND      date_part('month', accounts_transaction.transaction_date)=?\n" +
-                "ORDER BY transaction_date,\n" +
+                "ORDER BY CASE WHEN transaction_type_id=(SELECT id FROM public.accounts_transaction_type WHERE value='Direct Debit')\n" +
+                "               THEN 0\n" +
+                "               ELSE transaction_type_id\n" +
+                "         END,\n" +
                 "         id;";
     INKFResponse resp= util.issueSourceRequestAsResponse("active:sqlPSQuery",
                                                          IHDSNode.class,
                                                          new ArgByValue("operand", sql),
-                                                         new ArgByValue("param", aContext.source("arg:id")),
-                                                         new ArgByValue("param", aContext.source("arg:year", Integer.class).doubleValue()),
-                                                         new ArgByValue("param", aContext.source("arg:month", Integer.class).doubleValue()));
+                                                         new ArgByValue("param", aContext.source("arg:id")));
     
     resp.setHeader("no-cache", null);
-    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:accounts", "cormackAccounts:transactions");
+    util.attachGoldenThread("cormackAccounts:all", "cormackAccounts:accounts", "cormackAccounts:repeatingTransactions");
   }
 }

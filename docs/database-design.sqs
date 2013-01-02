@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <SQLContainer>
     <SQLTable>
-        <name><![CDATA[direct_debit]]></name>
+        <name><![CDATA[repeating_transaction]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>387.00</x>
-            <y>189.00</y>
+            <x>389.00</x>
+            <y>315.00</y>
         </location>
         <size>
             <width>228.00</width>
-            <height>120.00</height>
+            <height>140.00</height>
         </size>
         <zorder>0</zorder>
         <SQLField>
             <name><![CDATA[id]]></name>
             <type><![CDATA[INT8]]></type>
             <primaryKey>1</primaryKey>
-            <referencesField>direct_debit_id</referencesField>
-            <referencesTable>direct_debit_audit</referencesTable>
-            <referencesField><![CDATA[direct_debit_id]]></referencesField>
-            <referencesTable><![CDATA[direct_debit_audit]]></referencesTable>
+            <referencesField>repeating_transaction_id</referencesField>
+            <referencesTable>repeating_transaction_audit</referencesTable>
+            <referencesField><![CDATA[repeating_transaction_id]]></referencesField>
+            <referencesTable><![CDATA[repeating_transaction_audit]]></referencesTable>
             <sourceCardinality>1</sourceCardinality>
             <destinationCardinality>5</destinationCardinality>
             <referencesFieldUID><![CDATA[3B0BE6AD-30FB-4E2C-A07E-B13868D28A33]]></referencesFieldUID>
@@ -69,6 +69,21 @@
             <temporaryOriginalName><![CDATA[apply_automatically]]></temporaryOriginalName>
             <uid><![CDATA[53147EFC-5246-48CC-BD32-99B24C759050]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[transaction_type_id]]></name>
+            <type><![CDATA[INT8]]></type>
+            <referencesField>id</referencesField>
+            <referencesTable>transaction_type</referencesTable>
+            <referencesField><![CDATA[id]]></referencesField>
+            <referencesTable><![CDATA[transaction_type]]></referencesTable>
+            <sourceCardinality>5</sourceCardinality>
+            <destinationCardinality>1</destinationCardinality>
+            <referencesFieldUID><![CDATA[1D1A6090-5110-4552-9172-4B9B0EE818F4]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[D7381EFB-7068-4ED9-A711-B2BCB3C086F5]]></referencesTableUID>
+            <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <notNull><![CDATA[1]]></notNull>
+            <uid><![CDATA[517ED525-FB4C-4194-8558-1A9D986F7F00]]></uid>
+        </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
         <labelWindowIndex><![CDATA[9]]></labelWindowIndex>
         <temporaryOriginalName><![CDATA[direct_debit]]></temporaryOriginalName>
@@ -79,8 +94,8 @@
         <name><![CDATA[transaction]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>684.00</x>
-            <y>15.00</y>
+            <x>683.00</x>
+            <y>10.00</y>
         </location>
         <size>
             <width>213.00</width>
@@ -145,18 +160,19 @@
             <uid><![CDATA[F7BA1C24-5B77-49B2-82FF-B16BE8FAEB1F]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[direct_debit_id]]></name>
+            <name><![CDATA[repeat_transaction_id]]></name>
             <type><![CDATA[INT8]]></type>
             <referencesField>id</referencesField>
-            <referencesTable>direct_debit</referencesTable>
+            <referencesTable>repeating_transaction</referencesTable>
             <referencesField><![CDATA[id]]></referencesField>
-            <referencesTable><![CDATA[direct_debit]]></referencesTable>
+            <referencesTable><![CDATA[repeating_transaction]]></referencesTable>
             <sourceCardinality>5</sourceCardinality>
             <destinationCardinality>1</destinationCardinality>
             <referencesFieldUID><![CDATA[5F2BD5A7-0A8E-4A22-8057-6BFEE4B1C48A]]></referencesFieldUID>
             <referencesTableUID><![CDATA[2C6A1D09-4200-4431-B627-A3E651A217FC]]></referencesTableUID>
             <connectorMidPoint><![CDATA[568.000000]]></connectorMidPoint>
             <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
+            <temporaryOriginalName><![CDATA[direct_debit_id]]></temporaryOriginalName>
             <uid><![CDATA[7BF6A116-4E8D-404E-B83F-9627869C2DF3]]></uid>
         </SQLField>
         <SQLField>
@@ -182,14 +198,14 @@
         <uid><![CDATA[2FDB43FA-27AB-4815-A218-8CA55FA1763A]]></uid>
     </SQLTable>
     <SQLTable>
-        <name><![CDATA[direct_debit_audit]]></name>
+        <name><![CDATA[repeating_transaction_audit]]></name>
         <schema><![CDATA[]]></schema>
         <location>
             <x>1026.00</x>
             <y>319.00</y>
         </location>
         <size>
-            <width>226.00</width>
+            <width>242.00</width>
             <height>140.00</height>
         </size>
         <zorder>8</zorder>
@@ -211,12 +227,12 @@
             <uid><![CDATA[CC31C850-0E18-41F2-A0EE-5F92535980AB]]></uid>
         </SQLField>
         <SQLField>
-            <name><![CDATA[direct_debit_id]]></name>
+            <name><![CDATA[repeating_transaction_id]]></name>
             <type><![CDATA[INT8]]></type>
             <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
             <forcedUnique><![CDATA[1]]></forcedUnique>
             <notNull><![CDATA[1]]></notNull>
-            <temporaryOriginalName><![CDATA[transaction_id]]></temporaryOriginalName>
+            <temporaryOriginalName><![CDATA[direct_debit_id]]></temporaryOriginalName>
             <uid><![CDATA[3B0BE6AD-30FB-4E2C-A07E-B13868D28A33]]></uid>
             <unique><![CDATA[1]]></unique>
         </SQLField>
@@ -258,7 +274,7 @@
         </SQLField>
         <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
         <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
-        <temporaryOriginalName><![CDATA[direct_debit_audit_1]]></temporaryOriginalName>
+        <temporaryOriginalName><![CDATA[direct_debit_audit]]></temporaryOriginalName>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
         <uid><![CDATA[42B4B690-9738-4CA3-B485-2ED4B4A66040]]></uid>
     </SQLTable>
@@ -266,8 +282,8 @@
         <name><![CDATA[user]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>732.00</x>
-            <y>497.00</y>
+            <x>716.00</x>
+            <y>498.00</y>
         </location>
         <size>
             <width>199.00</width>
@@ -310,8 +326,8 @@
         <name><![CDATA[account_audit]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>421.00</x>
-            <y>348.00</y>
+            <x>390.00</x>
+            <y>477.00</y>
         </location>
         <size>
             <width>226.00</width>
@@ -555,8 +571,8 @@
         <name><![CDATA[audit_operation]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>709.00</x>
-            <y>360.00</y>
+            <x>713.00</x>
+            <y>395.00</y>
         </location>
         <size>
             <width>199.00</width>
@@ -592,8 +608,8 @@
         <name><![CDATA[transaction_type]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>993.00</x>
-            <y>56.00</y>
+            <x>1026.00</x>
+            <y>67.00</y>
         </location>
         <size>
             <width>189.00</width>
@@ -630,8 +646,8 @@
         <name><![CDATA[account_balance_change]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>419.00</x>
-            <y>542.00</y>
+            <x>388.00</x>
+            <y>671.00</y>
         </location>
         <size>
             <width>226.00</width>
@@ -675,14 +691,6 @@
         <SQLField>
             <name><![CDATA[user_id]]></name>
             <type><![CDATA[INT8]]></type>
-            <referencesField>id</referencesField>
-            <referencesTable>user</referencesTable>
-            <referencesField><![CDATA[id]]></referencesField>
-            <referencesTable><![CDATA[user]]></referencesTable>
-            <sourceCardinality>5</sourceCardinality>
-            <destinationCardinality>1</destinationCardinality>
-            <referencesFieldUID><![CDATA[B707733D-358C-413C-9030-FD9445464FFF]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[4788D42F-3ABB-4E17-A1DC-0820B6ACDC2F]]></referencesTableUID>
             <didChangeNameDuringValidation><![CDATA[0]]></didChangeNameDuringValidation>
             <notNull><![CDATA[1]]></notNull>
             <uid><![CDATA[2C15355D-C5D5-4959-9F4E-28CC1A330D60]]></uid>
@@ -859,9 +867,9 @@ YWN0b3KGkoSjnqihAYaShJmZC05TUGFwZXJOYW1lhpKEmZkGaXNvLWE0hoaG
         <SourceSplitViewState><![CDATA[2 399.743 1261.26]]></SourceSplitViewState>
         <uid><![CDATA[35979F84-59F3-43C6-AF95-496777A58E00]]></uid>
         <windowHeight><![CDATA[962.000000]]></windowHeight>
-        <windowLocationX><![CDATA[-0.000000]]></windowLocationX>
+        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
         <windowLocationY><![CDATA[66.000000]]></windowLocationY>
-        <windowWidth><![CDATA[1207.000000]]></windowWidth>
+        <windowWidth><![CDATA[1680.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <containerName><![CDATA[model controller orginal container]]></containerName>

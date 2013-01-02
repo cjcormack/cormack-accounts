@@ -20,13 +20,6 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<jobs>
-  <job>
-    <name>Monthly Repeating Transactions</name>
-    <desc>Apply 1st of each month</desc>
-    <request>
-      <identifier>cormackAccounts:cron:repeatingTransaction:apply</identifier>
-    </request>
-    <cron><expr>0 0 0 1 * ?</expr></cron>
-  </job>
-</jobs>
+<a href="meta:cormackAccounts:web:repeatingTransaction:edit" xrl:resolve="href"
+   xrl:argument-id="${accounts:id}" xmlns:xrl="http://netkernel.org/xrl"
+   xmlns:accounts="http://cormack.me.uk/netkernel/accounts"><accounts:description/></a>

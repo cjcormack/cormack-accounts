@@ -22,7 +22,7 @@
   -->
 <config>
   <import>res:/uk/me/cormack/netkernel/accounts/db/account/mapperConfig.xml</import>
-  <import>res:/uk/me/cormack/netkernel/accounts/db/directDebit/mapperConfig.xml</import>
+  <import>res:/uk/me/cormack/netkernel/accounts/db/repeatingTransaction/mapperConfig.xml</import>
   <import>res:/uk/me/cormack/netkernel/accounts/db/liquibase/mapperConfig.xml</import>
   <import>res:/uk/me/cormack/netkernel/accounts/db/transaction/mapperConfig.xml</import>
   <import>res:/uk/me/cormack/netkernel/accounts/db/transactionType/mapperConfig.xml</import>
