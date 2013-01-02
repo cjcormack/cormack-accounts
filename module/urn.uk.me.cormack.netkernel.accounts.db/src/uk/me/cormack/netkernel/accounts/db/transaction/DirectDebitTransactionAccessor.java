@@ -49,7 +49,7 @@ public class DirectDebitTransactionAccessor extends DatabaseAccessorImpl {
 
   @Override
   public void onNew(INKFRequestContext aContext, DatabaseUtil util) throws Exception {
-    String nextIdSql= "SELECT nextval('accounts_account_id_seq') AS id;";
+    String nextIdSql= "SELECT nextval('accounts_transaction_id_seq') AS id;";
     IHDSNode nextIdNode= util.issueSourceRequest("active:sqlPSQuery",
                                                  IHDSNode.class,
                                                  new ArgByValue("operand", nextIdSql));
