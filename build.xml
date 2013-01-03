@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2012 by Chris Cormack
+  ~ Copyright (C) 2012-2013 by Chris Cormack
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 <project name="cormack-accounts" default="build">
   <property file="build.properties"/>
   <property name="nk4-ant-suite" location="../NK4-Ant-Suite-0_3/"/>
-  <property name="cormack-accounts.version" value="0.1.0"/>
+  <property name="cormack-accounts.version" value="0.2.0"/>
   <property name="layer2.repository" value="git://github.com/netkernelroc/layer2.git"/>
 
   <include file="${nk4-ant-suite}/build-common.xml"/>
